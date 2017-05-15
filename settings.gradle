@@ -1,0 +1,4 @@
+rootProject.name = 'xparduino'
+include 'XPArduino_Application'
+include 'XPArduino_Components'
+

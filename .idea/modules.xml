@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/XPArduino_Application.iml" filepath="$PROJECT_DIR$/.idea/modules/XPArduino_Application.iml" group="XPArduino_Application" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/XPArduino_Application/XPArduino_Application_main.iml" filepath="$PROJECT_DIR$/.idea/modules/XPArduino_Application/XPArduino_Application_main.iml" group="XPArduino_Application" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/XPArduino_Application/XPArduino_Application_test.iml" filepath="$PROJECT_DIR$/.idea/modules/XPArduino_Application/XPArduino_Application_test.iml" group="XPArduino_Application" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/XPArduino_Components/XPArduino_Components.iml" filepath="$PROJECT_DIR$/.idea/modules/XPArduino_Components/XPArduino_Components.iml" group="XPArduino_Components" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/XPArduino_Components/XPArduino_Components_main.iml" filepath="$PROJECT_DIR$/.idea/modules/XPArduino_Components/XPArduino_Components_main.iml" group="XPArduino_Components" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/XPArduino_Components/XPArduino_Components_test.iml" filepath="$PROJECT_DIR$/.idea/modules/XPArduino_Components/XPArduino_Components_test.iml" group="XPArduino_Components" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xparduino.iml" filepath="$PROJECT_DIR$/.idea/modules/xparduino.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xparduino_main.iml" filepath="$PROJECT_DIR$/.idea/modules/xparduino_main.iml" group="xparduino" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/xparduino_test.iml" filepath="$PROJECT_DIR$/.idea/modules/xparduino_test.iml" group="xparduino" />
+    </modules>
+  </component>
+</project>
