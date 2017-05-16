@@ -1,3 +1,3 @@
-public class Blink extends {
+public class Blink {
 
 }
