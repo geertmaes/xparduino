@@ -10,3 +10,7 @@ TO DO:
 
 Thoughts:
 - Every sensor/actor on the arduino will be connected to a port for it's signal
+
+Useful links or links to look at:
+- https://forum.arduino.cc/index.php?topic=418669.0
+- http://forum.arduino.cc/index.php?topic=396450.0
