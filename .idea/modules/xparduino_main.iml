@@ -3,8 +3,8 @@
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_8">
     <output url="file://$MODULE_DIR$/../../build/classes/main" />
     <exclude-output />
-    <content url="file://$MODULE_DIR$/../../src/main">
-      <sourceFolder url="file://$MODULE_DIR$/../../src/main/java" isTestSource="false" />
+    <content url="file://$MODULE_DIR$/../../XPArduino_Application/src/main">
+      <sourceFolder url="file://$MODULE_DIR$/../../XPArduino_Application/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/../../src/main/resources" type="java-resource" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -66,5 +66,6 @@
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.24" level="project" />
     <orderEntry type="library" name="Gradle: org.eclipse.jetty:jetty-server:9.4.2.v20170220" level="project" />
     <orderEntry type="library" name="Gradle: org.ow2.asm:asm-tree:5.1" level="project" />
+    <orderEntry type="module" module-name="XPArduino_Components_main" />
   </component>
 </module>
