@@ -16,6 +16,8 @@ Useful links or links to look at:
 - https://forum.arduino.cc/index.php?topic=418669.0
 - http://forum.arduino.cc/index.php?topic=396450.0
 - http://forum.arduino.cc/index.php?topic=225329.msg1810764#msg1810764
+
+instructions for loopback test
 - https://forum.arduino.cc/index.php?topic=73748.0
 
 extensive example
