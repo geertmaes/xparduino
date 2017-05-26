@@ -28,7 +28,6 @@ public class Application {
         SerialPort selectedPort = availablePorts.get(scanner.nextInt());
 
         selectedPort.openPort();
-        Thread.sleep(4000);
         selectedPort.setParams(SerialPort.BAUDRATE_9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
         selectedPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
 
@@ -36,7 +35,8 @@ public class Application {
         PortReader portReader = new PortReader(selectedPort);
         selectedPort.addEventListener(portReader, SerialPort.MASK_RXCHAR);
 
-        selectedPort.writeString("1\n");
+        Thread.sleep(4000);
+        selectedPort.writeString("1!");
         Thread.sleep(4000);
 
         selectedPort.closePort();
