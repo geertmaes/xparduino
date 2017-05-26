@@ -1,13 +1,10 @@
 import jssc.SerialPort;
-import jssc.SerialPortException;
+import jssc.SerialPortEventListener;
 import jssc.SerialPortList;
 
-import java.io.InputStream;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-import java.util.Set;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -31,15 +28,18 @@ public class Application {
         SerialPort selectedPort = availablePorts.get(scanner.nextInt());
 
         selectedPort.openPort();
+        Thread.sleep(4000);
         selectedPort.setParams(SerialPort.BAUDRATE_9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+        selectedPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
 
-        InputStream input = selectedPort.get();
-        output = serialPort.getOutputStream();
-        writeData(0, 0);
 
-        successful = true;
-        return successful;
+        PortReader portReader = new PortReader(selectedPort);
+        selectedPort.addEventListener(portReader, SerialPort.MASK_RXCHAR);
 
+        selectedPort.writeString("1\n");
+        Thread.sleep(4000);
+
+        selectedPort.closePort();
     }
 
     private String toString(List<SerialPort> ports) {
