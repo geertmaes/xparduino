@@ -2,13 +2,14 @@ import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
+import sun.jvm.hotspot.runtime.Bytes;
+
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 public class PortReader implements SerialPortEventListener{
-    SerialPort serialPort;
 
-    public PortReader(){
-
-    }
+    private final SerialPort serialPort;
 
     public PortReader(SerialPort serialPort) {
         this.serialPort = serialPort;
@@ -21,7 +22,7 @@ public class PortReader implements SerialPortEventListener{
                 String receivedData = this.serialPort.readString(serialPortEvent.getEventValue());
                 System.out.println("Received response: " + receivedData);
             } catch (SerialPortException e) {
-                System.out.println("Ërror receiving from com port: " + e);
+                System.out.println("Error receiving from serial port: " + e);
             }
         }
     }

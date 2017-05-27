@@ -1,8 +1,10 @@
+import com.cegeka.xpdays.arduino.Arduino;
+import com.cegeka.xpdays.arduino.command.BaseLEDCommand;
+import com.cegeka.xpdays.arduino.command.Command;
+import com.cegeka.xpdays.arduino.monitor.BufferedMessageListener;
+import com.cegeka.xpdays.arduino.monitor.SerialMonitor;
 import jssc.SerialPort;
-import jssc.SerialPortEventListener;
-import jssc.SerialPortList;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -23,34 +25,28 @@ public class Application {
     public void run() throws Exception{
         Scanner scanner = new Scanner(System.in);
 
-        List<SerialPort> availablePorts = getAvailablePorts();
+        List<SerialPort> availablePorts = Arduino.scanAvailablePorts();
         System.out.println("Available ports: \n" + toString(availablePorts));
         SerialPort selectedPort = availablePorts.get(scanner.nextInt());
 
-        selectedPort.openPort();
-        selectedPort.setParams(SerialPort.BAUDRATE_9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-        selectedPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
+        Arduino arduino = Arduino.fromSerialPort(selectedPort);
+        SerialMonitor monitor = arduino.getMonitor();
 
+        monitor.onMessage(new BufferedMessageListener());
 
-        PortReader portReader = new PortReader(selectedPort);
-        selectedPort.addEventListener(portReader, SerialPort.MASK_RXCHAR);
+        while (true) {
+            int emitting = scanner.nextInt();
 
-        Thread.sleep(4000);
-        selectedPort.writeString("1!");
-        Thread.sleep(4000);
+            Command command = new BaseLEDCommand()
+                    .withEmitting(emitting > 0);
 
-        selectedPort.closePort();
+            monitor.send(command);
+        }
     }
 
     private String toString(List<SerialPort> ports) {
         return IntStream.range(0, ports.size())
                 .mapToObj(index -> index + ") " + ports.get(index).getPortName())
                 .collect(Collectors.joining(","));
-    }
-
-    private List<SerialPort> getAvailablePorts() {
-        return Arrays.stream(SerialPortList.getPortNames())
-                .map(SerialPort::new)
-                .collect(Collectors.toList());
     }
 }
