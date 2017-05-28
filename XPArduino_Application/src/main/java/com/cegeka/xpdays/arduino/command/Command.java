@@ -7,4 +7,6 @@ public interface Command {
     String getAction();
 
     Component getComponent();
+
+    void execute();
 }

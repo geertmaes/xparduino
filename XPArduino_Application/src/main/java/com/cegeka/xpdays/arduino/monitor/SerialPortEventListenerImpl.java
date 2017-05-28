@@ -7,23 +7,31 @@ import jssc.SerialPortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SerialPortEventHandler implements SerialPortEventListener {
+import java.util.HashSet;
+import java.util.Set;
+import java.util.function.Consumer;
 
-    private final Logger logger = LoggerFactory.getLogger(SerialPortEventHandler.class);
+public class SerialPortEventListenerImpl implements SerialPortEventListener {
+
+    private final Logger logger = LoggerFactory.getLogger(SerialPortEventListenerImpl.class);
 
     private final SerialPort port;
-    private final MessageListener listener;
+    private final Set<Consumer<String>> listeners;
 
-    public SerialPortEventHandler(SerialPort port, MessageListener listener) {
+    SerialPortEventListenerImpl(SerialPort port) {
         this.port = port;
-        this.listener = listener;
+        this.listeners = new HashSet<>();
+    }
+
+    public void addListener(Consumer<String> listener) {
+        listeners.add(listener);
     }
 
     @Override
     public void serialEvent(SerialPortEvent event) {
         if (isValidEvent(event)) {
             String text = readFromPort(event);
-            listener.onMessage(text);
+            listeners.forEach(listener -> listener.accept(text));
         }
     }
 

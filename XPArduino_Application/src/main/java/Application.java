@@ -1,8 +1,4 @@
 import com.cegeka.xpdays.arduino.Arduino;
-import com.cegeka.xpdays.arduino.command.BaseLEDCommand;
-import com.cegeka.xpdays.arduino.command.Command;
-import com.cegeka.xpdays.arduino.monitor.BufferedMessageListener;
-import com.cegeka.xpdays.arduino.monitor.SerialMonitor;
 import jssc.SerialPort;
 
 import java.util.List;
@@ -30,17 +26,14 @@ public class Application {
         SerialPort selectedPort = availablePorts.get(scanner.nextInt());
 
         Arduino arduino = Arduino.fromSerialPort(selectedPort);
-        SerialMonitor monitor = arduino.getMonitor();
-
-        monitor.onMessage(new BufferedMessageListener());
 
         while (true) {
             int emitting = scanner.nextInt();
 
-            Command command = new BaseLEDCommand()
-                    .withEmitting(emitting > 0);
-
-            monitor.send(command);
+            arduino
+                    .baseLED()
+                    .withEmitting(emitting > 0)
+                    .execute();
         }
     }
 
