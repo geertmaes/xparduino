@@ -1,6 +1,9 @@
 import com.cegeka.xpdays.arduino.Arduino;
+import com.cegeka.xpdays.arduino.ArduinoFactory;
 import jssc.SerialPort;
+import jssc.SerialPortList;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -21,18 +24,18 @@ public class Application {
     public void run() throws Exception{
         Scanner scanner = new Scanner(System.in);
 
-        List<SerialPort> availablePorts = Arduino.scanAvailablePorts();
+        List<SerialPort> availablePorts = scanAvailablePorts();
         System.out.println("Available ports: \n" + toString(availablePorts));
         SerialPort selectedPort = availablePorts.get(scanner.nextInt());
 
-        Arduino arduino = Arduino.fromSerialPort(selectedPort);
+        Arduino arduino = ArduinoFactory.create(selectedPort);
 
         arduino.baseLedBlink()
-                .withDelay(4)
-                .withPeriod(5)
+                .withPeriod(3)
                 .execute();
 
         while (true) {
+
             int emitting = scanner.nextInt();
 
             arduino
@@ -46,5 +49,12 @@ public class Application {
         return IntStream.range(0, ports.size())
                 .mapToObj(index -> index + ") " + ports.get(index).getPortName())
                 .collect(Collectors.joining(","));
+    }
+
+
+    private static List<SerialPort> scanAvailablePorts() {
+        return Arrays.stream(SerialPortList.getPortNames())
+                .map(SerialPort::new)
+                .collect(Collectors.toList());
     }
 }
