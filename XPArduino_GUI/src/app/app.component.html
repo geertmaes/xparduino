@@ -4,7 +4,7 @@
 <p>Select Port</p>
 
 <form>
-  <md-select placeholder="COM PORT" [(ngModel)]="comPort" name="comPort" color="accent" ngDefaultControl>
+  <md-select placeholder="COM PORT" [(ngModel)]="comPort" name="comPort" color="accent" ngDefaultControl (change)="openPort()">
     <md-option *ngFor="let port of comPorts" [value]="port">
       {{port}}
     </md-option>
@@ -12,18 +12,10 @@
   <p> Selected value: {{comPort}} </p>
 </form>
 
-<div>
+<div [hidden] = "!comPort">
   <md-grid-list cols="3" rowHeight="2:1">
     <md-grid-tile>
-      <div>
-        <md-slide-toggle
-          [color]="accent"
-          [(ngModel)]="ledStatus"
-          [disabled]="false">
-          Led toggle
-        </md-slide-toggle>
-        <p>{{ledStatus}}</p>
-      </div>
+      <img [src]="lightBulbSrc" (click) = "toggleLed()">
       </md-grid-tile>
       <md-grid-tile>2</md-grid-tile>
       <md-grid-tile>3</md-grid-tile>

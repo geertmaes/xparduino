@@ -9,8 +9,9 @@ export class LedService {
   constructor(private http: Http) {
   }
 
-  ledAan() {
-    return "aan";
+  toggleLed(toggle: boolean) : void{
+    let action = toggle ? "ON" : "OFF";
+    this.http.post(environment.restUrl + "led/" + action, null).subscribe();
   }
 
 }
