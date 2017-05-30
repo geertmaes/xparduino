@@ -11,9 +11,11 @@ import {Response} from "@angular/http";
 export class AppComponent implements OnInit {
   title = 'app works!';
   ledStatus = false;
+  blinkingStatus = false;
   comPorts;
   comPort;
   lightBulbSrc = "assets/lightbulb-off.png";
+  lightBulbBlinkSrc = "assets/blinking-off.png"
 
   constructor(private comPortService: ComPortService, private ledService: LedService) {
   }
@@ -35,6 +37,16 @@ export class AppComponent implements OnInit {
       this.lightBulbSrc = "assets/lightbulb-on.png";
     } else {
       this.lightBulbSrc = "assets/lightbulb-off.png";
+    }
+  }
+
+  toggleBlinking() {
+    this.blinkingStatus = !this.blinkingStatus;
+    this.ledService.blinkLed(this.blinkingStatus);
+    if (this.blinkingStatus) {
+      this.lightBulbBlinkSrc = "assets/blinking-on.gif";
+    } else {
+      this.lightBulbBlinkSrc = "assets/blinking-off.png";
     }
   }
 
