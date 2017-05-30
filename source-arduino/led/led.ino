@@ -22,7 +22,7 @@ void handleCommand(String command) {
   String component = command.substring(1, separator);
   String action = command.substring(separator + 1, command.length() - 1);
 
-  if (component.equals("0")) {
+  if (component.startsWith("0")) {
     handleBaseLEDCommand(action);
   }
 }
