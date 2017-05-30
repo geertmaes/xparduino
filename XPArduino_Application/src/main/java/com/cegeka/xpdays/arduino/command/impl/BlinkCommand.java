@@ -10,9 +10,9 @@ public class BlinkCommand extends RepeatingCommand<BlinkCommand> {
 
     private boolean emitting = false;
 
-    public BlinkCommand(CommandChannel commandChannel,
+    public BlinkCommand(int pin, CommandChannel commandChannel,
                         ScheduledExecutorService executorService) {
-        super(commandChannel, executorService);
+        super(pin, commandChannel, executorService);
     }
 
     @Override

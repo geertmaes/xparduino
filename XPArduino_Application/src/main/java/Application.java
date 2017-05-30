@@ -1,5 +1,7 @@
 import com.cegeka.xpdays.arduino.Arduino;
 import com.cegeka.xpdays.arduino.ArduinoFactory;
+import com.cegeka.xpdays.arduino.component.ComponentType;
+import com.cegeka.xpdays.arduino.configuration.ArduinoConfiguration;
 import jssc.SerialPort;
 import jssc.SerialPortList;
 
@@ -17,32 +19,27 @@ public class Application {
         new Application().run();
     }
 
-    public Application(){
+    public Application() {
 
     }
 
-    public void run() throws Exception{
+    public void run() throws Exception {
         Scanner scanner = new Scanner(System.in);
 
         List<SerialPort> availablePorts = scanAvailablePorts();
         System.out.println("Available ports: \n" + toString(availablePorts));
         SerialPort selectedPort = availablePorts.get(scanner.nextInt());
 
-        Arduino arduino = ArduinoFactory.create(selectedPort);
+        ArduinoConfiguration configuration = ArduinoConfiguration.builder()
+                .withPortName(selectedPort.getPortName())
+                .withComponent(8, ComponentType.BASE_LED)
+                .build();
 
-        arduino.baseLedBlink()
+        Arduino arduino = ArduinoFactory.create(configuration);
+
+        arduino.baseLedBlink(8)
                 .withPeriod(3)
                 .execute();
-
-        while (true) {
-
-            int emitting = scanner.nextInt();
-
-            arduino
-                    .baseLed()
-                    .withEmitting(emitting > 0)
-                    .execute();
-        }
     }
 
     private String toString(List<SerialPort> ports) {

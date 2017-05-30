@@ -9,8 +9,8 @@ public class BaseLEDCommand extends AbstractCommand<BaseLEDCommand> {
 
     private boolean emitting;
 
-    public BaseLEDCommand(CommandChannel commandChannel) {
-        super(commandChannel);
+    public BaseLEDCommand(int pin, CommandChannel commandChannel) {
+        super(pin, commandChannel);
     }
 
     public BaseLEDCommand withEmitting(boolean emitting) {

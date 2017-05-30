@@ -8,15 +8,11 @@ import com.cegeka.xpdays.arduino.component.ComponentType;
 public abstract class AbstractCommand<T extends AbstractCommand> implements Command {
 
     private final CommandChannel commandChannel;
-    private int pin;
+    private final int pin;
 
-    protected AbstractCommand(CommandChannel commandChannel) {
-        this.commandChannel = commandChannel;
-    }
-
-    public T withPin(int pin) {
+    protected AbstractCommand(int pin, CommandChannel commandChannel) {
         this.pin = pin;
-        return (T) this;
+        this.commandChannel = commandChannel;
     }
 
     @Override

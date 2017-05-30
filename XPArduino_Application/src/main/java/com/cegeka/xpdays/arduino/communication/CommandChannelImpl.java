@@ -41,12 +41,4 @@ public class CommandChannelImpl implements CommandChannel{
             logger.warn("Failed to send {} on port {}", message, port, e);
         }
     }
-
-    @Override
-    public void close() {
-        try {
-            port.closePort();
-        } catch (SerialPortException ignore) {
-        }
-    }
 }

@@ -19,8 +19,8 @@ public abstract class RepeatingCommand<T extends RepeatingCommand>
     private int period = DEFAULT_PERIOD;
     private TimeUnit timeUnit = DEFAULT_TIME_UNIT;
 
-    protected RepeatingCommand(CommandChannel commandChannel, ScheduledExecutorService executorService) {
-        super(commandChannel);
+    protected RepeatingCommand(int pin, CommandChannel commandChannel, ScheduledExecutorService executorService) {
+        super(pin, commandChannel);
         this.executorService = executorService;
     }
 
