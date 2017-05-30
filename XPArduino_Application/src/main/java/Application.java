@@ -27,11 +27,16 @@ public class Application {
 
         Arduino arduino = Arduino.fromSerialPort(selectedPort);
 
+        arduino.baseLedBlink()
+                .withDelay(4)
+                .withPeriod(5)
+                .execute();
+
         while (true) {
             int emitting = scanner.nextInt();
 
             arduino
-                    .baseLED()
+                    .baseLed()
                     .withEmitting(emitting > 0)
                     .execute();
         }

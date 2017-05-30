@@ -1,6 +1,7 @@
 package com.cegeka.xpdays.arduino;
 
 import com.cegeka.xpdays.arduino.command.BaseLEDCommand;
+import com.cegeka.xpdays.arduino.command.BlinkCommand;
 import com.cegeka.xpdays.arduino.monitor.PhysicalSerialMonitor;
 import com.cegeka.xpdays.arduino.monitor.SerialMonitor;
 import jssc.SerialPort;
@@ -9,6 +10,8 @@ import jssc.SerialPortList;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
 public class Arduino {
@@ -35,12 +38,18 @@ public class Arduino {
     }
 
     private final SerialMonitor monitor;
+    private final ScheduledExecutorService executorService;
 
     private Arduino(SerialPort serialPort) {
         this.monitor = new PhysicalSerialMonitor(serialPort);
+        this.executorService = Executors.newScheduledThreadPool(100);
     }
 
-    public BaseLEDCommand baseLED() {
+    public BaseLEDCommand baseLed() {
         return new BaseLEDCommand(monitor);
+    }
+
+    public BlinkCommand baseLedBlink() {
+        return new BlinkCommand(monitor, executorService);
     }
 }
