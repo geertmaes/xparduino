@@ -43,10 +43,17 @@ public abstract class RepeatingCommand<T extends RepeatingCommand>
 
     public void stop(){
         scheduledFuture.cancel(true);
+        onStop();
     }
 
     @Override
     public void execute() {
-        scheduledFuture = executorService.scheduleAtFixedRate(super::execute, delay, period, timeUnit);
+        scheduledFuture = executorService.scheduleAtFixedRate(this::executeCommand, delay, period, timeUnit);
     }
+
+    protected void executeCommand(){
+        super.execute();
+    }
+
+    public abstract void onStop();
 }

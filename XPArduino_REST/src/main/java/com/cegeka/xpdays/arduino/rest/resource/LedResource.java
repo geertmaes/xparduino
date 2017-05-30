@@ -21,10 +21,12 @@ public class LedResource {
             ledService.enableLed();
         }else if("off".equals(action)){
             ledService.disableLed();
-        }else if("blink".equals(action)){
+        }else if("blinkon".equals(action)){
             ledService.startBlinkingLed(0, 3, TimeUnit.SECONDS);
+        }else if("blinkoff".equals(action)){
+            ledService.stopBlinkingLed();
         }else {
-            throw new Exception("Unknown LED action");
+            throw new Exception("Unknown LED action "+action);
         }
     }
 

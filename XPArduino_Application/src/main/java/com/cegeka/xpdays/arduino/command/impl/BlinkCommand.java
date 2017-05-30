@@ -25,4 +25,11 @@ public class BlinkCommand extends RepeatingCommand<BlinkCommand> {
     protected ComponentType getComponentType() {
         return ComponentType.BASE_LED;
     }
+
+    @Override
+    public void onStop() {
+        if(emitting){
+            executeCommand();
+        }
+    }
 }

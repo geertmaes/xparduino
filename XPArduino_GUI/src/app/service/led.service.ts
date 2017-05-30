@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import {Http, Response} from "@angular/http";
+import {Injectable} from "@angular/core";
+import {Http} from "@angular/http";
 import {environment} from "../../environments/environment";
 
 @Injectable()
@@ -15,7 +15,7 @@ export class LedService {
   }
 
   blinkLed(toggle: boolean) {
-    let action = "blink";
+    let action = "blink" + toggle ? "ON" : "OFF";
     this.http.post(environment.restUrl + "led/" + action, null).subscribe();
   }
 

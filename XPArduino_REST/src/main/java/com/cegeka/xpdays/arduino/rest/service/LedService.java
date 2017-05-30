@@ -26,6 +26,7 @@ public class LedService {
     }
 
     public void startBlinkingLed(int delay, int period, TimeUnit timeUnit){
+        stopBlinkingLed();
         blinkCommand = arduinoService.getArduino()
                 .baseLedBlink(8)
                 .withDelay(delay)
@@ -34,11 +35,15 @@ public class LedService {
         blinkCommand.execute();
     }
 
-    private void changeLedState(boolean emitting){
+    public void stopBlinkingLed() {
         if(blinkCommand != null){
             blinkCommand.stop();
             blinkCommand = null;
         }
+    }
+
+    private void changeLedState(boolean emitting){
+        stopBlinkingLed();
         arduinoService.getArduino()
                 .baseLed(8)
                 .withEmitting(emitting)
