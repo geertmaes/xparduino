@@ -3,6 +3,7 @@ package com.cegeka.xpdays.arduino.command;
 import com.cegeka.xpdays.arduino.communication.CommandChannel;
 
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unchecked")
@@ -18,6 +19,7 @@ public abstract class RepeatingCommand<T extends RepeatingCommand>
     private int delay = DEFAULT_DELAY;
     private int period = DEFAULT_PERIOD;
     private TimeUnit timeUnit = DEFAULT_TIME_UNIT;
+    private ScheduledFuture<?> scheduledFuture;
 
     protected RepeatingCommand(CommandChannel commandChannel, ScheduledExecutorService executorService) {
         super(commandChannel);
@@ -39,8 +41,12 @@ public abstract class RepeatingCommand<T extends RepeatingCommand>
         return (T) this;
     }
 
+    public void stop(){
+        scheduledFuture.cancel(true);
+    }
+
     @Override
     public void execute() {
-        executorService.scheduleAtFixedRate(super::execute, delay, period, timeUnit);
+        scheduledFuture = executorService.scheduleAtFixedRate(super::execute, delay, period, timeUnit);
     }
 }
