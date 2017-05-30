@@ -2,10 +2,6 @@ import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortEventListener;
 import jssc.SerialPortException;
-import sun.jvm.hotspot.runtime.Bytes;
-
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 public class PortReader implements SerialPortEventListener{
 
