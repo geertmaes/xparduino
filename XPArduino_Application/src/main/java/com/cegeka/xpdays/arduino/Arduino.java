@@ -1,7 +1,7 @@
 package com.cegeka.xpdays.arduino;
 
-import com.cegeka.xpdays.arduino.command.BaseLEDCommand;
-import com.cegeka.xpdays.arduino.command.BlinkCommand;
+import com.cegeka.xpdays.arduino.command.impl.BaseLEDCommand;
+import com.cegeka.xpdays.arduino.command.impl.BlinkCommand;
 import com.cegeka.xpdays.arduino.communication.CommandChannel;
 import com.cegeka.xpdays.arduino.communication.CommandChannelImpl;
 import jssc.SerialPort;

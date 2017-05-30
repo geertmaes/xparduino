@@ -1,6 +1,5 @@
 package com.cegeka.xpdays.arduino.communication;
 
-
 import com.cegeka.xpdays.arduino.event.Event;
 
 import java.util.function.Consumer;
