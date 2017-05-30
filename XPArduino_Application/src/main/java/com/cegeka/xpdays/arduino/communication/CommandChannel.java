@@ -3,7 +3,9 @@ package com.cegeka.xpdays.arduino.communication;
 
 import com.cegeka.xpdays.arduino.command.Command;
 
-public interface CommandChannel {
+import java.io.Closeable;
+
+public interface CommandChannel extends Closeable{
 
     void send(Command command);
 }

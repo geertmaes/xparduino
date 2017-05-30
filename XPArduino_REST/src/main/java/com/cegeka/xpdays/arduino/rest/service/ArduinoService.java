@@ -1,21 +1,20 @@
 package com.cegeka.xpdays.arduino.rest.service;
 
 import com.cegeka.xpdays.arduino.Arduino;
+import com.cegeka.xpdays.arduino.ArduinoFactory;
 import jssc.SerialPort;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-
-import static com.cegeka.xpdays.arduino.Arduino.fromSerialPort;
 
 @Service
 public class ArduinoService {
 
     private Arduino arduino;
 
-    public void openArduinoPort(SerialPort serialPort){
+    public void openArduinoPort(String portName){
         closeArduinoPort();
-        arduino = fromSerialPort(serialPort);
+        arduino = ArduinoFactory.create(new SerialPort(portName));
     }
 
     public void closeArduinoPort(){
@@ -23,11 +22,16 @@ public class ArduinoService {
             try {
                 arduino.close();
             } catch (IOException ignore) {
+            } finally {
+                arduino = null;
             }
         }
     }
 
     public Arduino getArduino() {
+        if(arduino == null){
+            throw new RuntimeException("Port not open");
+        }
         return arduino;
     }
 }
