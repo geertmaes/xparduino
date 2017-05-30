@@ -7,11 +7,13 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 import jssc.SerialPortList;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Arduino {
+public class Arduino implements Closeable {
 
     public static Arduino fromSerialPort(SerialPort port) {
         openSerialPort(port);
@@ -42,5 +44,10 @@ public class Arduino {
 
     public BaseLEDCommand baseLED() {
         return new BaseLEDCommand(monitor);
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.monitor.close();
     }
 }

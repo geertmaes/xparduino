@@ -5,6 +5,7 @@ import jssc.SerialPortException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
 import java.util.function.Consumer;
 
 import static jssc.SerialPort.MASK_RXCHAR;
@@ -42,5 +43,14 @@ public class PhysicalSerialMonitor implements SerialMonitor {
     @Override
     public void onMessage(Consumer<String> listener) {
         portEventListener.addListener(listener);
+    }
+
+    @Override
+    public void close() throws IOException {
+        try {
+            port.closePort();
+        } catch (SerialPortException e) {
+            throw new IOException(e);
+        }
     }
 }
