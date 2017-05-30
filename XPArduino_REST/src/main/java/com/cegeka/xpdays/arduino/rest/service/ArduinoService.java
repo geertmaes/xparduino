@@ -22,8 +22,7 @@ public class ArduinoService {
         if(arduino != null){
             try {
                 arduino.close();
-            } catch (IOException e) {
-                throw new RuntimeException("Could not close arduino port: "+e.getMessage());
+            } catch (IOException ignore) {
             }
         }
     }
