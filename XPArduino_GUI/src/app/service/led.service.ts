@@ -14,4 +14,9 @@ export class LedService {
     this.http.post(environment.restUrl + "led/" + action, null).subscribe();
   }
 
+  blinkLed(toggle: boolean) {
+    let action = "blink";
+    this.http.post(environment.restUrl + "led/" + action, null).subscribe();
+  }
+
 }
