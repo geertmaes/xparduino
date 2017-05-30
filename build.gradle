@@ -31,6 +31,9 @@ configure(project.javaProjects) {
     ext {
         jccVersion = '2.8.0'
         slf4jVersion = '1.7.25'
+        junitVersion = '4.12'
+        assertJVersion = '3.8.0'
+        mockitoVersion = '2.8.9'
     }
 
     dependencyManagement {
@@ -38,6 +41,9 @@ configure(project.javaProjects) {
             dependency "org.scream3r:jssc:$jccVersion"
             dependency "org.slf4j:slf4j-api:$slf4jVersion"
             dependency "org.slf4j:slf4j-log4j12:$slf4jVersion"
+            dependency "junit:junit:$junitVersion"
+            dependency "org.assertj:assertj-core:$assertJVersion"
+            dependency "org.mockito:mockito-core:$mockitoVersion"
         }
     }
 }
