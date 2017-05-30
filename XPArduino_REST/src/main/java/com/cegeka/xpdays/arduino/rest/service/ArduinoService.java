@@ -5,6 +5,7 @@ import com.cegeka.xpdays.arduino.ArduinoFactory;
 import jssc.SerialPort;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PreDestroy;
 import java.io.IOException;
 
 @Service
@@ -17,6 +18,7 @@ public class ArduinoService {
         arduino = ArduinoFactory.create(new SerialPort(portName));
     }
 
+    @PreDestroy
     public void closeArduinoPort(){
         if(arduino != null){
             try {

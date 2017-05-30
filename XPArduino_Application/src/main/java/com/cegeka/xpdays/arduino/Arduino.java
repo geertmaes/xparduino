@@ -11,6 +11,8 @@ import java.io.IOException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
+import static java.lang.Runtime.getRuntime;
+
 public class Arduino implements Closeable {
 
     private final CommandChannel commandChannel;
@@ -18,7 +20,7 @@ public class Arduino implements Closeable {
 
     Arduino(SerialPort serialPort) {
         this.commandChannel = new CommandChannelImpl(serialPort);
-        this.executorService = Executors.newScheduledThreadPool(100);
+        this.executorService = Executors.newScheduledThreadPool(getRuntime().availableProcessors()*2);
     }
 
     public BaseLEDCommand baseLed() {
