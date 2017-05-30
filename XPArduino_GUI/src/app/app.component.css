@@ -1,3 +1,7 @@
 md-slide-toggle {
   font-size: 20px;
 }
+
+img {
+  cursor: pointer;
+}
