@@ -27,8 +27,7 @@ public class LedService {
 
     public void startBlinkingLed(int delay, int period, TimeUnit timeUnit){
         blinkCommand = arduinoService.getArduino()
-                .baseLedBlink()
-                .withPin(8)
+                .baseLedBlink(8)
                 .withDelay(delay)
                 .withPeriod(period)
                 .withTimeUnit(timeUnit);
@@ -41,8 +40,7 @@ public class LedService {
             blinkCommand = null;
         }
         arduinoService.getArduino()
-                .baseLed()
-                .withPin(8)
+                .baseLed(8)
                 .withEmitting(emitting)
                 .execute();
     }

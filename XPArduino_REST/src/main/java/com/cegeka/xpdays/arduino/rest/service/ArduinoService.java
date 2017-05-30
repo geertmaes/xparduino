@@ -2,11 +2,13 @@ package com.cegeka.xpdays.arduino.rest.service;
 
 import com.cegeka.xpdays.arduino.Arduino;
 import com.cegeka.xpdays.arduino.ArduinoFactory;
-import jssc.SerialPort;
+import com.cegeka.xpdays.arduino.configuration.ArduinoConfiguration;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
 import java.io.IOException;
+
+import static com.cegeka.xpdays.arduino.component.ComponentType.BASE_LED;
 
 @Service
 public class ArduinoService {
@@ -15,7 +17,11 @@ public class ArduinoService {
 
     public void openArduinoPort(String portName){
         closeArduinoPort();
-        arduino = ArduinoFactory.create(new SerialPort(portName));
+        ArduinoConfiguration arduinoConfiguration = ArduinoConfiguration.builder()
+                .withPortName(portName)
+                .withComponent(8, BASE_LED)
+                .build();
+        arduino = ArduinoFactory.create(arduinoConfiguration);
     }
 
     @PreDestroy
