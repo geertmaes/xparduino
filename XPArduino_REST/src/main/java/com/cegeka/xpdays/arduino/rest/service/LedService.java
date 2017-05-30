@@ -19,7 +19,7 @@ public class LedService {
 
     private void changeLedState(boolean emitting){
         arduinoService.getArduino()
-                .baseLED()
+                .baseLed()
                 .withEmitting(emitting)
                 .execute();
     }
