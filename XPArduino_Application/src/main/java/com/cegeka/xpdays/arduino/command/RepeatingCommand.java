@@ -1,7 +1,7 @@
 package com.cegeka.xpdays.arduino.command;
 
+import com.cegeka.xpdays.arduino.communication.CommandChannel;
 import com.cegeka.xpdays.arduino.component.Component;
-import com.cegeka.xpdays.arduino.monitor.SerialMonitor;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,8 +19,8 @@ public abstract class RepeatingCommand<T extends RepeatingCommand> extends Abstr
     private int period = DEFAULT_PERIOD;
     private TimeUnit timeUnit = DEFAULT_TIME_UNIT;
 
-    RepeatingCommand(SerialMonitor monitor, ScheduledExecutorService executorService) {
-        super(monitor);
+    RepeatingCommand(CommandChannel commandChannel, ScheduledExecutorService executorService) {
+        super(commandChannel);
         this.executorService = executorService;
     }
 

@@ -1,16 +1,16 @@
 package com.cegeka.xpdays.arduino.command;
 
+import com.cegeka.xpdays.arduino.communication.CommandChannel;
 import com.cegeka.xpdays.arduino.component.Component;
-import com.cegeka.xpdays.arduino.monitor.SerialMonitor;
 
 import java.util.concurrent.ScheduledExecutorService;
 
-public class BlinkCommand extends RepeatingCommand {
+public class BlinkCommand extends RepeatingCommand<BlinkCommand> {
 
     private boolean emitting = false;
 
-    public BlinkCommand(SerialMonitor monitor, ScheduledExecutorService executorService) {
-        super(monitor, executorService);
+    public BlinkCommand(CommandChannel commandChannel, ScheduledExecutorService executorService) {
+        super(commandChannel, executorService);
     }
 
     @Override

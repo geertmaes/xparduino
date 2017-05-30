@@ -1,13 +1,13 @@
 package com.cegeka.xpdays.arduino.command;
 
+import com.cegeka.xpdays.arduino.communication.CommandChannel;
 import com.cegeka.xpdays.arduino.component.Component;
-import com.cegeka.xpdays.arduino.monitor.SerialMonitor;
 
 public class BaseLEDCommand extends AbstractCommand {
 
     private boolean emitting;
 
-    public BaseLEDCommand(SerialMonitor monitor) {
+    public BaseLEDCommand(CommandChannel monitor) {
         super(monitor);
     }
 

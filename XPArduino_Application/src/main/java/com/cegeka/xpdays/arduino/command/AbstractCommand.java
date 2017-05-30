@@ -1,18 +1,14 @@
 package com.cegeka.xpdays.arduino.command;
 
+import com.cegeka.xpdays.arduino.communication.CommandChannel;
 import com.cegeka.xpdays.arduino.component.Component;
-import com.cegeka.xpdays.arduino.monitor.SerialMonitor;
-
-import static java.lang.String.format;
 
 public abstract class AbstractCommand implements Command {
 
-    private static final String COMMAND_FORMAT = "<%s,%s>";
+    private final CommandChannel commandChannel;
 
-    private final SerialMonitor monitor;
-
-    AbstractCommand(SerialMonitor monitor) {
-        this.monitor = monitor;
+    AbstractCommand(CommandChannel commandChannel) {
+        this.commandChannel = commandChannel;
     }
 
     @Override
@@ -23,6 +19,6 @@ public abstract class AbstractCommand implements Command {
 
     @Override
     public void execute() {
-        this.monitor.send(format(COMMAND_FORMAT, getComponent().ordinal(), getAction()));
+        this.commandChannel.send(this);
     }
 }
