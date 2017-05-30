@@ -5,7 +5,8 @@ plugins {
 project.ext {
     javaProjects = subprojects.findAll {
         it.name == 'XPArduino_Application' ||
-        it.name == 'XPArduino_Components'
+                it.name == 'XPArduino_Components' ||
+                it.name == 'XPArduino_REST'
     }
 }
 
@@ -34,6 +35,7 @@ configure(project.javaProjects) {
         junitVersion = '4.12'
         assertJVersion = '3.8.0'
         mockitoVersion = '2.8.9'
+        springBootVersion = '1.5.3.RELEASE'
     }
 
     dependencyManagement {
@@ -44,6 +46,8 @@ configure(project.javaProjects) {
             dependency "junit:junit:$junitVersion"
             dependency "org.assertj:assertj-core:$assertJVersion"
             dependency "org.mockito:mockito-core:$mockitoVersion"
+            dependency "org.springframework.boot:spring-boot-starter-web:$springBootVersion"
+            dependency "org.springframework.boot:spring-boot-starter-test':$springBootVersion"
         }
     }
 }

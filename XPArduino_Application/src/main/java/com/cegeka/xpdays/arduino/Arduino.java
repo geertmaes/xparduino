@@ -8,13 +8,15 @@ import jssc.SerialPort;
 import jssc.SerialPortException;
 import jssc.SerialPortList;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.stream.Collectors;
 
-public class Arduino {
+public class Arduino implements Closeable {
 
     private final CommandChannel commandChannel;
     private final ScheduledExecutorService executorService;
@@ -30,5 +32,10 @@ public class Arduino {
 
     public BlinkCommand baseLedBlink() {
         return new BlinkCommand(commandChannel, executorService);
+    }
+
+    @Override
+    public void close() throws IOException {
+        this.monitor.close();
     }
 }

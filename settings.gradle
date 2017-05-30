@@ -2,4 +2,5 @@ rootProject.name = 'xparduino'
 include 'XPArduino_Application'
 include 'XPArduino_Components'
 include 'XPArduino_GUI'
+include 'XPArduino_REST'
 
