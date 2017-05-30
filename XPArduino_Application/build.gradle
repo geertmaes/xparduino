@@ -1,6 +1,8 @@
 dependencies {
     compile 'org.scream3r:jssc'
     compile 'org.slf4j:slf4j-api'
+    compile 'ch.qos.logback:logback-core'
+    compile 'ch.qos.logback:logback-classic'
 
     testCompile 'junit:junit'
     testCompile 'org.assertj:assertj-core'

@@ -5,8 +5,8 @@ plugins {
 project.ext {
     javaProjects = subprojects.findAll {
         it.name == 'XPArduino_Application' ||
-                it.name == 'XPArduino_Components' ||
-                it.name == 'XPArduino_REST'
+        it.name == 'XPArduino_Components' ||
+        it.name == 'XPArduino_REST'
     }
 }
 
@@ -31,10 +31,11 @@ configure(project.javaProjects) {
 
     ext {
         jccVersion = '2.8.0'
-        slf4jVersion = '1.7.25'
+        slf4jVersion = '1.7.5'
         junitVersion = '4.12'
         assertJVersion = '3.8.0'
         mockitoVersion = '2.8.9'
+        logbackVersion = '1.2.3'
         springBootVersion = '1.5.3.RELEASE'
     }
 
@@ -42,7 +43,8 @@ configure(project.javaProjects) {
         dependencies {
             dependency "org.scream3r:jssc:$jccVersion"
             dependency "org.slf4j:slf4j-api:$slf4jVersion"
-            dependency "org.slf4j:slf4j-log4j12:$slf4jVersion"
+            dependency "ch.qos.logback:logback-core:$logbackVersion"
+            dependency "ch.qos.logback:logback-classic:$logbackVersion"
             dependency "junit:junit:$junitVersion"
             dependency "org.assertj:assertj-core:$assertJVersion"
             dependency "org.mockito:mockito-core:$mockitoVersion"
