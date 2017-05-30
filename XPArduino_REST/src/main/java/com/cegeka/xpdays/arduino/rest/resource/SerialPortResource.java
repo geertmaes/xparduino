@@ -25,7 +25,7 @@ public class SerialPortResource {
 
     @PostMapping("/{port}/open")
     public void openPort(@PathVariable String port){
-        arduinoService.openArduinoPort(serialPortService.getPortByName(port));
+        arduinoService.openArduinoPort(port);
     }
 
     @PostMapping("/close")

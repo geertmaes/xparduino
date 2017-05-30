@@ -1,7 +1,8 @@
-package com.cegeka.xpdays.arduino.command;
+package com.cegeka.xpdays.arduino.command.impl;
 
+import com.cegeka.xpdays.arduino.command.RepeatingCommand;
 import com.cegeka.xpdays.arduino.communication.CommandChannel;
-import com.cegeka.xpdays.arduino.component.Component;
+import com.cegeka.xpdays.arduino.component.ComponentType;
 
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -9,7 +10,8 @@ public class BlinkCommand extends RepeatingCommand<BlinkCommand> {
 
     private boolean emitting = false;
 
-    public BlinkCommand(CommandChannel commandChannel, ScheduledExecutorService executorService) {
+    public BlinkCommand(CommandChannel commandChannel,
+                        ScheduledExecutorService executorService) {
         super(commandChannel, executorService);
     }
 
@@ -20,7 +22,7 @@ public class BlinkCommand extends RepeatingCommand<BlinkCommand> {
     }
 
     @Override
-    public Component getComponent() {
-        return Component.BASE_LED;
+    protected ComponentType getComponentType() {
+        return ComponentType.BASE_LED;
     }
 }
