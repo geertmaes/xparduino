@@ -1,4 +1,7 @@
+#include <legopowerfunctions.h>
+
 String incomingStringBuffer;
+LEGOPowerFunctions lego(9);
 
 void setup() {
 	Serial.begin(9600);
@@ -6,17 +9,20 @@ void setup() {
 }
 
 void loop() {
-	if (Serial.available() > 0) {
-		incomingStringBuffer += Serial.readString();
-		if (incomingStringBuffer.startsWith("<")
-			&& incomingStringBuffer.endsWith(">")) {
-
-			handleCommand(incomingStringBuffer);
-		incomingStringBuffer = "";
-		}
-	}
+	receiveCommand();
 }
 
+void receiveCommand() {
+    if (Serial.available() > 0) {
+        incomingStringBuffer += Serial.readString();
+        if (incomingStringBuffer.startsWith("<")
+            && incomingStringBuffer.endsWith(">")) {
+
+            handleCommand(incomingStringBuffer);
+        incomingStringBuffer = "";
+        }
+    }
+}
 void handleCommand(String command) {
 	int separator = command.indexOf(",");
 	String component = command.substring(1, separator);
