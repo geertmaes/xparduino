@@ -1,75 +1,108 @@
-#include <legopowerfunctions.h>
-
-String REDCOMMAND = "R";
-String STATUSCOMMAND = "STAT";
-String CHECKCOMMAND = "CHECK";
-
-String command = "";
-String commandMask = "jta";
-String stat = " status light: ";
-
-int REDLED = 8;
-
-boolean commandIsReceived = false;
-
+String incomingStringBuffer;
 
 void setup() {
 	Serial.begin(9600);
-	command.reserve(200);
-	pinMode(REDLED, OUTPUT);
+	pinMode(8, OUTPUT);
 }
 
 void loop() {
-	if (commandIsReceived) {
-		Serial.println(checkCommand());
-		command = "";
-		commandIsReceived = false;
-	}
-}
+	if (Serial.available() > 0) {
+		incomingStringBuffer += Serial.readString();
+		if (incomingStringBuffer.startsWith("<")
+			&& incomingStringBuffer.endsWith(">")) {
 
-boolean checkCommand() {
-	String commandPart = command.substring(3);
-	if (command.startsWith(commandMask)) {
-		if (commandPart == REDCOMMAND) {
-			setLight(REDLED);
-			return true;
-		} else if (commandPart == CHECKCOMMAND) {
-			checkStatus();
-			return true;
-		} 		
-		Serial.println("Command not recognised: " + commandPart);
-		command = "";
-		return false;
-	}
-	Serial.println("Prefix not recognised in: " + command);
-	command = "";
-	return false;
-}
-
-void setLight(int light) {
-	digitalWrite(REDLED, LOW);
-	switch (light) {
-	    case 8:
-	    	digitalWrite(REDLED, HIGH);
-	      	break;
-	}
-}
-
-void checkStatus() {
-	Serial.println("debug status information");
-	String debugInfo = "Red: ";
-	debugInfo += digitalRead(REDLED);
-	debugInfo += stat;
-	Serial.println(debugInfo);
-}
-
-void serialEvent() {
-	while(Serial.available()){
-		char inChar = (char)Serial.read();
-		if (inChar == '\n') {
-			commandIsReceived = true;
-			return;
+			handleCommand(incomingStringBuffer);
+		incomingStringBuffer = "";
 		}
-		command += inChar;
 	}
+}
+
+void handleCommand(String command) {
+	int separator = command.indexOf(",");
+	String component = command.substring(1, separator);
+	String action = command.substring(separator + 1, command.length() - 1);
+
+	if (component.startsWith("0")) {
+		handleBaseLEDCommand(action);
+	}
+}
+
+void handleBaseLEDCommand(String action) {
+	if (action.equals("OFF") > 0) {
+		digitalWrite(8, LOW);
+	} else if (action.equals("ON") > 0) {
+		digitalWrite(8, HIGH);
+	}
+}
+
+void moveTrain(int inputSpeed, int inputChannel) {
+	int color;
+	int speed;
+	int channel;
+	switch (inputSpeed) {
+		case -4:
+		speed = 0xC;
+		break;
+		case -3:
+		speed = 0xD;
+		break;
+		case -2:
+		speed = 0xE;
+		break;
+		case -1:
+		speed = 0xF;
+		break;
+		case 0:
+		speed = 0x0;
+		break;
+		case 1:
+		speed = 0x1;
+		break;
+		case 2:
+		speed = 0x2;
+		break;
+		case 3:
+		speed = 0x3;
+		break;
+		case 4:
+		speed = 0x4;
+		break;
+		default:
+		speed = 0x0;
+		break;
+	}
+	if (inputChannel <= 4) {
+		color = 0x0;
+		switch (inputChannel) {
+			case 1:
+			channel = 0x0;
+			break;
+			case 2:
+			channel = 0x1;
+			break;
+			case 3:
+			channel = 0x2;
+			break;
+			case 4:
+			channel = 0x3;
+			break;
+		}
+	} else {
+		color = 0x1;
+		switch (inputChannel) {
+			case 5:
+			channel = 0x0;
+			break;
+			case 6:
+			channel = 0x1;
+			break;
+			case 7:
+			channel = 0x2;
+			break;
+			case 8:
+			channel = 0x3;
+			break;
+		}
+	}
+	lego.SingleOutput(0, speed, color, channel);
 }
