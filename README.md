@@ -3,12 +3,21 @@ Test setup XP days
 
 TO DO:
  - Add README (/)
- - Add GitIgnore (x)
- - Clean up repo (x)
- - Hello World (Java)
- - Hello World (Arduino)
- - Arduino STUB
+ - Add GitIgnore (/)
+ - Clean up repo (/)
+ - Hello World (Java) (/)
+ - Hello World (Arduino) (/)
+ - Get basic event flow going (x)
+ - Arduino STUB (x)
 
+<h3>Arduino libraries</h3>
+For components like IR led and servo motors we will have to use external libraries which I will link here. You need to add them to your arduino IDE (which ever you are using), to be able to import them into your arduino source file. 
+ 
+- For LEGO powerfunctions: http://forum.arduino.cc/index.php?topic=89310.0
+- For servo motors: TO DO (it exists, but I need to search for it).
+
+<h3>Useful information</h3>
+    
 Thoughts:
 - Every sensor/actor on the arduino will be connected to a port for it's signal
 
