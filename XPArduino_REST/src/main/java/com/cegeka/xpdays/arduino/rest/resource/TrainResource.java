@@ -13,7 +13,7 @@ public class TrainResource {
     private TrainService trainService;
 
     @PostMapping
-    public void controlTrain(@RequestParam("speed") int speed) throws Exception {
+    public void setTrainSpeed(@RequestParam("speed") int speed) throws Exception {
         if(speed < -4 || speed > 4){
             throw new IllegalArgumentException("Invalid speed for train "+speed);
         }
