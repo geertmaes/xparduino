@@ -1,17 +1,5 @@
 <h1>
   XPArduino
 </h1>
-<p>Select Port</p>
-
-<form>
-  <md-select placeholder="COM PORT" [(ngModel)]="comPort" name="comPort" color="accent" ngDefaultControl (change)="openPort()">
-    <md-option *ngFor="let port of comPorts" [value]="port">
-      {{port}}
-    </md-option>
-  </md-select>
-  <p> Selected value: {{comPort}} </p>
-</form>
-
-<div [hidden] = "!comPort">
-<led-component></led-component>
-</div>
+<com-port-selection (comPort) = "handleComPort($event)"></com-port-selection>
+<components [comPort] = "comPort"></components>

@@ -8,11 +8,15 @@ import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MaterialGroupModule} from "./material";
 import {ComPortService} from "./service/com-port.service";
 import { LedComponent } from './led/led.component';
+import { ComponentsComponent } from './components/components.component';
+import { ComPortComponent } from './com-port/com-port.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LedComponent
+    LedComponent,
+    ComponentsComponent,
+    ComPortComponent
   ],
   imports: [
     BrowserModule,

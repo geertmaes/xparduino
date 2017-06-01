@@ -9,11 +9,15 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class TrainResource {
 
-    @Autowired
     private TrainService trainService;
 
+    @Autowired
+    public TrainResource(TrainService trainService) {
+        this.trainService = trainService;
+    }
+
     @PostMapping
-    public void controlTrain(@RequestParam("speed") int speed) throws Exception {
+    public void setTrainSpeed(@RequestParam("speed") int speed) throws Exception {
         if(speed < -4 || speed > 4){
             throw new IllegalArgumentException("Invalid speed for train "+speed);
         }

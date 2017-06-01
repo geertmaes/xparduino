@@ -1,0 +1,7 @@
+<form>
+  <md-select placeholder="COM PORT" name="comPort" color="accent" ngDefaultControl (change)="openPort($event)">
+    <md-option *ngFor="let port of comPorts" [value]="port">
+      {{port}}
+    </md-option>
+  </md-select>
+</form>
