@@ -1,6 +1,10 @@
 package com.cegeka.xpdays.arduino.communication;
 
-public interface EventChannel {
+import com.cegeka.xpdays.arduino.event.dispatch.EventListener;
 
-    void onEvent(EventListener listener);
+import java.io.Closeable;
+
+public interface EventChannel extends Closeable {
+
+    void registerEventListener(EventListener listener);
 }

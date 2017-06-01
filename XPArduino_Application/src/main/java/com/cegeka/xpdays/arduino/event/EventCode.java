@@ -1,15 +1,15 @@
-package com.cegeka.xpdays.arduino.component;
+package com.cegeka.xpdays.arduino.event;
 
 import java.util.Arrays;
 
-public enum ComponentType {
+public enum EventCode {
 
-    BASE_LED(0),
-    INFRA_RED_SENSOR(1);
+    BASE_LED_EVENT(0),
+    INFRA_LED_EVENT(1);
 
     private final int value;
 
-    ComponentType(int value) {
+    EventCode(int value) {
         this.value = value;
     }
 
@@ -17,7 +17,7 @@ public enum ComponentType {
         return value;
     }
 
-    public static ComponentType valueOf(int value) {
+    public static EventCode valueOf(int value) {
         return Arrays.stream(values())
                 .filter(type -> type.getValue() == value)
                 .findAny()
