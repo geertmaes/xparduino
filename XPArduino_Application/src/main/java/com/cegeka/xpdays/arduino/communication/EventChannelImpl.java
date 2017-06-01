@@ -34,6 +34,15 @@ public class EventChannelImpl implements EventChannel {
     }
 
     @Override
+    public void send(String payload) {
+        try {
+            this.eventDispatcher.dispatch(payload);
+        } catch (EventDispatchingException e) {
+            LOGGER.warn("Failed dispatching event", e);
+        }
+    }
+
+    @Override
     public void registerEventListener(EventListener listener) {
         this.eventDispatcher.registerEventListener(listener);
     }
@@ -49,8 +58,14 @@ public class EventChannelImpl implements EventChannel {
 
     private static class EventChannelSerialPortListener implements SerialPortEventListener {
 
+        private static final String EMPTY = "";
+        private static final String EVENT_PREFIX = "<";
+        private static final String EVENT_SUFFIX = ">";
+
         private final SerialPort port;
         private final EventDispatcher eventDispatcher;
+
+        private String buffer = EMPTY;
 
         private EventChannelSerialPortListener(SerialPort port, EventDispatcher eventDispatcher) {
             this.port = port;
@@ -61,7 +76,11 @@ public class EventChannelImpl implements EventChannel {
         public void serialEvent(SerialPortEvent event) {
             try {
                 if (isValidEvent(event)) {
-                    eventDispatcher.dispatch(readString(event));
+                    buffer += readString(event);
+                    if (buffer.startsWith(EVENT_PREFIX) && buffer.endsWith(EVENT_SUFFIX)) {
+                        eventDispatcher.dispatch(buffer);
+                        buffer = EMPTY;
+                    }
                 }
             } catch (SerialPortException e) {
                 LOGGER.warn("Failed reading string from serial port", e);

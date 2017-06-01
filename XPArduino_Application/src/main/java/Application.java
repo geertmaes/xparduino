@@ -44,6 +44,7 @@ public class Application {
                 .execute();*/
 
         BaseLedState state = arduino.getState(8, BaseLedState.class);
+
         System.out.println(state.isEmitting());
     }
 
