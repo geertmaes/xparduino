@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {LedService} from "../service/led.service";
+import {Observable, Subscription} from "rxjs";
 
 @Component({
   selector: 'led-component',
@@ -11,12 +12,13 @@ export class LedComponent {
   ledStatus = false;
   blinkingStatus = false;
   lightBulbSrc = "assets/lightbulb-off.png";
-  lightBulbBlinkSrc = "assets/blinking-off.png"
+  observableBlinker : Subscription;
+  delay: number;
+  period: number;
 
   constructor(private ledService: LedService) { }
 
   toggleLed() {
-    this.ledStatus = !this.ledStatus;
     this.ledService.toggleLed(this.ledStatus);
     if (this.ledStatus) {
       this.lightBulbSrc = "assets/lightbulb-on.png";
@@ -26,12 +28,20 @@ export class LedComponent {
   }
 
   toggleBlinking() {
-    this.blinkingStatus = !this.blinkingStatus;
-    this.ledService.blinkLed(this.blinkingStatus);
+    this.ledService.blinkLed(this.blinkingStatus, this.delay, this.period);
     if (this.blinkingStatus) {
-      this.lightBulbBlinkSrc = "assets/blinking-on.gif";
+      this.observableBlinker = Observable.timer(this.delay, this.period).subscribe(t =>
+        {
+          if (this.lightBulbSrc.indexOf("on") == -1) {
+            this.lightBulbSrc = "assets/lightbulb-on.png";
+          } else {
+            this.lightBulbSrc = "assets/lightbulb-off.png";
+          }
+        }
+      );
     } else {
-      this.lightBulbBlinkSrc = "assets/blinking-off.png";
+      this.observableBlinker.unsubscribe();
+      this.lightBulbSrc = "assets/lightbulb-off.png";
     }
   }
 

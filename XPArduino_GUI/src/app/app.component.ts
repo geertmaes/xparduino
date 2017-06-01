@@ -11,17 +11,18 @@ import {Response} from "@angular/http";
 export class AppComponent{
 
   comPort;
+  spinnerVisible = false;
+
 
   constructor() {
   }
 
   handleComPort(event) {
-    console.log(event);
-    this.comPort = event;
+    this.spinnerVisible = true;
+    setTimeout(() => {
+      this.comPort = event;
+      this.spinnerVisible = false;
+    } , 2000);
   }
-
-
-
-
 
 }

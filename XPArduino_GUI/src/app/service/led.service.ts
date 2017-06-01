@@ -14,9 +14,13 @@ export class LedService {
     this.http.post(environment.restUrl + "led/" + action, null).subscribe();
   }
 
-  blinkLed(toggle: boolean) {
+  blinkLed(toggle: boolean, delay: number, period: number) {
     let action = "blink" + this.getOnOffState(toggle);
-    this.http.post(environment.restUrl + "led/" + action, null).subscribe();
+    this.http.post(environment.restUrl + "led/" + action, {
+      "delay" : delay,
+      "period" : period,
+      "timeunit" : "MILLISECONDS"
+    }).subscribe();
   }
 
   private getOnOffState(toggle: boolean) {
