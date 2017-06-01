@@ -13,7 +13,9 @@ public class BaseLedStateListener implements ComponentStateListener<BaseLedState
     }
 
     public void on(BaseLedEvent event) {
-        state.setEmitting(event.isEmitting());
+        if (event.getPin() == state.getPin()) {
+            state.setEmitting(event.isEmitting());
+        }
     }
 
     @Override
