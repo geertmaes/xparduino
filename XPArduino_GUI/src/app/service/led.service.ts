@@ -10,13 +10,17 @@ export class LedService {
   }
 
   toggleLed(toggle: boolean) : void{
-    let action = toggle ? "ON" : "OFF";
+    let action = this.getOnOffState(toggle);
     this.http.post(environment.restUrl + "led/" + action, null).subscribe();
   }
 
   blinkLed(toggle: boolean) {
-    let action = "blink" + toggle ? "ON" : "OFF";
+    let action = "blink" + this.getOnOffState(toggle);
     this.http.post(environment.restUrl + "led/" + action, null).subscribe();
+  }
+
+  private getOnOffState(toggle: boolean) {
+    return toggle ? "ON" : "OFF";
   }
 
 }
