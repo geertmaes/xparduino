@@ -13,7 +13,8 @@ public class DefaultEventDeserializer<T extends Event> implements EventDeseriali
     @Override
     public T deserialize(SerializedEvent event) {
         try {
-            return clazz.newInstance();
+            return clazz.getConstructor(Integer.TYPE)
+                    .newInstance(event.getComponent().getPin());
         } catch (Exception e) {
            throw new RuntimeException(e);
         }

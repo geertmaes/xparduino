@@ -6,5 +6,7 @@ import java.io.Closeable;
 
 public interface EventChannel extends Closeable {
 
+    void send(String payload);
+
     void registerEventListener(EventListener listener);
 }

@@ -78,28 +78,34 @@ public class EventDispatcherIntegrationTest {
     }
 
     @EventMapping(value = INFRA_LED_EVENT)
-    public static class TestEventWithoutMapper implements Event {
+    public static class TestEventWithoutMapper extends Event {
 
-        public TestEventWithoutMapper() {}
+        public TestEventWithoutMapper(int pin) {
+            super(pin);
+        }
     }
 
     @EventMapping(value = BASE_LED_EVENT, mapper = TestEventDeserializer.class)
-    static class TestEvent implements Event {
+    static class TestEvent extends Event {
 
-        TestEvent() {}
+        public TestEvent(int pin) {
+            super(pin);
+        }
     }
 
     @EventMapping(value = BASE_LED_EVENT, mapper = TestEventDeserializer.class)
     static class TestChildEvent extends TestEvent {
 
-        TestChildEvent() {}
+        public TestChildEvent(int pin) {
+            super(pin);
+        }
     }
 
     static class TestEventDeserializer implements EventDeserializer<TestEvent> {
 
         @Override
         public TestEvent deserialize(SerializedEvent event) {
-            return new TestEvent();
+            return new TestEvent(event.getComponent().getPin());
         }
     }
 
