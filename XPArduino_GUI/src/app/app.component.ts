@@ -8,22 +8,19 @@ import {Response} from "@angular/http";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  comPorts;
+export class AppComponent{
+
   comPort;
 
-  constructor(private comPortService: ComPortService) {
+  constructor() {
+  }
+
+  handleComPort(event) {
+    console.log(event);
+    this.comPort = event;
   }
 
 
-  ngOnInit(): void {
-    this.comPortService.getComPorts().subscribe(data =>
-      this.comPorts = data);
-  }
-
-  openPort() {
-    this.comPortService.openPort(this.comPort);
-  }
 
 
 
