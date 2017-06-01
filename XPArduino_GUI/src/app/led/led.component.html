@@ -1,12 +1,26 @@
-<img [src]="lightBulbSrc" (click) = "toggleLed()">
+<img [src]="lightBulbSrc" (click)="toggleLed()">
 
-<p>Off <md-slide-toggle [(ngModel)]="ledStatus" [disabled]="blinkingStatus" (change) = "toggleLed()"></md-slide-toggle> On</p>
-<p>No blinking <md-slide-toggle [(ngModel)]="blinkingStatus" [disabled] = "ledStatus" (change) = "toggleBlinking()"></md-slide-toggle> Blinking</p>
-
+<table>
+  <tr>
+    <th>Off</th>
+    <th>
+      <md-slide-toggle [(ngModel)]="ledStatus" [disabled]="blinkingStatus" (change)="toggleLed()"></md-slide-toggle>
+    </th>
+    <th>On</th>
+  </tr>
+  <tr>
+    <td>No blinking</td>
+    <td>
+      <md-slide-toggle [(ngModel)]="blinkingStatus" [disabled]="ledStatus"
+                       (change)="toggleBlinking()"></md-slide-toggle>
+    </td>
+    <td>Blinking</td>
+  </tr>
+</table>
 <p>Blinking Configuration</p>
 <md-input-container>
-  <input mdInput placeholder="Delay" value="0" [(ngModel)] = "delay">
+  <input mdInput placeholder="Delay" value="0" [(ngModel)]="delay">
 </md-input-container>
 <md-input-container>
-  <input mdInput placeholder="Period" value="3000" [(ngModel)] = "period">
+  <input mdInput placeholder="Period" value="3000" [(ngModel)]="period">
 </md-input-container>
