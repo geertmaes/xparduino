@@ -1,3 +1,4 @@
 <img [src]="lightBulbSrc" (click) = "toggleLed()">
-<br />
-<img [src]="lightBulbBlinkSrc" (click) = "toggleBlinking()">
+
+<p>Off <md-slide-toggle [(ngModel)]="ledStatus" [disabled]="blinkingStatus" (change) = "toggleLed()"></md-slide-toggle> On</p>
+<p>No blinking <md-slide-toggle [(ngModel)]="blinkingStatus" [disabled] = "ledStatus" (change) = "toggleBlinking()"></md-slide-toggle> Blinking</p>
