@@ -22,7 +22,7 @@ export class AppComponent{
     setTimeout(() => {
       this.comPort = event;
       this.spinnerVisible = false;
-    } , 0);
+    } , 2000);
   }
 
 }

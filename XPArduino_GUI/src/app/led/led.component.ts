@@ -13,6 +13,8 @@ export class LedComponent {
   blinkingStatus = false;
   lightBulbSrc = "assets/lightbulb-off.png";
   observableBlinker : Subscription;
+  delay: number;
+  period: number;
 
   constructor(private ledService: LedService) { }
 
@@ -26,9 +28,9 @@ export class LedComponent {
   }
 
   toggleBlinking() {
-    this.ledService.blinkLed(this.blinkingStatus);
+    this.ledService.blinkLed(this.blinkingStatus, this.delay, this.period);
     if (this.blinkingStatus) {
-      this.observableBlinker = Observable.timer(1000, 3000).subscribe(t =>
+      this.observableBlinker = Observable.timer(this.delay, this.period).subscribe(t =>
         {
           if (this.lightBulbSrc.indexOf("on") == -1) {
             this.lightBulbSrc = "assets/lightbulb-on.png";

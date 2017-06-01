@@ -2,3 +2,11 @@
 
 <p>Off <md-slide-toggle [(ngModel)]="ledStatus" [disabled]="blinkingStatus" (change) = "toggleLed()"></md-slide-toggle> On</p>
 <p>No blinking <md-slide-toggle [(ngModel)]="blinkingStatus" [disabled] = "ledStatus" (change) = "toggleBlinking()"></md-slide-toggle> Blinking</p>
+
+<p>Blinking Configuration</p>
+<md-input-container>
+  <input mdInput placeholder="Delay" value="0" [(ngModel)] = "delay">
+</md-input-container>
+<md-input-container>
+  <input mdInput placeholder="Period" value="3000" [(ngModel)] = "period">
+</md-input-container>
