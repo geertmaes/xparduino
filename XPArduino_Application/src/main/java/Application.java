@@ -2,6 +2,8 @@ import com.cegeka.xpdays.arduino.Arduino;
 import com.cegeka.xpdays.arduino.ArduinoFactory;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.configuration.ArduinoConfiguration;
+import com.cegeka.xpdays.arduino.event.impl.BaseLedEvent;
+import com.cegeka.xpdays.arduino.listener.DynamicEventListener;
 import com.cegeka.xpdays.arduino.state.impl.BaseLedState;
 import jssc.SerialPort;
 import jssc.SerialPortList;
@@ -9,6 +11,7 @@ import jssc.SerialPortList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -34,14 +37,22 @@ public class Application {
         ArduinoConfiguration configuration = ArduinoConfiguration.builder()
                 .withPortName(selectedPort.getPortName())
                 .withComponent(8, ComponentType.BASE_LED)
-                .withComponent(8, ComponentType.INFRA_RED_SENSOR)
+                .withComponent(9, ComponentType.BASE_LED)
                 .build();
 
         Arduino arduino = ArduinoFactory.create(configuration);
+        arduino.registerDynamicListener(event -> {
+            if (event.getPin() == 8) {
+                arduino.baseLed(9)
+                        .withEmitting(event.isEmitting())
+                        .execute();
+            }
+        }, BaseLedEvent.class);
 
-        /* arduino.baseLedBlink(8)
-                .withPeriod(3)
-                .execute();*/
+        arduino.baseLedBlink(8)
+                .withPeriod(50)
+                .withTimeUnit(TimeUnit.MILLISECONDS)
+                .execute();
 
         BaseLedState state = arduino.getState(8, BaseLedState.class);
 
