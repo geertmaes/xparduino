@@ -2,4 +2,5 @@
   XPArduino
 </h1>
 <com-port-selection (comPort) = "handleComPort($event)"></com-port-selection>
+<md-spinner *ngIf="spinnerVisible"></md-spinner>
 <components [comPort] = "comPort"></components>
