@@ -8,12 +8,16 @@ import java.util.function.Consumer;
 public class DynamicEventListener<T extends Event> implements EventListener {
 
     private final Consumer<T> eventConsumer;
+    private final Class<T> eventClass;
 
-    public DynamicEventListener(Consumer<T> eventConsumer) {
+    public DynamicEventListener(Consumer<T> eventConsumer, Class<T> eventClass) {
         this.eventConsumer = eventConsumer;
+        this.eventClass = eventClass;
     }
 
-    public void on(T event) {
-        eventConsumer.accept(event);
+    public void on(Event event) {
+        if (eventClass.isInstance(event)) {
+            eventConsumer.accept((T) event);
+        }
     }
 }

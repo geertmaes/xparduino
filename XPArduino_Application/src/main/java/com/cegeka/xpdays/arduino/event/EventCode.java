@@ -5,7 +5,7 @@ import java.util.Arrays;
 public enum EventCode {
 
     BASE_LED_EVENT(0),
-    INFRA_LED_EVENT(1);
+    PHOTO_SENSOR_EVENT(1);
 
     private final int value;
 

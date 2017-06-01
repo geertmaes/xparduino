@@ -7,7 +7,7 @@ import com.cegeka.xpdays.arduino.event.dispatch.SerializedEvent;
 
 import static com.cegeka.xpdays.arduino.event.EventCode.BASE_LED_EVENT;
 
-@EventMapping(value = BASE_LED_EVENT, mapper = BaseLedEvent.BaseLedOnEventDeserializer.class)
+@EventMapping(value = BASE_LED_EVENT, mapper = BaseLedEvent.BaseLedEventDeserializer.class)
 public class BaseLedEvent extends Event {
 
     private final boolean emitting;
@@ -21,7 +21,7 @@ public class BaseLedEvent extends Event {
         return emitting;
     }
 
-    public static class BaseLedOnEventDeserializer implements EventDeserializer<BaseLedEvent> {
+    public static class BaseLedEventDeserializer implements EventDeserializer<BaseLedEvent> {
 
         @Override
         public BaseLedEvent deserialize(SerializedEvent event) {

@@ -10,7 +10,7 @@ import static java.lang.String.format;
 
 public class SerializedEventFactory {
 
-    private final static Pattern EVENT_FORMAT = Pattern.compile("^<\\d:\\d,\\d,.*>$");
+    private final static Pattern EVENT_FORMAT = Pattern.compile("^<\\d*:\\d*,\\d*,.*>$");
 
     private final ComponentDeserializer componentDeserializer;
 

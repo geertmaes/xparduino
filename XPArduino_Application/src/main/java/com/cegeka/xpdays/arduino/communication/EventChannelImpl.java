@@ -74,9 +74,9 @@ public class EventChannelImpl implements EventChannel {
         @Override
         public void serialEvent(SerialPortEvent event) {
             try {
-                LOGGER.info("Received event from serial port ({})", buffer);
                 if (isValidEvent(event)) {
                     buffer += readString(event);
+                    LOGGER.info("Received event from serial port ({})", buffer);
                     int indexOfEndMarker = buffer.indexOf(EVENT_SUFFIX);
 
                     while (indexOfEndMarker > 0) {

@@ -46,7 +46,7 @@ public class Arduino implements Closeable {
     }
 
     public <T extends Event> void registerDynamicListener(Consumer<T> listener, Class<T> eventClass) {
-        eventChannel.registerEventListener(new DynamicEventListener<>(listener));
+        eventChannel.registerEventListener(new DynamicEventListener<>(listener, eventClass));
     }
 
     public BaseLEDCommand baseLed(int pin) {
