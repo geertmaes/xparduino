@@ -7,6 +7,9 @@ import com.cegeka.xpdays.arduino.communication.CommandChannelImpl;
 import com.cegeka.xpdays.arduino.communication.EventChannel;
 import com.cegeka.xpdays.arduino.communication.EventChannelImpl;
 import com.cegeka.xpdays.arduino.component.ComponentType;
+import com.cegeka.xpdays.arduino.event.Event;
+import com.cegeka.xpdays.arduino.event.dispatch.EventListener;
+import com.cegeka.xpdays.arduino.listener.DynamicEventListener;
 import com.cegeka.xpdays.arduino.state.ComponentState;
 import jssc.SerialPort;
 
@@ -15,6 +18,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.function.Consumer;
 
 public class Arduino implements Closeable {
 
@@ -35,6 +39,14 @@ public class Arduino implements Closeable {
     private void registerStateEventListeners() {
         this.arduinoState.getComponentStates()
                 .forEach(eventChannel::registerEventListener);
+    }
+
+    public void registerEventListener(EventListener listener) {
+        eventChannel.registerEventListener(listener);
+    }
+
+    public <T extends Event> void registerDynamicListener(Consumer<T> listener, Class<T> eventClass) {
+        eventChannel.registerEventListener(new DynamicEventListener<>(listener));
     }
 
     public BaseLEDCommand baseLed(int pin) {

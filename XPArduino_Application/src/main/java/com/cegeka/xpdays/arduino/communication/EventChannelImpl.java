@@ -77,7 +77,7 @@ public class EventChannelImpl implements EventChannel {
             try {
                 if (isValidEvent(event)) {
                     buffer += readString(event);
-                    LOGGER.info("Received event from serial port ()", buffer);
+                    LOGGER.info("Received event from serial port ({})", buffer);
                     if (buffer.startsWith(EVENT_PREFIX) && buffer.endsWith(EVENT_SUFFIX)) {
                         eventDispatcher.dispatch(buffer);
                         buffer = EMPTY;
