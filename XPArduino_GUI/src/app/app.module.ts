@@ -7,10 +7,12 @@ import {LedService} from "./service/led.service";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {MaterialGroupModule} from "./material";
 import {ComPortService} from "./service/com-port.service";
+import { LedComponent } from './led/led.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    LedComponent
   ],
   imports: [
     BrowserModule,

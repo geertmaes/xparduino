@@ -13,7 +13,5 @@
 </form>
 
 <div [hidden] = "!comPort">
-      <img [src]="lightBulbSrc" (click) = "toggleLed()">
-      <br />
-      <img [src]="lightBulbBlinkSrc" (click) = "toggleBlinking()">
+<led-component></led-component>
 </div>
