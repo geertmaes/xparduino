@@ -24,7 +24,7 @@ public class LedResource {
     }
 
     @PostMapping("/{action}")
-    public void controlLed(@PathVariable String action, @RequestBody String body) throws Exception {
+    public void controlLed(@PathVariable String action, @RequestBody(required = false) String body) throws Exception {
         action = action.toLowerCase();
         if("on".equals(action)) {
             ledService.enableLed();
