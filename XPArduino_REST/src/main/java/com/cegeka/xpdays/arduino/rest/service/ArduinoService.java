@@ -9,6 +9,7 @@ import javax.annotation.PreDestroy;
 import java.io.IOException;
 
 import static com.cegeka.xpdays.arduino.component.ComponentType.BASE_LED;
+import static com.cegeka.xpdays.arduino.component.ComponentType.INFRARED_EMITTER;
 
 @Service
 public class ArduinoService {
@@ -20,6 +21,7 @@ public class ArduinoService {
         ArduinoConfiguration arduinoConfiguration = ArduinoConfiguration.builder()
                 .withPortName(portName)
                 .withComponent(8, BASE_LED)
+                .withComponent(2, INFRARED_EMITTER)
                 .build();
         arduino = ArduinoFactory.create(arduinoConfiguration);
     }

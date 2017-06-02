@@ -5,7 +5,9 @@ import java.util.Arrays;
 public enum ComponentType {
 
     BASE_LED(0),
-    INFRA_RED_SENSOR(1);
+    PHOTO_SENSOR(1),
+    INFRARED_EMITTER(2),
+    OBSTACLE_SENSOR(3);
 
     private final int value;
 

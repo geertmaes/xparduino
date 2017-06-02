@@ -99,7 +99,7 @@ public class EventDispatcher {
         try {
             method.invoke(listener, event);
         } catch (Exception e) {
-            LOGGER.warn("Failed to invoke method ({}) of class ({})", method.getName(), listener.getClass().getSimpleName(), e);
+            LOGGER.warn("Failed to invoke method ({}) of class ({})", method, listener.getClass().getSimpleName(), e);
         }
     }
 }

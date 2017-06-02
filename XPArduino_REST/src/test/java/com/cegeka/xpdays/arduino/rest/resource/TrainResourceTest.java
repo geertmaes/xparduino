@@ -1,6 +1,6 @@
 package com.cegeka.xpdays.arduino.rest.resource;
 
-import com.cegeka.xpdays.arduino.rest.service.TrainService;
+import com.cegeka.xpdays.arduino.rest.service.InfraredService;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -11,12 +11,12 @@ import static org.mockito.Mockito.verify;
 public class TrainResourceTest {
 
     private TrainResource trainResource;
-    private TrainService trainService;
+    private InfraredService infraredService;
 
     @Before
     public void setUp() throws Exception {
-        trainService = mock(TrainService.class);
-        trainResource = new TrainResource(trainService);
+        infraredService = mock(InfraredService.class);
+        trainResource = new TrainResource(infraredService);
     }
 
     @Test
@@ -29,6 +29,6 @@ public class TrainResourceTest {
     public void setSpeed() throws Exception {
         trainResource.setTrainSpeed(2);
 
-        verify(trainService).setSpeed(2);
+        verify(infraredService).setSpeed(2);
     }
 }
