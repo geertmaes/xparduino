@@ -37,7 +37,7 @@ public class Application {
                 .build();
 
         Arduino arduino = ArduinoFactory.create(configuration);
-        arduino.registerEventListener(new DemoListener(arduino));
+        arduino.registerListener(new DemoListener(arduino));
     }
 
     private static List<SerialPort> scanAvailablePorts() {

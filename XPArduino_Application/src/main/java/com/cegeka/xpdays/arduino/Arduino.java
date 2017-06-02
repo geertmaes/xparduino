@@ -41,7 +41,7 @@ public class Arduino implements Closeable {
                 .forEach(eventChannel::registerEventListener);
     }
 
-    public void registerEventListener(EventListener listener) {
+    public void registerListener(EventListener listener) {
         eventChannel.registerEventListener(listener);
     }
 

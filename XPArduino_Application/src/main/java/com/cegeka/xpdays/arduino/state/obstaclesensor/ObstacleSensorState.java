@@ -1,4 +1,4 @@
-package com.cegeka.xpdays.arduino.state.impl;
+package com.cegeka.xpdays.arduino.state.obstaclesensor;
 
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.state.ComponentState;
