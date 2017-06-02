@@ -1,16 +1,20 @@
 #include <Servo.h>
 #include <legopowerfunctions.h>
+#include <SoftwareSerial.h>
 #include <SimpleTimer.h>
 
-
 String incomingStringBuffer;
+int rfidValue = 0;
 
 int LedPin = 8;
 int photoSensor = A0;
 int obstacleSensor = 3;
 int switchThree = 4;
+int rfidTx = 11;
+int rfidRx = 12;
 
 LEGOPowerFunctions lego(2);
+SoftwareSerial RFID(11,12);
 
 Servo motor;
 
@@ -22,6 +26,7 @@ boolean newCommand = false;
 SimpleTimer timer;
 
 void setup() {
+  RFID.begin(9600);
   Serial.begin(9600);
   pinMode(8, OUTPUT);
   pinMode(9, OUTPUT);
@@ -68,8 +73,9 @@ void executeCommand() {
 }
 
 void checkModules() {
-  checkPhotoSensor();
-  checkObstacleSensor();
+//  checkPhotoSensor();
+//  checkObstacleSensor();
+  checkRfidReader();
 }
 
 void handleCommand(String command) {
@@ -139,8 +145,13 @@ void checkObstacleSensor() {
     Serial.print(createEvent(3,obstacleSensor,3,String(obstacleSensorValue)));
 }
 
-
-
-
-
+void checkRfidReader() {
+    while (RFID.available() >= 14 ) {
+        String body = "";
+        for(int i = 0; i < 14; i++){
+            body += RFID.read();
+        }
+        Serial.println(createEvent(5,rfidTx,5,body));
+    }
+}
 
