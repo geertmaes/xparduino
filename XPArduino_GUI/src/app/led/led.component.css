@@ -2,3 +2,13 @@ img {
   cursor: pointer;
   height: 100px;
 }
+
+div {
+  vertical-align: middle;
+  display: inline-block;
+  margin-left:20px;
+}
+
+.bulb {
+  vertical-align: top;
+}

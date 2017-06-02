@@ -1,5 +1,5 @@
-<img [src]="lightBulbSrc" (click)="toggleLed()">
-
+<div class="bulb"><img [src]="lightBulbSrc" (click)="toggleLed()"></div>
+<div>
 <table>
   <tr>
     <th>Off</th>
@@ -24,3 +24,4 @@
 <md-input-container>
   <input mdInput placeholder="Period" value="3000" [(ngModel)]="period">
 </md-input-container>
+</div>
