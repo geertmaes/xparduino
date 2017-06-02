@@ -1,11 +1,11 @@
 import {
   MdButtonModule, MdGridListModule, MdSlideToggleModule, MdSelectModule, MdSpinner,
-  MdProgressSpinnerModule, MdInputModule
+  MdProgressSpinnerModule, MdInputModule, MdTabsModule, MdIconModule
 } from "@angular/material";
 import {NgModule} from "@angular/core";
 @NgModule({
-  imports: [MdButtonModule, MdSlideToggleModule, MdGridListModule, MdSelectModule, MdProgressSpinnerModule, MdInputModule],
-  exports: [MdButtonModule, MdSlideToggleModule, MdGridListModule, MdSelectModule, MdProgressSpinnerModule, MdInputModule]
+  imports: [MdButtonModule, MdSlideToggleModule, MdGridListModule, MdSelectModule, MdProgressSpinnerModule, MdInputModule, MdTabsModule, MdIconModule],
+  exports: [MdButtonModule, MdSlideToggleModule, MdGridListModule, MdSelectModule, MdProgressSpinnerModule, MdInputModule, MdTabsModule, MdIconModule]
 })
 
 export class MaterialGroupModule {

@@ -1,0 +1,16 @@
+<tr>
+  <td class="arrows">
+    <div class="arrow arrow-left" [class.arrow-left-active] = "isArrowActive(-4)" (click) = "setSpeed(-4)"></div>
+    <div class="arrow arrow-left" [class.arrow-left-active] = "isArrowActive(-3)" (click) = "setSpeed(-3)"></div>
+    <div class="arrow arrow-left"[class.arrow-left-active] = "isArrowActive(-2)" (click) = "setSpeed(-2)"></div>
+    <div class="arrow arrow-left"[class.arrow-left-active] = "isArrowActive(-1)" (click) = "setSpeed(-1)"></div>
+  </td>
+  <td>
+    <img [src]="imageSource"/>
+  </td>
+  <td class="arrows">
+    <div class="arrow arrow-right" [class.arrow-right-active] = "isArrowActive(1)" (click) = "setSpeed(1)"></div>
+    <div class="arrow arrow-right" [class.arrow-right-active] = "isArrowActive(2)" (click) = "setSpeed(2)"></div>
+    <div class="arrow arrow-right"[class.arrow-right-active] = "isArrowActive(3)" (click) = "setSpeed(3)"></div>
+    <div class="arrow arrow-right"[class.arrow-right-active] = "isArrowActive(4)" (click) = "setSpeed(4)"></div></td>
+</tr>
