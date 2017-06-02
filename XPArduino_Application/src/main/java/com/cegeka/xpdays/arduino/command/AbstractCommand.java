@@ -5,7 +5,7 @@ import com.cegeka.xpdays.arduino.component.Component;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 
 @SuppressWarnings("unchecked")
-public abstract class AbstractCommand<T extends AbstractCommand> implements Command {
+public abstract class AbstractCommand implements Command {
 
     private final CommandChannel commandChannel;
     private final int pin;
