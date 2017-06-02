@@ -1,6 +1,8 @@
+<div style="display: inline-block;">
 <table>
-  <train-component [imageSource] = "whiteTrainSource"></train-component>
-  <train-component [imageSource] = "yellowTrainSource"></train-component>
-  <train-component [imageSource] = "blueTrainSource"></train-component>
+  <train-component *ngFor="let train of trains" [train] = "train"></train-component>
 </table>
-
+</div>
+<div style="display: inline-block;vertical-align: top;margin-left:30px;">
+  <img [src]="getSwitchSrc()" (click) = "toggleSwitch()"/>
+</div>

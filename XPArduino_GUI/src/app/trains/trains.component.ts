@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {TrainService} from "../service/train.service";
 
 @Component({
   selector: 'trains-component',
@@ -8,29 +9,25 @@ import { Component, OnInit } from '@angular/core';
 export class TrainsComponent implements OnInit {
 
   speed = 0;
-  whiteTrainSource = "assets/white_train.png";
-  yellowTrainSource = "assets/yellow_train.png";
-  blueTrainSource = "assets/blue_train.png";
+  trains;
+  wissel = false;
 
-  constructor() { }
+  constructor(private trainService: TrainService) {
+    trainService.getTrains().subscribe(trains =>
+      this.trains = trains
+    );
+  }
 
   ngOnInit() {
   }
 
-  setSpeed(speed: number) {
-    if (this.speed == speed) {
-      this.speed = 0;
-    } else {
-      this.speed = speed;
-    }
+  getSwitchSrc() {
+    return this.wissel ? "assets/switch-on.png" : "assets/switch-off.png";
   }
 
-  isArrowActive(speed:number) {
-    if (speed > 0) {
-      return this.speed >= speed;
-    } else {
-      return this.speed <= speed;
-    }
+  toggleSwitch() {
+    this.wissel = !this.wissel;
+    this.trainService.toggleSwitch();
   }
 
 }

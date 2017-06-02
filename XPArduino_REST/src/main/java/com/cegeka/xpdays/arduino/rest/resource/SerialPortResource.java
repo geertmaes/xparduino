@@ -2,6 +2,7 @@ package com.cegeka.xpdays.arduino.rest.resource;
 
 import com.cegeka.xpdays.arduino.rest.service.ArduinoService;
 import com.cegeka.xpdays.arduino.rest.service.SerialPortService;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,9 +24,9 @@ public class SerialPortResource {
         return serialPortService.getPortNames();
     }
 
-    @PostMapping("/{port}/open")
-    public void openPort(@PathVariable String port){
-        arduinoService.openArduinoPort(port);
+    @PostMapping("/open")
+    public void openPort(@RequestBody JsonNode port){
+        arduinoService.openArduinoPort(port.get("port").textValue());
     }
 
     @PostMapping("/close")

@@ -1,4 +1,5 @@
 import {Component, OnInit, Input} from '@angular/core';
+import {TrainService} from "../service/train.service";
 
 @Component({
   selector: 'train-component',
@@ -7,11 +8,12 @@ import {Component, OnInit, Input} from '@angular/core';
 })
 export class TrainComponent {
 
-  @Input() imageSource;
+
+  @Input() train;
 
   speed = 0;
 
-  constructor() { }
+  constructor(private trainService : TrainService) { }
 
   setSpeed(speed: number) {
     if (this.speed == speed) {
@@ -19,6 +21,8 @@ export class TrainComponent {
     } else {
       this.speed = speed;
     }
+
+    this.trainService.setSpeed(this.train, this.speed);
   }
 
   isArrowActive(speed:number) {
@@ -27,6 +31,10 @@ export class TrainComponent {
     } else {
       return this.speed <= speed;
     }
+  }
+
+  getImageSource() {
+    return "assets/" + this.train + "_train.png";
   }
 
 }
