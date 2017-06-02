@@ -10,7 +10,7 @@ export class TrainsComponent implements OnInit {
 
   speed = 0;
   trains;
-  switches = [false, false, false, false];
+  wissel = false;
 
   constructor(private trainService: TrainService) {
     trainService.getTrains().subscribe(trains =>
@@ -21,12 +21,13 @@ export class TrainsComponent implements OnInit {
   ngOnInit() {
   }
 
-  getSwitchSrc(nmbr: number) {
-    return this.switches[nmbr] ? "assets/switch-on.png" : "assets/switch-off.png";
+  getSwitchSrc() {
+    return this.wissel ? "assets/switch-on.png" : "assets/switch-off.png";
   }
 
-  toggleSwitch(nmbr: number) {
-    this.switches[nmbr] = !this.switches[nmbr];
+  toggleSwitch() {
+    this.wissel = !this.wissel;
+    this.trainService.toggleSwitch();
   }
 
 }

@@ -22,4 +22,8 @@ export class TrainService {
       .catch((error: any) => Observable.throw(error));
   }
 
+  toggleSwitch() : void {
+    this.http.post(environment.restUrl + "switch", null).subscribe();
+  }
+
 }
