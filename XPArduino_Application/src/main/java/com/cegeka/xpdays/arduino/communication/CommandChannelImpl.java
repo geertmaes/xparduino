@@ -36,7 +36,7 @@ public class CommandChannelImpl implements CommandChannel{
     private void send(String message) {
         try {
             port.writeString(message);
-            logger.info("Sending {} on port {}", message, port);
+            logger.info("Sending {} on port {}", message, port.getPortName());
         } catch (SerialPortException e) {
             logger.warn("Failed to send {} on port {}", message, port, e);
         }

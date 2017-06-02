@@ -3,6 +3,7 @@ import com.cegeka.xpdays.arduino.ArduinoFactory;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.configuration.ArduinoConfiguration;
 import com.cegeka.xpdays.arduino.event.impl.BaseLedEvent;
+import com.cegeka.xpdays.arduino.event.impl.PhotoSensorEvent;
 import com.cegeka.xpdays.arduino.listener.DynamicEventListener;
 import com.cegeka.xpdays.arduino.state.impl.BaseLedState;
 import jssc.SerialPort;
@@ -14,6 +15,9 @@ import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+
+import static com.cegeka.xpdays.arduino.component.ComponentType.BASE_LED;
+import static com.cegeka.xpdays.arduino.component.ComponentType.PHOTO_SENSOR;
 
 
 public class Application {
@@ -36,23 +40,30 @@ public class Application {
 
         ArduinoConfiguration configuration = ArduinoConfiguration.builder()
                 .withPortName(selectedPort.getPortName())
-                .withComponent(8, ComponentType.BASE_LED)
-                .withComponent(9, ComponentType.BASE_LED)
+                .withComponent(8, BASE_LED)
+                .withComponent(9, BASE_LED)
+                .withComponent(14, PHOTO_SENSOR)
                 .build();
 
         Arduino arduino = ArduinoFactory.create(configuration);
         arduino.registerDynamicListener(event -> {
-            if (event.getPin() == 8) {
+
+            if (event.getSignal() < 110) {
                 arduino.baseLed(9)
-                        .withEmitting(event.isEmitting())
+                        .withEmitting(true)
+                        .execute();
+                arduino.baseLed(8)
+                        .withEmitting(false)
+                        .execute();
+            } else {
+                arduino.baseLed(9)
+                        .withEmitting(false)
+                        .execute();
+                arduino.baseLed(8)
+                        .withEmitting(true)
                         .execute();
             }
-        }, BaseLedEvent.class);
-
-        arduino.baseLedBlink(8)
-                .withPeriod(50)
-                .withTimeUnit(TimeUnit.MILLISECONDS)
-                .execute();
+        }, PhotoSensorEvent.class);
 
         BaseLedState state = arduino.getState(8, BaseLedState.class);
 
