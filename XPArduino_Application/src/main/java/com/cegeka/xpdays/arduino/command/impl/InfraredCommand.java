@@ -4,17 +4,26 @@ import com.cegeka.xpdays.arduino.command.AbstractCommand;
 import com.cegeka.xpdays.arduino.communication.CommandChannel;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 
+import java.util.Arrays;
+
 import static com.cegeka.xpdays.arduino.component.ComponentType.INFRA_RED_SENSOR;
 
 public class InfraredCommand extends AbstractCommand{
 
-    enum Color {
+    public enum Color {
         RED(0), BLUE(1);
 
         int color;
 
         Color(int color){
             this.color = color;
+        }
+
+        public static Color forColor(int color){
+            return Arrays.stream(values())
+                    .filter(c -> c.color == color)
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new);
         }
     }
 
