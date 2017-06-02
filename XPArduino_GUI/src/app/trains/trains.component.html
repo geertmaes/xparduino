@@ -1,6 +1,5 @@
+<div style="display: inline-block;">
 <table>
-  <train-component [imageSource] = "whiteTrainSource"></train-component>
-  <train-component [imageSource] = "yellowTrainSource"></train-component>
-  <train-component [imageSource] = "blueTrainSource"></train-component>
+  <train-component *ngFor="let train of trains" [train] = "train"></train-component>
 </table>
-
+</div>

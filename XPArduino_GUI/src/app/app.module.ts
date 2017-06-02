@@ -12,6 +12,7 @@ import { ComponentsComponent } from './components/components.component';
 import { ComPortComponent } from './com-port/com-port.component';
 import { TrainComponent } from './train/train.component';
 import {TrainsComponent} from "./trains/trains.component";
+import {TrainService} from "./service/train.service";
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import {TrainsComponent} from "./trains/trains.component";
     BrowserAnimationsModule,
     MaterialGroupModule
   ],
-  providers: [LedService, ComPortService],
+  providers: [LedService, ComPortService, TrainService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
