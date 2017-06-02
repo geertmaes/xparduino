@@ -1,23 +1,24 @@
 html {
   padding-top: 20px;
+  text-align :center;
 }
 
 .arrow-right {
   width: 0;
   height: 0;
-  border-top: 40px solid transparent;
-  border-bottom: 40px solid transparent;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
 
-  border-left: 40px solid #00E200;
+  border-left: 30px solid #00E200;
 }
 
 .arrow-left {
   width: 0;
   height: 0;
-  border-top: 40px solid transparent;
-  border-bottom: 40px solid transparent;
+  border-top: 30px solid transparent;
+  border-bottom: 30px solid transparent;
 
-  border-right:40px solid #FF472A;
+  border-right:30px solid #FF472A;
 }
 
 .arrow {
@@ -26,19 +27,19 @@ html {
 }
 
 .arrow-left:hover {
-  border-right: 40px solid #911D08;
+  border-right: 30px solid #911D08;
 }
 
 .arrow-left-active {
-  border-right: 40px solid #911D08;
+  border-right: 30px solid #911D08;
 }
 
 .arrow-right:hover {
-  border-left: 40px solid #003f00;
+  border-left: 30px solid #003f00;
 }
 
 .arrow-right-active {
-  border-left: 40px solid #003f00;
+  border-left: 30px solid #003f00;
 }
 
 .arrows {
