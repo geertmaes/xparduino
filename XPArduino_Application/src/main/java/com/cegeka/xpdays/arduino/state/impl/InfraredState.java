@@ -21,6 +21,6 @@ public class InfraredState extends ComponentState {
 
     @Override
     public ComponentType getComponentType() {
-        return ComponentType.INFRA_RED_SENSOR;
+        return ComponentType.INFRARED_EMITTER;
     }
 }

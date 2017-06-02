@@ -6,7 +6,7 @@ import com.cegeka.xpdays.arduino.component.ComponentType;
 
 import java.util.Arrays;
 
-import static com.cegeka.xpdays.arduino.component.ComponentType.INFRA_RED_SENSOR;
+import static com.cegeka.xpdays.arduino.component.ComponentType.INFRARED_EMITTER;
 
 public class InfraredCommand extends AbstractCommand{
 
@@ -57,6 +57,6 @@ public class InfraredCommand extends AbstractCommand{
 
     @Override
     protected ComponentType getComponentType() {
-        return INFRA_RED_SENSOR;
+        return INFRARED_EMITTER;
     }
 }

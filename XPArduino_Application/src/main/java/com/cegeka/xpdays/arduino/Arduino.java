@@ -64,7 +64,7 @@ public class Arduino implements Closeable {
 
     public InfraredCommand infrared(int pin){
         arduinoState.validatePinConfigured(pin);
-        arduinoState.validatePinComponent(pin, ComponentType.INFRA_RED_SENSOR);
+        arduinoState.validatePinComponent(pin, ComponentType.INFRARED_EMITTER);
         return new InfraredCommand(pin, commandChannel);
     }
 
