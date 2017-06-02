@@ -52,7 +52,7 @@ public class InfraredCommand extends AbstractCommand{
 
     @Override
     public String getAction() {
-        return color.color+","+channel+","+speed;
+        return color.color+":"+channel+":"+speed;
     }
 
     @Override
