@@ -77,7 +77,6 @@ public class EventChannelImpl implements EventChannel {
             try {
                 if (isValidEvent(event)) {
                     buffer += readString(event);
-                    LOGGER.info("Received event from serial port ({})", buffer);
                     int indexOfStartMarker = buffer.indexOf(EVENT_PREFIX);
 
                     if (indexOfStartMarker > 0) {
@@ -87,6 +86,7 @@ public class EventChannelImpl implements EventChannel {
                     int indexOfEndMarker = buffer.indexOf(EVENT_SUFFIX);
 
                     while (indexOfEndMarker > 0) {
+                        LOGGER.info("Handling event from serial port ({})", buffer);
                         String payload = buffer.substring(0, indexOfEndMarker + 1);
                         eventDispatcher.dispatch(payload);
                         buffer = buffer.substring(indexOfEndMarker + 1);

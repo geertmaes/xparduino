@@ -27,7 +27,7 @@ void setup() {
   pinMode(9, OUTPUT);
   pinMode(3, INPUT);
   motor.attach(switchThree);
-  timer.setInterval(50, checkModules);
+  timer.setInterval(100, checkModules);
 }
 
 void loop() {
@@ -68,8 +68,8 @@ void executeCommand() {
 }
 
 void checkModules() {
-  //checkPhotoSensor();
-//  checkObstacleSensor();
+  checkPhotoSensor();
+  checkObstacleSensor();
 }
 
 void handleCommand(String command) {
@@ -109,10 +109,10 @@ void handleInfraredCommand(int pin, String action){
 void handleSwitchCommand(int pin, String action) {
   if (action.equals("LEFT")) {
       motor.write(180);
-      Serial.print(createEvent(4,pin,0,"left"));
+      Serial.print(createEvent(4,pin,4,"LEFT"));
     } else if (action.equals("RIGHT")) {
       motor.write(0);
-      Serial.print(createEvent(4,pin,0,"right"));
+      Serial.print(createEvent(4,pin,4,"RIGHT"));
     }
 }
 
@@ -138,6 +138,8 @@ void checkObstacleSensor() {
     int obstacleSensorValue = digitalRead(obstacleSensor);
     Serial.print(createEvent(3,obstacleSensor,3,String(obstacleSensorValue)));
 }
+
+
 
 
 
