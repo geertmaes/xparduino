@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PreDestroy;
 import java.io.IOException;
 
-import static com.cegeka.xpdays.arduino.component.ComponentType.BASE_LED;
-import static com.cegeka.xpdays.arduino.component.ComponentType.INFRARED_EMITTER;
+import static com.cegeka.xpdays.arduino.component.ComponentType.*;
+import static com.cegeka.xpdays.arduino.component.ComponentType.PHOTO_SENSOR;
 
 @Service
 public class ArduinoService {
@@ -22,6 +22,10 @@ public class ArduinoService {
                 .withPortName(portName)
                 .withComponent(8, BASE_LED)
                 .withComponent(2, INFRARED_EMITTER)
+                .withComponent(3, OBSTACLE_SENSOR)
+                .withComponent(4, SWITCH)
+                .withComponent(9, BASE_LED)
+                .withComponent(14, PHOTO_SENSOR)
                 .build();
         arduino = ArduinoFactory.create(arduinoConfiguration);
     }
