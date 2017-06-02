@@ -6,7 +6,8 @@ public enum EventCode {
 
     BASE_LED_EVENT(0),
     PHOTO_SENSOR_EVENT(1),
-    INFRARED_EMITTER_EVENT(2);
+    INFRARED_EMITTER_EVENT(2),
+    OBSTACLE_SENSOR_EVENT(3);
 
     private final int value;
 

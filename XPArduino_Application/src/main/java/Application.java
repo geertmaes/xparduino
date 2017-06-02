@@ -3,6 +3,7 @@ import com.cegeka.xpdays.arduino.ArduinoFactory;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.configuration.ArduinoConfiguration;
 import com.cegeka.xpdays.arduino.event.impl.BaseLedEvent;
+import com.cegeka.xpdays.arduino.event.impl.ObstacleSensorEvent;
 import com.cegeka.xpdays.arduino.event.impl.PhotoSensorEvent;
 import com.cegeka.xpdays.arduino.listener.DynamicEventListener;
 import com.cegeka.xpdays.arduino.state.impl.BaseLedState;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 import static com.cegeka.xpdays.arduino.component.ComponentType.BASE_LED;
+import static com.cegeka.xpdays.arduino.component.ComponentType.OBSTACLE_SENSOR;
 import static com.cegeka.xpdays.arduino.component.ComponentType.PHOTO_SENSOR;
 
 
@@ -43,12 +45,13 @@ public class Application {
                 .withComponent(8, BASE_LED)
                 .withComponent(9, BASE_LED)
                 .withComponent(14, PHOTO_SENSOR)
+                .withComponent(3, OBSTACLE_SENSOR)
                 .build();
 
         Arduino arduino = ArduinoFactory.create(configuration);
         arduino.registerDynamicListener(event -> {
-
-            if (event.getSignal() < 110) {
+            System.out.println(event.isBlocked());
+            if (event.isBlocked()) {
                 arduino.baseLed(9)
                         .withEmitting(true)
                         .execute();
@@ -63,7 +66,7 @@ public class Application {
                         .withEmitting(true)
                         .execute();
             }
-        }, PhotoSensorEvent.class);
+        }, ObstacleSensorEvent.class);
 
         BaseLedState state = arduino.getState(8, BaseLedState.class);
 

@@ -2,6 +2,7 @@ package com.cegeka.xpdays.arduino.state;
 
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.state.impl.BaseLedStateListener;
+import com.cegeka.xpdays.arduino.state.impl.ObstacleStateListener;
 import com.cegeka.xpdays.arduino.state.impl.InfraredStateListener;
 import com.cegeka.xpdays.arduino.state.impl.PhotoSensorStateListener;
 
@@ -15,6 +16,8 @@ public class ComponentStateListenerFactory {
                 return new BaseLedStateListener(pin);
             case PHOTO_SENSOR:
                 return new PhotoSensorStateListener(pin);
+            case OBSTACLE_SENSOR:
+                return new ObstacleStateListener(pin);
             case INFRARED_EMITTER:
                 return new InfraredStateListener(pin);
             default:

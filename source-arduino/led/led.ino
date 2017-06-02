@@ -80,6 +80,9 @@ void handleInfraredCommand(int pin, String action){
   int color = action.substring(0, seperator).toInt();
   int channel = action.substring(seperator+1, seperator2).toInt();
   int speed = action.substring(seperator2+1, action.length()-1).toInt();
+  Serial.print(color);
+  Serial.print(channel);
+  Serial.print(speed);
   lego.SingleOutput(0, speed, color, channel);
   Serial.print(createEvent(2,pin,2,"true"));
 }
