@@ -5,9 +5,9 @@ import com.cegeka.xpdays.arduino.event.EventDeserializer;
 import com.cegeka.xpdays.arduino.event.EventMapping;
 import com.cegeka.xpdays.arduino.event.dispatch.SerializedEvent;
 
-import static com.cegeka.xpdays.arduino.event.EventCode.INFRA_LED_EVENT;
+import static com.cegeka.xpdays.arduino.event.EventCode.INFRARED_EMITTER_EVENT;
 
-@EventMapping(value = INFRA_LED_EVENT, mapper = InfraredEvent.InfraredOnEventDeserializer.class)
+@EventMapping(value = INFRARED_EMITTER_EVENT, mapper = InfraredEvent.InfraredOnEventDeserializer.class)
 public class InfraredEvent extends Event {
 
     private final boolean emitting;
