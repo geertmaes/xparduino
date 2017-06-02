@@ -10,7 +10,6 @@ import com.cegeka.xpdays.arduino.communication.EventChannelImpl;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.event.Event;
 import com.cegeka.xpdays.arduino.event.dispatch.EventListener;
-import com.cegeka.xpdays.arduino.listener.DynamicEventListener;
 import com.cegeka.xpdays.arduino.state.ComponentState;
 import jssc.SerialPort;
 
@@ -44,10 +43,6 @@ public class Arduino implements Closeable {
 
     public void registerEventListener(EventListener listener) {
         eventChannel.registerEventListener(listener);
-    }
-
-    public <T extends Event> void registerDynamicListener(Consumer<T> listener, Class<T> eventClass) {
-        eventChannel.registerEventListener(new DynamicEventListener<>(listener, eventClass));
     }
 
     public BaseLEDCommand baseLed(int pin) {
