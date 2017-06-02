@@ -1,13 +1,18 @@
+#include <Servo.h>
 #include <legopowerfunctions.h>
 #include <SimpleTimer.h>
+
 
 String incomingStringBuffer;
 
 int LedPin = 8;
 int photoSensor = A0;
 int obstacleSensor = 3;
+int switchThree = 4;
 
 LEGOPowerFunctions lego(2);
+
+Servo motor;
 
 
 const byte numChars = 32;
@@ -21,6 +26,7 @@ void setup() {
   pinMode(8, OUTPUT);
   pinMode(9, OUTPUT);
   pinMode(3, INPUT);
+  motor.attach(switchThree);
   timer.setInterval(50, checkModules);
 }
 
@@ -63,7 +69,7 @@ void executeCommand() {
 
 void checkModules() {
   //checkPhotoSensor();
-  //checkObstacleSensor();
+//  checkObstacleSensor();
 }
 
 void handleCommand(String command) {
@@ -76,14 +82,16 @@ void handleCommand(String command) {
   }
   else if (component.startsWith("2")) {
     handleInfraredCommand(pin, action);
+  } else if (component.startsWith("4")) {
+    handleSwitchCommand(pin, action);
   }
 }
 
 void handleBaseLEDCommand(int pin, String action) {
-  if (action.equals("OFF") > 0) {
+  if (action.equals("OFF")) {
     digitalWrite(pin, LOW);
     Serial.print(createEvent(0,pin,0,"false"));
-  } else if (action.equals("ON") > 0) {
+  } else if (action.equals("ON")) {
     digitalWrite(pin, HIGH);
     Serial.print(createEvent(0,pin,0,"true"));
   }
@@ -98,13 +106,23 @@ void handleInfraredCommand(int pin, String action){
   Serial.print(createEvent(2,pin,2,"true"));
 }
 
+void handleSwitchCommand(int pin, String action) {
+  if (action.equals("LEFT")) {
+      motor.write(180);
+      Serial.print(createEvent(4,pin,0,"left"));
+    } else if (action.equals("RIGHT")) {
+      motor.write(0);
+      Serial.print(createEvent(4,pin,0,"right"));
+    }
+}
+
 String createEvent(int componentType, int pin, int eventCode, String body) {
   String event = "<";
   event += componentType;
   event += ":";
   event += pin;
   event += ",";
-  event += eventCode;
+  event += eventCode; 
   event += ",";
   event += body;
   event += ">";
@@ -120,8 +138,6 @@ void checkObstacleSensor() {
     int obstacleSensorValue = digitalRead(obstacleSensor);
     Serial.print(createEvent(3,obstacleSensor,3,String(obstacleSensorValue)));
 }
-
-
 
 
 
