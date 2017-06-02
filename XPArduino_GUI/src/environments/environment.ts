@@ -5,5 +5,5 @@
 
 export const environment = {
   production: false,
-  restUrl: "http://CI00004788:6969/"
+  restUrl: "http://CI00008332:6969/"
 };

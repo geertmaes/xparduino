@@ -45,3 +45,51 @@ html {
 .arrows {
   vertical-align: middle;
 }
+
+@media (max-width: 600px) {
+  img { max-width : 100px;}
+
+
+  .arrow-right {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+
+    border-left: 20px solid #00E200;
+  }
+
+  .arrow-left {
+    width: 0;
+    height: 0;
+    border-top: 20px solid transparent;
+    border-bottom: 20px solid transparent;
+
+    border-right:20px solid #FF472A;
+  }
+
+  .arrow {
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .arrow-left:hover {
+    border-right: 20px solid #911D08;
+  }
+
+  .arrow-left-active {
+    border-right: 20px solid #911D08;
+  }
+
+  .arrow-right:hover {
+    border-left: 20px solid #003f00;
+  }
+
+  .arrow-right-active {
+    border-left: 20px solid #003f00;
+  }
+
+  .stop {
+    max-width:40px;
+  }
+}
