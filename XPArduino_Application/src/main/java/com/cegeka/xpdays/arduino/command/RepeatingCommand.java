@@ -11,14 +11,17 @@ public abstract class RepeatingCommand<T extends RepeatingCommand> extends Abstr
 
     private static final int DEFAULT_DELAY = 0;
     private static final int DEFAULT_PERIOD = 3;
+    private static final int DEFAULT_TIMES = 0;
     private static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.SECONDS;
 
     private final ScheduledExecutorService executorService;
 
     private int delay = DEFAULT_DELAY;
     private int period = DEFAULT_PERIOD;
+    private int times = DEFAULT_TIMES;
     private TimeUnit timeUnit = DEFAULT_TIME_UNIT;
     private ScheduledFuture<?> scheduledFuture;
+    private int counter = 0;
 
     protected RepeatingCommand(int pin, CommandChannel commandChannel, ScheduledExecutorService executorService) {
         super(pin, commandChannel);
@@ -32,6 +35,11 @@ public abstract class RepeatingCommand<T extends RepeatingCommand> extends Abstr
 
     public T withPeriod(int period) {
         this.period = period;
+        return (T) this;
+    }
+
+    public T withTimes(int times) {
+        this.times = times;
         return (T) this;
     }
 
@@ -52,6 +60,11 @@ public abstract class RepeatingCommand<T extends RepeatingCommand> extends Abstr
 
     protected void executeCommand(){
         super.execute();
+        counter++;
+        if(times > 0 && counter > times){
+            stop();
+            counter = 0;
+        }
     }
 
     public abstract void onStop();

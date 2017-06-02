@@ -1,13 +1,13 @@
-package com.cegeka.xpdays.arduino.state.impl;
+package com.cegeka.xpdays.arduino.state.infrared;
 
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.state.ComponentState;
 
-public class BaseLedState extends ComponentState {
+public class InfraredState extends ComponentState {
 
     private boolean emitting;
 
-    public BaseLedState(int pin) {
+    public InfraredState(int pin) {
         super(pin);
     }
 
@@ -21,6 +21,6 @@ public class BaseLedState extends ComponentState {
 
     @Override
     public ComponentType getComponentType() {
-        return ComponentType.BASE_LED;
+        return ComponentType.INFRARED_EMITTER;
     }
 }

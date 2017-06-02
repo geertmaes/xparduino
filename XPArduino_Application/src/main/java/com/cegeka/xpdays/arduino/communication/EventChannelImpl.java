@@ -59,6 +59,7 @@ public class EventChannelImpl implements EventChannel {
     private static class EventChannelSerialPortListener implements SerialPortEventListener {
 
         private static final String EMPTY = "";
+        private static final String EVENT_PREFIX = "<";
         private static final String EVENT_SUFFIX = ">";
 
         private final SerialPort port;
@@ -76,10 +77,16 @@ public class EventChannelImpl implements EventChannel {
             try {
                 if (isValidEvent(event)) {
                     buffer += readString(event);
-                    LOGGER.info("Received event from serial port ({})", buffer);
+                    int indexOfStartMarker = buffer.indexOf(EVENT_PREFIX);
+
+                    if (indexOfStartMarker > 0) {
+                        buffer = buffer.substring(indexOfStartMarker);
+                    }
+
                     int indexOfEndMarker = buffer.indexOf(EVENT_SUFFIX);
 
                     while (indexOfEndMarker > 0) {
+                        LOGGER.info("Handling event from serial port ({})", buffer);
                         String payload = buffer.substring(0, indexOfEndMarker + 1);
                         eventDispatcher.dispatch(payload);
                         buffer = buffer.substring(indexOfEndMarker + 1);

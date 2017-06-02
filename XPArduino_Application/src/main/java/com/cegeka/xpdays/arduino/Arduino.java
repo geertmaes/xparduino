@@ -3,6 +3,7 @@ package com.cegeka.xpdays.arduino;
 import com.cegeka.xpdays.arduino.command.impl.BaseLEDCommand;
 import com.cegeka.xpdays.arduino.command.impl.BlinkCommand;
 import com.cegeka.xpdays.arduino.command.impl.InfraredCommand;
+import com.cegeka.xpdays.arduino.command.impl.SwitchCommand;
 import com.cegeka.xpdays.arduino.communication.CommandChannel;
 import com.cegeka.xpdays.arduino.communication.CommandChannelImpl;
 import com.cegeka.xpdays.arduino.communication.EventChannel;
@@ -10,7 +11,6 @@ import com.cegeka.xpdays.arduino.communication.EventChannelImpl;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.event.Event;
 import com.cegeka.xpdays.arduino.event.dispatch.EventListener;
-import com.cegeka.xpdays.arduino.listener.DynamicEventListener;
 import com.cegeka.xpdays.arduino.state.ComponentState;
 import jssc.SerialPort;
 
@@ -42,12 +42,8 @@ public class Arduino implements Closeable {
                 .forEach(eventChannel::registerEventListener);
     }
 
-    public void registerEventListener(EventListener listener) {
+    public void registerListener(EventListener listener) {
         eventChannel.registerEventListener(listener);
-    }
-
-    public <T extends Event> void registerDynamicListener(Consumer<T> listener, Class<T> eventClass) {
-        eventChannel.registerEventListener(new DynamicEventListener<>(listener, eventClass));
     }
 
     public BaseLEDCommand baseLed(int pin) {
@@ -65,7 +61,13 @@ public class Arduino implements Closeable {
     public InfraredCommand infrared(int pin){
         arduinoState.validatePinConfigured(pin);
         arduinoState.validatePinComponent(pin, ComponentType.INFRARED_EMITTER);
-        return new InfraredCommand(pin, commandChannel);
+        return new InfraredCommand(pin, commandChannel, executorService);
+    }
+
+    public SwitchCommand trackSwitch(int pin){
+        arduinoState.validatePinConfigured(pin);
+        arduinoState.validatePinComponent(pin, ComponentType.SWITCH);
+        return new SwitchCommand(pin, commandChannel);
     }
 
     public <T extends ComponentState> T getState(int pin, Class<T> stateClass) {

@@ -4,6 +4,8 @@ import com.cegeka.xpdays.arduino.command.impl.InfraredCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.TimeUnit;
+
 @Service
 public class InfraredService {
 
@@ -14,12 +16,16 @@ public class InfraredService {
         this.arduinoService = arduinoService;
     }
 
-    public void emit(int color, int channel, int speed){
+    public void emit(InfraredCommand.Color color, int channel, int speed){
         arduinoService.getArduino()
                 .infrared(2)
-                .withColor(InfraredCommand.Color.forColor(color))
+                .withColor(color)
                 .withChannel(channel)
                 .withSpeed(speed)
+                .withDelay(0)
+                .withPeriod(100)
+                .withTimeUnit(TimeUnit.MILLISECONDS)
+                .withTimes(10)
                 .execute();
     }
 }
