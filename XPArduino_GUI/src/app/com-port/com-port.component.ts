@@ -8,19 +8,19 @@ import {ComPortService} from "../service/com-port.service";
 })
 export class ComPortComponent implements OnInit {
 
-  comPorts;
+  comPorts=["COM1"];
   @Output() comPort = new EventEmitter();
 
   constructor(private comPortService: ComPortService) {
   }
 
   ngOnInit(): void {
-    this.comPortService.getComPorts().subscribe(data =>
-      this.comPorts = data);
+    // this.comPortService.getComPorts().subscribe(data =>
+    //   this.comPorts = data);
   }
 
   openPort(event): void {
     this.comPort.emit(event.value);
-    this.comPortService.openPort(event.value);
+    // this.comPortService.openPort(event.value);
   }
 }

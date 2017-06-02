@@ -10,13 +10,17 @@ import {ComPortService} from "./service/com-port.service";
 import { LedComponent } from './led/led.component';
 import { ComponentsComponent } from './components/components.component';
 import { ComPortComponent } from './com-port/com-port.component';
+import { TrainComponent } from './train/train.component';
+import {TrainsComponent} from "./trains/trains.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     LedComponent,
     ComponentsComponent,
-    ComPortComponent
+    ComPortComponent,
+    TrainComponent,
+    TrainsComponent
   ],
   imports: [
     BrowserModule,
