@@ -7,7 +7,8 @@ public enum ComponentType {
     BASE_LED(0),
     PHOTO_SENSOR(1),
     INFRARED_EMITTER(2),
-    OBSTACLE_SENSOR(3);
+    OBSTACLE_SENSOR(3),
+    SWITCH(4);
 
     private final int value;
 
