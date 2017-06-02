@@ -15,7 +15,9 @@ export class ComPortService {
   }
 
   openPort(port: string) : void {
-    this.http.post(environment.restUrl + 'port/' + port + '/open', null).subscribe();
+    this.http.post(environment.restUrl + 'port/open', {
+      port
+    }).subscribe();
   }
 
 }
