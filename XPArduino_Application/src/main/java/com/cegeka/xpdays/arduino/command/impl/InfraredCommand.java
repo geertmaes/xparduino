@@ -10,23 +10,6 @@ import static com.cegeka.xpdays.arduino.component.ComponentType.INFRARED_EMITTER
 
 public class InfraredCommand extends AbstractCommand{
 
-    public enum Color {
-        RED(0), BLUE(1);
-
-        int color;
-
-        Color(int color){
-            this.color = color;
-        }
-
-        public static Color forColor(int color){
-            return Arrays.stream(values())
-                    .filter(c -> c.color == color)
-                    .findFirst()
-                    .orElseThrow(IllegalArgumentException::new);
-        }
-    }
-
     private Color color;
     private int channel;
     private int speed;
@@ -58,5 +41,23 @@ public class InfraredCommand extends AbstractCommand{
     @Override
     protected ComponentType getComponentType() {
         return INFRARED_EMITTER;
+    }
+
+    public enum Color {
+        RED(0), BLUE(1);
+
+        int color;
+
+        Color(int color){
+            this.color = color;
+        }
+
+        public static Color forColor(int color){
+            return Arrays.stream(values())
+                    .filter(c -> c.color == color)
+                    .findFirst()
+                    .orElseThrow(IllegalArgumentException::new);
+        }
+
     }
 }
