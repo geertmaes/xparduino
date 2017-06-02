@@ -1,6 +1,5 @@
-package com.cegeka.xpdays.arduino.state.impl;
+package com.cegeka.xpdays.arduino.state.photosensor;
 
-import com.cegeka.xpdays.arduino.event.impl.BaseLedEvent;
 import com.cegeka.xpdays.arduino.event.impl.PhotoSensorEvent;
 import com.cegeka.xpdays.arduino.state.ComponentStateListener;
 

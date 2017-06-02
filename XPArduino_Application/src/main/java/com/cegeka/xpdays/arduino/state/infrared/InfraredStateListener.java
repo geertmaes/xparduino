@@ -1,4 +1,4 @@
-package com.cegeka.xpdays.arduino.state.impl;
+package com.cegeka.xpdays.arduino.state.infrared;
 
 import com.cegeka.xpdays.arduino.event.impl.InfraredEvent;
 import com.cegeka.xpdays.arduino.state.ComponentStateListener;
