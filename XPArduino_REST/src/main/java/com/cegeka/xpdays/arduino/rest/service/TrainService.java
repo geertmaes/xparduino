@@ -1,6 +1,7 @@
 package com.cegeka.xpdays.arduino.rest.service;
 
 import com.cegeka.xpdays.arduino.rest.domain.Train;
+import com.cegeka.xpdays.arduino.state.rfidreader.RfidReaderState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +11,13 @@ import java.util.List;
 public class TrainService {
 
     private InfraredService infraredService;
+    private ArduinoService arduinoService;
     private List<Train> trains;
+    private String lastTrain;
 
     @Autowired
-    public TrainService(InfraredService infraredService, List<Train> trains) {
+    public TrainService(ArduinoService arduinoService, InfraredService infraredService, List<Train> trains) {
+        this.arduinoService = arduinoService;
         this.infraredService = infraredService;
         this.trains = trains;
     }
@@ -27,6 +31,11 @@ public class TrainService {
                 .filter(t -> t.getIdentifier().equals(identifier))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown train "+identifier));
+    }
+
+    public String getLastTrain(){
+        RfidReaderState state = arduinoService.getArduino().getState(11, RfidReaderState.class);
+        return lastTrain == null ? "/" : state.getTagId();
     }
 
     public void setSpeed(Train train, int speed){

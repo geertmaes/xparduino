@@ -16,6 +16,7 @@ public class TrainResource {
 
     private TrainService trainService;
 
+
     @Autowired
     public TrainResource(TrainService trainService) {
         this.trainService = trainService;
@@ -24,6 +25,11 @@ public class TrainResource {
     @GetMapping
     public Collection<String> getTrains(){
         return trainService.getTrains().stream().map(Train::getIdentifier).collect(Collectors.toSet());
+    }
+
+    @GetMapping("/last")
+    public String lastTrain(){
+        return trainService.getLastTrain();
     }
 
     @PostMapping
