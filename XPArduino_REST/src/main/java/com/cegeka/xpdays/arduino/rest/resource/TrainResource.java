@@ -1,37 +1,41 @@
 package com.cegeka.xpdays.arduino.rest.resource;
 
-import com.cegeka.xpdays.arduino.rest.service.InfraredService;
+import com.cegeka.xpdays.arduino.rest.domain.Train;
+import com.cegeka.xpdays.arduino.rest.service.TrainService;
 import com.cegeka.xpdays.arduino.rest.transfer.TrainParamTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/train")
 @CrossOrigin
 public class TrainResource {
 
-    private InfraredService infraredService;
+    private TrainService trainService;
 
     @Autowired
-    public TrainResource(InfraredService infraredService) {
-        this.infraredService = infraredService;
+    public TrainResource(TrainService trainService) {
+        this.trainService = trainService;
+    }
+
+    @GetMapping
+    public Collection<String> getTrains(){
+        return trainService.getTrains().stream().map(Train::getIdentifier).collect(Collectors.toSet());
     }
 
     @PostMapping
     public void setTrainSpeed(@RequestBody TrainParamTO trainParams) throws Exception {
         validateTrainParams(trainParams);
-        infraredService.emit(trainParams.color, trainParams.channel, trainParams.speed);
+        Train train = trainService.getTrain(trainParams.identifier);
+        trainService.setSpeed(train, trainParams.speed);
     }
 
-    private void validateTrainParams(@RequestBody TrainParamTO trainParams) {
+    private void validateTrainParams(TrainParamTO trainParams) {
         if(trainParams.speed < -4 || trainParams.speed > 4){
             throw new IllegalArgumentException("Invalid speed "+trainParams.speed);
-        }
-        if(trainParams.color < 0 || trainParams.color > 1){
-            throw new IllegalArgumentException("Invalid color "+trainParams.color);
-        }
-        if(trainParams.channel < 0 || trainParams.channel > 3){
-            throw new IllegalArgumentException("Invalid channel "+trainParams.channel);
         }
     }
 
