@@ -2,6 +2,7 @@ package com.cegeka.xpdays.arduino;
 
 import com.cegeka.xpdays.arduino.command.impl.BaseLEDCommand;
 import com.cegeka.xpdays.arduino.command.impl.BlinkCommand;
+import com.cegeka.xpdays.arduino.command.impl.InfraredCommand;
 import com.cegeka.xpdays.arduino.communication.CommandChannel;
 import com.cegeka.xpdays.arduino.communication.CommandChannelImpl;
 import com.cegeka.xpdays.arduino.communication.EventChannel;
@@ -59,6 +60,12 @@ public class Arduino implements Closeable {
         arduinoState.validatePinConfigured(pin);
         arduinoState.validatePinComponent(pin, ComponentType.BASE_LED);
         return new BlinkCommand(pin, commandChannel, executorService);
+    }
+
+    public InfraredCommand infrared(int pin){
+        arduinoState.validatePinConfigured(pin);
+        arduinoState.validatePinComponent(pin, ComponentType.INFRA_RED_SENSOR);
+        return new InfraredCommand(pin, commandChannel);
     }
 
     public <T extends ComponentState> T getState(int pin, Class<T> stateClass) {

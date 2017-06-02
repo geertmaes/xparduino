@@ -7,8 +7,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unchecked")
-public abstract class RepeatingCommand<T extends RepeatingCommand>
-        extends AbstractCommand<RepeatingCommand> {
+public abstract class RepeatingCommand<T extends RepeatingCommand> extends AbstractCommand{
 
     private static final int DEFAULT_DELAY = 0;
     private static final int DEFAULT_PERIOD = 3;
