@@ -8,7 +8,7 @@ import {ComPortService} from "../service/com-port.service";
 })
 export class ComPortComponent implements OnInit {
 
-  comPorts;
+  comPorts = ["COM1"];
   @Output() comPort = new EventEmitter();
 
   constructor(private comPortService: ComPortService) {
