@@ -1,6 +1,7 @@
 import {Component, OnInit, Input} from '@angular/core';
 import {TrainService} from "../service/train.service";
 import {MdSnackBar} from "@angular/material";
+import {Observable} from "rxjs/Observable";
 
 @Component({
   selector: 'train-component',
@@ -10,11 +11,13 @@ import {MdSnackBar} from "@angular/material";
 export class TrainComponent implements OnInit{
 
   ngOnInit(): void {
-    setTimeout(() => {
-      this.trainService.pollTrainsPassed().subscribe(
-        data => this.openSnackBar(data)
-      );
-    } , 2000);
+    Observable.timer(10000, 2000).subscribe(t =>
+      {
+        this.trainService.pollTrainsPassed().subscribe(
+          data => this.openSnackBar(data)
+        );
+      }
+    );
   }
 
 
@@ -48,9 +51,11 @@ export class TrainComponent implements OnInit{
   }
 
   openSnackBar(color: string) {
-    this.snackBar.open("Train passed", color, {
-      duration: 2000
-    });
+    if(color != "") {
+      this.snackBar.open("Train passed", color, {
+        duration: 2000
+      });
+    }
   }
 
 }

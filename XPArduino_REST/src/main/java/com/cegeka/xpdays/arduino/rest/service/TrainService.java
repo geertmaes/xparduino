@@ -35,7 +35,8 @@ public class TrainService {
 
     public String getLastTrain(){
         RfidReaderState state = arduinoService.getArduino().getState(11, RfidReaderState.class);
-        return lastTrain == null ? "/" : state.getTagId();
+
+        return state == null ? "" : (state.getTagId() == null ? "" : state.getTagId());
     }
 
     public void setSpeed(Train train, int speed){
