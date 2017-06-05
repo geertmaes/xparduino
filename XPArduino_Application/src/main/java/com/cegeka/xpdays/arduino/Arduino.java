@@ -2,15 +2,14 @@ package com.cegeka.xpdays.arduino;
 
 import com.cegeka.xpdays.arduino.command.impl.BaseLEDCommand;
 import com.cegeka.xpdays.arduino.command.impl.BlinkCommand;
-import com.cegeka.xpdays.arduino.command.impl.InfraredCommand;
-import com.cegeka.xpdays.arduino.command.impl.SwitchCommand;
+import com.cegeka.xpdays.arduino.command.impl.TrackSwitchCommand;
+import com.cegeka.xpdays.arduino.command.impl.TrainCommand;
 import com.cegeka.xpdays.arduino.communication.CommandChannel;
-import com.cegeka.xpdays.arduino.communication.CommandChannelImpl;
 import com.cegeka.xpdays.arduino.communication.EventChannel;
-import com.cegeka.xpdays.arduino.communication.EventChannelImpl;
+import com.cegeka.xpdays.arduino.communication.serialport.SerialPortCommandChannel;
+import com.cegeka.xpdays.arduino.communication.serialport.SerialPortEventChannel;
 import com.cegeka.xpdays.arduino.component.ComponentType;
-import com.cegeka.xpdays.arduino.event.Event;
-import com.cegeka.xpdays.arduino.event.dispatch.EventListener;
+import com.cegeka.xpdays.arduino.state.ArduinoState;
 import com.cegeka.xpdays.arduino.state.ComponentState;
 import jssc.SerialPort;
 
@@ -19,7 +18,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.function.Consumer;
+
+import static com.cegeka.xpdays.arduino.component.ComponentType.*;
 
 public class Arduino implements Closeable {
 
@@ -30,44 +30,38 @@ public class Arduino implements Closeable {
 
     Arduino(SerialPort serialPort, Map<Integer, ComponentType> components) {
         this.arduinoState = new ArduinoState(components);
-        this.eventChannel = new EventChannelImpl(serialPort);
-        this.commandChannel = new CommandChannelImpl(serialPort);
+        this.eventChannel = new SerialPortEventChannel(serialPort);
+        this.commandChannel = new SerialPortCommandChannel(serialPort);
         this.executorService = Executors.newScheduledThreadPool(100);
-
-        registerStateEventListeners();
+        registerStateEventDispatcher();
     }
 
-    private void registerStateEventListeners() {
-        this.arduinoState.getComponentStates()
-                .forEach(eventChannel::registerEventListener);
-    }
-
-    public void registerListener(EventListener listener) {
-        eventChannel.registerEventListener(listener);
+    private void registerStateEventDispatcher() {
+        eventChannel.registerListener(arduinoState.getStateEventDispatcher());
     }
 
     public BaseLEDCommand baseLed(int pin) {
         arduinoState.validatePinConfigured(pin);
-        arduinoState.validatePinComponent(pin, ComponentType.BASE_LED);
+        arduinoState.validatePinComponent(pin, BASE_LED);
         return new BaseLEDCommand(pin, commandChannel);
     }
 
     public BlinkCommand baseLedBlink(int pin) {
         arduinoState.validatePinConfigured(pin);
-        arduinoState.validatePinComponent(pin, ComponentType.BASE_LED);
+        arduinoState.validatePinComponent(pin, BASE_LED);
         return new BlinkCommand(pin, commandChannel, executorService);
     }
 
-    public InfraredCommand infrared(int pin){
+    public TrainCommand train(int pin) {
         arduinoState.validatePinConfigured(pin);
-        arduinoState.validatePinComponent(pin, ComponentType.INFRARED_EMITTER);
-        return new InfraredCommand(pin, commandChannel, executorService);
+        arduinoState.validatePinComponent(pin, INFRARED_EMITTER);
+        return new TrainCommand(pin, commandChannel, executorService);
     }
 
-    public SwitchCommand trackSwitch(int pin){
+    public TrackSwitchCommand trackSwitch(int pin) {
         arduinoState.validatePinConfigured(pin);
-        arduinoState.validatePinComponent(pin, ComponentType.SWITCH);
-        return new SwitchCommand(pin, commandChannel);
+        arduinoState.validatePinComponent(pin, TRACK_SWITCH);
+        return new TrackSwitchCommand(pin, commandChannel);
     }
 
     public <T extends ComponentState> T getState(int pin, Class<T> stateClass) {

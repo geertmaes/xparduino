@@ -1,6 +1,6 @@
 package com.cegeka.xpdays.arduino.rest.service;
 
-import com.cegeka.xpdays.arduino.common.Direction;
+import com.cegeka.xpdays.arduino.model.Direction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

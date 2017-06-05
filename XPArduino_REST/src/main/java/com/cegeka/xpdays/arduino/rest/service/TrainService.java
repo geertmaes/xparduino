@@ -1,7 +1,7 @@
 package com.cegeka.xpdays.arduino.rest.service;
 
 import com.cegeka.xpdays.arduino.rest.domain.Train;
-import com.cegeka.xpdays.arduino.state.rfidreader.RfidReaderState;
+import com.cegeka.xpdays.arduino.state.impl.RfidReaderState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

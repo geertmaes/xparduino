@@ -1,6 +1,6 @@
 package com.cegeka.xpdays.arduino.rest;
 
-import com.cegeka.xpdays.arduino.command.impl.InfraredCommand;
+import com.cegeka.xpdays.arduino.model.Color;
 import com.cegeka.xpdays.arduino.rest.domain.Train;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,9 +26,9 @@ public class Application extends SpringBootServletInitializer {
 
     @Bean
     public List<Train> trains(){
-        return asList(new Train("yellow", InfraredCommand.Color.RED, 0),
-                new Train("blue", InfraredCommand.Color.BLUE, 0),
-                new Train("white", InfraredCommand.Color.RED, 1));
+        return asList(new Train("yellow", Color.RED, 0),
+                new Train("blue", Color.BLUE, 0),
+                new Train("white", Color.RED, 1));
     }
 
 }

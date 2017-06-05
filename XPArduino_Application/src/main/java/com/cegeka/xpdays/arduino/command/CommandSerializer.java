@@ -2,7 +2,11 @@ package com.cegeka.xpdays.arduino.command;
 
 import com.cegeka.xpdays.arduino.component.ComponentSerializer;
 
+import static java.lang.String.format;
+
 public class CommandSerializer {
+
+    private static final String COMMAND_FORMAT = "<%s,%s>";
 
     private final ComponentSerializer componentSerializer;
 
@@ -14,6 +18,6 @@ public class CommandSerializer {
         String action = command.getAction();
         String component = componentSerializer.serialize(command.getComponent());
 
-        return String.format("<%s,%s>", component, action);
+        return format(COMMAND_FORMAT, component, action);
     }
 }

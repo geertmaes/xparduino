@@ -10,6 +10,4 @@ import java.lang.annotation.Target;
 public @interface EventMapping {
 
     EventCode value();
-
-    Class<? extends EventDeserializer> mapper() default DefaultEventDeserializer.class;
 }

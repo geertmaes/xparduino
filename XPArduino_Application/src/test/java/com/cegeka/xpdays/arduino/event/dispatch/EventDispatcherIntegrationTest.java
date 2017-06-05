@@ -1,115 +1,126 @@
 package com.cegeka.xpdays.arduino.event.dispatch;
 
-import com.cegeka.xpdays.arduino.component.Component;
-import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.event.Event;
 import com.cegeka.xpdays.arduino.event.EventCode;
-import com.cegeka.xpdays.arduino.event.EventDeserializer;
+import com.cegeka.xpdays.arduino.event.EventListener;
 import com.cegeka.xpdays.arduino.event.EventMapping;
+import com.cegeka.xpdays.arduino.event.deserialiser.EventDeserializer;
+import com.cegeka.xpdays.arduino.event.deserialiser.EventDeserializerMapping;
+import com.cegeka.xpdays.arduino.component.Component;
+import com.cegeka.xpdays.arduino.component.ComponentType;
+import org.junit.Before;
 import org.junit.Test;
 
 import static com.cegeka.xpdays.arduino.event.EventCode.BASE_LED_EVENT;
-import static com.cegeka.xpdays.arduino.event.EventCode.INFRA_LED_EVENT;
+import static com.cegeka.xpdays.arduino.event.EventCode.INFRARED_EMITTER_EVENT;
 import static java.lang.String.format;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class EventDispatcherIntegrationTest {
 
     private static final String BODY = "test";
     private static final EventCode EVENT_CODE = EventCode.BASE_LED_EVENT;
-    private static final EventCode ANOTHER_EVENT_CODE = EventCode.INFRA_LED_EVENT;
+    private static final EventCode ANOTHER_EVENT_CODE = EventCode.INFRARED_EMITTER_EVENT;
     private static final Component COMPONENT = new Component(0, ComponentType.BASE_LED);
+
+    private EventDispatcher eventDispatcher;
+
+    @Before
+    public void before() {
+        eventDispatcher = EventDispatcher.fromPackage("com.cegeka.xpdays.arduino.common.event.dispatch");
+    }
 
     @Test
     public void dispatch() throws Exception {
-        EventDispatcher eventDispatcher = new EventDispatcher();
-        TriggerEventListener<TestEvent> listener = new TriggerEventListener<>();
-        eventDispatcher.registerEventListener(listener);
+        EventListenerStub<TestEvent> listener = new EventListenerStub<>();
+        eventDispatcher.registerListener(listener);
 
-        eventDispatcher.dispatch(format("<%d:%d,%d,%s>",
-                COMPONENT.getType().getValue(),
-                COMPONENT.getPin(),
-                EVENT_CODE.getValue(),
-                BODY));
+        eventDispatcher.dispatch(eventAsString());
 
         assertThat(listener.isTriggered()).isTrue();
     }
 
     @Test
     public void dispatch_WhenNoMapperSpecified_UseDefaultDeserializer() throws Exception {
-        EventDispatcher eventDispatcher = new EventDispatcher();
-        TriggerEventListener<TestEventWithoutMapper> listener = new TriggerEventListener<>();
-        eventDispatcher.registerEventListener(listener);
+        EventListenerStub<TestEventWithoutMapper> listener = new EventListenerStub<>();
+        eventDispatcher.registerListener(listener);
 
-        eventDispatcher.dispatch(format("<%d:%d,%d,%s>",
-                COMPONENT.getType().getValue(),
-                COMPONENT.getPin(),
-                ANOTHER_EVENT_CODE.getValue(),
-                BODY));
+        eventDispatcher.dispatch(eventAsString(ANOTHER_EVENT_CODE));
 
         assertThat(listener.isTriggered()).isTrue();
     }
 
     @Test
     public void dispatch_CallsParentAndChildClassesOfEvent() throws Exception {
-        EventDispatcher eventDispatcher = new EventDispatcher();
-        ParentAndChildEventListener listener = new ParentAndChildEventListener();
-        eventDispatcher.registerEventListener(listener);
+        InheritanceEventListener listener = new InheritanceEventListener();
+        eventDispatcher.registerListener(listener);
 
-        eventDispatcher.dispatch(format("<%d:%d,%d,%s>",
-                COMPONENT.getType().getValue(),
-                COMPONENT.getPin(),
-                EVENT_CODE.getValue(),
-                BODY));
+        eventDispatcher.dispatch(eventAsString());
 
         assertThat(listener.getCounter()).isEqualTo(2);
     }
 
     @Test
     public void dispatch_WhenListenerThrowsException_DoesNothing() throws Exception {
-        EventDispatcher eventDispatcher = new EventDispatcher();
-        eventDispatcher.registerEventListener(new ThrowingEventListener());
+        eventDispatcher.registerListener(new ThrowingEventListener());
 
-        eventDispatcher.dispatch(format("<%d:%d,%d,%s>",
+        assertThatCode(() -> eventDispatcher.dispatch(eventAsString()))
+                .doesNotThrowAnyException();
+    }
+
+    private String eventAsString() {
+        return eventAsString(EVENT_CODE);
+    }
+
+    private String eventAsString(EventCode eventCode) {
+        return format("<%d:%d,%d,%s>",
                 COMPONENT.getType().getValue(),
                 COMPONENT.getPin(),
-                EVENT_CODE.getValue(),
-                BODY));
+                eventCode.getValue(),
+                BODY);
     }
 
-    @EventMapping(value = INFRA_LED_EVENT)
-    public static class TestEventWithoutMapper extends Event {
+    @EventMapping(BASE_LED_EVENT)
+    static class TestEvent implements Event {
 
-        public TestEventWithoutMapper(int pin) {
-            super(pin);
-        }
-    }
-
-    @EventMapping(value = BASE_LED_EVENT, mapper = TestEventDeserializer.class)
-    static class TestEvent extends Event {
+        private int pin;
 
         public TestEvent(int pin) {
-            super(pin);
+            this.pin = pin;
+        }
+
+        @Override
+        public int getPin() {
+            return pin;
         }
     }
 
-    @EventMapping(value = BASE_LED_EVENT, mapper = TestEventDeserializer.class)
-    static class TestChildEvent extends TestEvent {
+    @EventMapping(INFRARED_EMITTER_EVENT)
+    public static class TestEventWithoutMapper implements Event {
 
-        public TestChildEvent(int pin) {
-            super(pin);
+        private int pin;
+
+        public TestEventWithoutMapper(int pin) {
+            this.pin = pin;
+        }
+
+        @Override
+        public int getPin() {
+            return pin;
         }
     }
 
+    @EventDeserializerMapping(TestEvent.class)
     static class TestEventDeserializer implements EventDeserializer<TestEvent> {
 
         @Override
         public TestEvent deserialize(SerializedEvent event) {
-            return new TestEvent(event.getComponent().getPin());
+            return new TestEvent(event.component().getPin());
         }
     }
 
-    private static class TriggerEventListener<T extends Event> implements EventListener {
+    private static class EventListenerStub<T extends Event> implements EventListener {
 
         private boolean triggered = false;
 
@@ -122,7 +133,7 @@ public class EventDispatcherIntegrationTest {
         }
     }
 
-    private static class ParentAndChildEventListener implements EventListener {
+    private static class InheritanceEventListener implements EventListener {
 
         private int counter = 0;
 
@@ -130,11 +141,11 @@ public class EventDispatcherIntegrationTest {
             return counter;
         }
 
-        public void on(TestEvent event) {
+        public void on(Event event) {
             counter++;
         }
 
-        public void on(TestChildEvent event) {
+        public void on(TestEvent event) {
             counter++;
         }
     }

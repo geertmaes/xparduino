@@ -15,15 +15,15 @@ public class SerializedEvent {
         this.component = component;
     }
 
-    public String getBody() {
+    public String body() {
         return body;
     }
 
-    public EventCode getEventCode() {
+    public EventCode eventCode() {
         return eventCode;
     }
 
-    public Component getComponent() {
+    public Component component() {
         return component;
     }
 

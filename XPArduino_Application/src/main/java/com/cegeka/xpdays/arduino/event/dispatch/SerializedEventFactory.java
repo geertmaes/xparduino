@@ -1,5 +1,6 @@
 package com.cegeka.xpdays.arduino.event.dispatch;
 
+import com.cegeka.xpdays.arduino.event.deserialiser.EventDeserializationException;
 import com.cegeka.xpdays.arduino.component.Component;
 import com.cegeka.xpdays.arduino.component.ComponentDeserializer;
 import com.cegeka.xpdays.arduino.event.EventCode;
@@ -10,6 +11,7 @@ import static java.lang.String.format;
 
 public class SerializedEventFactory {
 
+    private static final String EVENT_SEPARATOR = ",";
     private final static Pattern EVENT_FORMAT = Pattern.compile("^<\\d*:\\d*,\\d*,.*>$");
 
     private final ComponentDeserializer componentDeserializer;
@@ -18,11 +20,11 @@ public class SerializedEventFactory {
         componentDeserializer = new ComponentDeserializer();
     }
 
-    public SerializedEvent create(String payload) {
-        validateEventFormat(payload);
+    public SerializedEvent create(String event) {
+        validateEventFormat(event);
 
-        String event = removeBoundaries(payload);
-        String[] eventParts = event.split(",");
+        String eventData = removeEventMarkers(event);
+        String[] eventParts = eventData.split(EVENT_SEPARATOR);
 
         return new SerializedEvent(
                 extractBody(eventParts),
@@ -37,7 +39,7 @@ public class SerializedEventFactory {
         }
     }
 
-    private String removeBoundaries(String payload) {
+    private String removeEventMarkers(String payload) {
         return payload.substring(1, payload.length() - 1);
     }
 

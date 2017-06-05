@@ -2,7 +2,7 @@ package com.cegeka.xpdays.arduino.rest.service;
 
 import com.cegeka.xpdays.arduino.Arduino;
 import com.cegeka.xpdays.arduino.ArduinoFactory;
-import com.cegeka.xpdays.arduino.configuration.ArduinoConfiguration;
+import com.cegeka.xpdays.arduino.ArduinoConfiguration;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
@@ -23,7 +23,7 @@ public class ArduinoService {
                 .withComponent(8, BASE_LED)
                 .withComponent(2, INFRARED_EMITTER)
                 .withComponent(3, OBSTACLE_SENSOR)
-                .withComponent(4, SWITCH)
+                .withComponent(4, TRACK_SWITCH)
                 .withComponent(9, BASE_LED)
                 .withComponent(14, PHOTO_SENSOR)
                 .build();

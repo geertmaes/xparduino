@@ -1,13 +1,13 @@
 package com.cegeka.xpdays.arduino.rest.domain;
 
-import com.cegeka.xpdays.arduino.command.impl.InfraredCommand;
+import com.cegeka.xpdays.arduino.model.Color;
 
 public class Train {
     private String identifier;
-    private InfraredCommand.Color color;
+    private Color color;
     private int channel;
 
-    public Train(String identifier, InfraredCommand.Color color, int channel) {
+    public Train(String identifier, Color color, int channel) {
         this.identifier = identifier;
         this.color = color;
         this.channel = channel;
@@ -17,7 +17,7 @@ public class Train {
         return identifier;
     }
 
-    public InfraredCommand.Color getColor() {
+    public Color getColor() {
         return color;
     }
 

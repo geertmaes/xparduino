@@ -1,5 +1,6 @@
 package com.cegeka.xpdays.arduino.event.dispatch;
 
+import com.cegeka.xpdays.arduino.event.deserialiser.EventDeserializationException;
 import com.cegeka.xpdays.arduino.component.Component;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 import com.cegeka.xpdays.arduino.event.EventCode;

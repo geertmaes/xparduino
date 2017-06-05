@@ -7,7 +7,7 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unchecked")
-public abstract class RepeatingCommand<T extends RepeatingCommand> extends AbstractCommand{
+public abstract class RepeatingCommand<T extends RepeatingCommand> extends AbstractCommand {
 
     private static final int DEFAULT_DELAY = 0;
     private static final int DEFAULT_PERIOD = 3;
@@ -23,7 +23,9 @@ public abstract class RepeatingCommand<T extends RepeatingCommand> extends Abstr
     private ScheduledFuture<?> scheduledFuture;
     private int counter = 0;
 
-    protected RepeatingCommand(int pin, CommandChannel commandChannel, ScheduledExecutorService executorService) {
+    protected RepeatingCommand(int pin,
+                               CommandChannel commandChannel,
+                               ScheduledExecutorService executorService) {
         super(pin, commandChannel);
         this.executorService = executorService;
     }
@@ -50,7 +52,6 @@ public abstract class RepeatingCommand<T extends RepeatingCommand> extends Abstr
 
     public void stop(){
         scheduledFuture.cancel(true);
-        onStop();
     }
 
     @Override
@@ -66,6 +67,4 @@ public abstract class RepeatingCommand<T extends RepeatingCommand> extends Abstr
             counter = 0;
         }
     }
-
-    public abstract void onStop();
 }

@@ -1,6 +1,5 @@
 package com.cegeka.xpdays.arduino;
 
-import com.cegeka.xpdays.arduino.configuration.ArduinoConfiguration;
 import jssc.SerialPort;
 import jssc.SerialPortException;
 import jssc.SerialPortList;
@@ -8,7 +7,6 @@ import jssc.SerialPortList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 public class ArduinoFactory {
 

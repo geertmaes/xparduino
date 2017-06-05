@@ -1,6 +1,6 @@
 package com.cegeka.xpdays.arduino.rest.service;
 
-import com.cegeka.xpdays.arduino.command.impl.InfraredCommand;
+import com.cegeka.xpdays.arduino.model.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +16,9 @@ public class InfraredService {
         this.arduinoService = arduinoService;
     }
 
-    public void emit(InfraredCommand.Color color, int channel, int speed){
+    public void emit(Color color, int channel, int speed){
         arduinoService.getArduino()
-                .infrared(2)
+                .train(2)
                 .withColor(color)
                 .withChannel(channel)
                 .withSpeed(speed)
