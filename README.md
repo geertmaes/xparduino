@@ -16,6 +16,7 @@ For components like IR led and servo motors we will have to use external librari
 - For LEGO powerfunctions: http://forum.arduino.cc/index.php?topic=89310.0
 - For servo motors: TO DO (it exists, but I need to search for it).
 - SimpleTimer library: https://github.com/jfturcot/SimpleTimer
+- For RFID SoftwareSerial
 
 <h3>Useful information</h3>
     
