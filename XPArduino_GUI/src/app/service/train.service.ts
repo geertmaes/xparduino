@@ -27,7 +27,7 @@ export class TrainService {
   }
 
   pollTrainsPassed(){
-    return this.http.get(environment.restUrl + "train/last").map((response: Response) => response.json() as string);
+    return this.http.get(environment.restUrl + "train/last").map((response: Response) => response.text() as string);
   }
 
 }

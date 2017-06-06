@@ -26,6 +26,7 @@ public class ArduinoService {
                 .withComponent(4, TRACK_SWITCH)
                 .withComponent(9, BASE_LED)
                 .withComponent(14, PHOTO_SENSOR)
+                .withComponent(11, RFID_READER)
                 .build();
         arduino = ArduinoFactory.create(arduinoConfiguration);
     }

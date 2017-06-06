@@ -3,22 +3,6 @@ html {
   text-align :center;
 }
 
-@keyframes blink {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-img {
-  animation: blink 1s;
-  animation-iteration-count: infinite;
-}
-
 .arrow-right {
   width: 0;
   height: 0;
