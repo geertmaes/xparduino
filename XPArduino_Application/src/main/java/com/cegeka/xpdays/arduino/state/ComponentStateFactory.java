@@ -1,11 +1,7 @@
 package com.cegeka.xpdays.arduino.state;
 
 import com.cegeka.xpdays.arduino.component.ComponentType;
-import com.cegeka.xpdays.arduino.state.impl.BaseLedState;
-import com.cegeka.xpdays.arduino.state.impl.InfraredState;
-import com.cegeka.xpdays.arduino.state.impl.ObstacleSensorState;
-import com.cegeka.xpdays.arduino.state.impl.PhotoSensorState;
-import com.cegeka.xpdays.arduino.state.impl.TrackSwitchState;
+import com.cegeka.xpdays.arduino.state.impl.*;
 
 import static java.lang.String.format;
 
@@ -23,8 +19,10 @@ public class ComponentStateFactory {
                 return new InfraredState(pin);
             case TRACK_SWITCH:
                 return new TrackSwitchState(pin);
+            case RFID_READER:
+                return new RfidReaderState(pin);
             default:
-                throw new RuntimeException(format("No state listener configured for component (%s)", type));
+                throw new RuntimeException(format("No state configured for component (%s)", type));
         }
     }
 }

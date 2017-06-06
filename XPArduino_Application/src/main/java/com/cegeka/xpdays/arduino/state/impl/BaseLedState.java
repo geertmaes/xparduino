@@ -13,11 +13,10 @@ public class BaseLedState extends ComponentState<BaseLedState> {
     }
 
     public void on(BaseLedEvent event) {
-        if (event.getPin() == getPin()) {
-            emitting = event.isEmitting();
-            triggerStateChange();
-        }
+        emitting = event.isEmitting();
+        triggerStateChange();
     }
+
     public boolean isEmitting() {
         return emitting;
     }

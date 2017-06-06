@@ -13,9 +13,8 @@ public class PhotoSensorState extends ComponentState<PhotoSensorState> {
     }
 
     public void on(PhotoSensorEvent event) {
-        if (event.getPin() == getPin()) {
-            signal = event.getSignal();
-        }
+        signal = event.getSignal();
+        triggerStateChange();
     }
 
     public int isSignal() {

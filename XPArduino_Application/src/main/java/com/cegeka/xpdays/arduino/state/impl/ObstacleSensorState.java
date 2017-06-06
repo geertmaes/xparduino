@@ -13,10 +13,8 @@ public class ObstacleSensorState extends ComponentState<ObstacleSensorState> {
     }
 
     public void on(ObstacleSensorEvent event) {
-        if (event.getPin() == getPin()) {
-            blocked = event.isBlocked();
-            triggerStateChange();
-        }
+        blocked = event.isBlocked();
+        triggerStateChange();
     }
 
     public boolean isBlocked() {

@@ -13,10 +13,10 @@ public class InfraredState extends ComponentState<InfraredState> {
     }
 
     public void on(InfraredEvent event) {
-        if (event.getPin() == getPin()) {
-            emitting = event.isEmitting();
-        }
+        emitting = event.isEmitting();
+        triggerStateChange();
     }
+
     public boolean isEmitting() {
         return emitting;
     }

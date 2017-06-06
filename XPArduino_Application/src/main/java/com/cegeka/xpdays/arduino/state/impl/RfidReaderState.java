@@ -13,9 +13,8 @@ public class RfidReaderState extends ComponentState<RfidReaderState> {
     }
 
     public void on(RfidReaderEvent event) {
-        if (event.getPin() == getPin()) {
-            tagId = event.getTagId();
-        }
+        tagId = event.getTagId();
+        triggerStateChange();
     }
 
     public String getTagId() {

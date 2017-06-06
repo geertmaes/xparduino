@@ -14,9 +14,8 @@ public class TrackSwitchState extends ComponentState<TrackSwitchState> {
     }
 
     public void on(TrackSwitchEvent event) {
-        if (event.getPin() == getPin()) {
-            direction = event.getDirection();
-        }
+        direction = event.getDirection();
+        triggerStateChange();
     }
 
     public Direction getDirection() {
