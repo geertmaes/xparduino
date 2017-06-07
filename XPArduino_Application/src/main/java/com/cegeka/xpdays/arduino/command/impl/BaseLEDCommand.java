@@ -1,7 +1,7 @@
 package com.cegeka.xpdays.arduino.command.impl;
 
 import com.cegeka.xpdays.arduino.command.AbstractCommand;
-import com.cegeka.xpdays.arduino.communication.CommandChannel;
+import com.cegeka.xpdays.arduino.channel.CommandChannel;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 
 public class BaseLEDCommand extends AbstractCommand {

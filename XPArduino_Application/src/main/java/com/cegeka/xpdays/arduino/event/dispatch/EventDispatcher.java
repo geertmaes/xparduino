@@ -6,13 +6,11 @@ import com.cegeka.xpdays.arduino.event.deserialiser.EventDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-import static java.lang.reflect.Modifier.isPublic;
-import static org.reflections.ReflectionUtils.getMethods;
+import static com.cegeka.xpdays.arduino.utils.ReflectionUtils.getMethodsWithParameterType;
+import static com.cegeka.xpdays.arduino.utils.ReflectionUtils.invokeMethod;
 
 @SuppressWarnings("unchecked")
 public class EventDispatcher {
@@ -23,7 +21,6 @@ public class EventDispatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventDispatcher.class);
     private static final String DISPATCHING_EXCEPTION = "Failed to dispatch event with payload ({})";
-    private static final String METHOD_INVOCATION_EXCEPTION = "Failed to invoke method ({}) of class ({}) for parameter ({})";
 
     private final EventDispatcherState state;
     private final List<EventListener> eventListeners;
@@ -54,7 +51,7 @@ public class EventDispatcher {
 
     private void dispatch(SerializedEvent serializedEvent) {
         Class<? extends Event> eventClass = state.getEvent(serializedEvent.eventCode());
-        EventDeserializer deserializer = state.getEventSerializer(eventClass);
+        EventDeserializer deserializer = state.getEventDeserializer(eventClass);
         Event event = deserializer.deserialize(serializedEvent);
 
         dispatchToListeners(event);
@@ -62,28 +59,8 @@ public class EventDispatcher {
 
     private void dispatchToListeners(Event event) {
         eventListeners.forEach(listener -> {
-            Set<Method> methods = getMethodsWithParameterType(listener, event.getClass());
-            methods.forEach(method -> invokeMethod(listener, method, event));
+            getMethodsWithParameterType(listener, event.getClass())
+                    .forEach(method -> invokeMethod(listener, method, event));
         });
-    }
-
-    private Set<Method> getMethodsWithParameterType(Object obj, Class parameterType) {
-        return getMethods(obj.getClass(), method -> methodHasParameter(method, parameterType));
-    }
-
-    private boolean methodHasParameter(Method method, Class<?> parameterType) {
-        Class<?>[] parameters = method.getParameterTypes();
-
-        return isPublic(method.getModifiers())
-                && parameters.length > 0
-                && parameters[0].isAssignableFrom(parameterType);
-    }
-
-    private void invokeMethod(Object obj, Method method, Object parameters) {
-        try {
-            method.invoke(obj, parameters);
-        } catch (Exception e) {
-            LOGGER.warn(METHOD_INVOCATION_EXCEPTION, method, obj.getClass().getSimpleName(), parameters, e);
-        }
     }
 }

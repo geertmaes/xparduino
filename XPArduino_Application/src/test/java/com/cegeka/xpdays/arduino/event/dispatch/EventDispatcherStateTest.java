@@ -25,14 +25,14 @@ public class EventDispatcherStateTest {
     }
 
     @Test
-    public void getEventSerializer() throws Exception {
+    public void getEventDeSerializer() throws Exception {
         EventDispatcherState state =
                 EventDispatcherState.fromPackage(SCAN_PACKAGE);
 
-        EventDeserializer serializer = state.getEventSerializer(TestEvent.class);
+        EventDeserializer serializer = state.getEventDeserializer(TestEvent.class);
 
         assertThat(serializer)
-                .isInstanceOf(TestEventSerializer.class);
+                .isInstanceOf(TestEventDeserializer.class);
     }
 
     @EventMapping(BASE_LED_EVENT)
@@ -45,7 +45,7 @@ public class EventDispatcherStateTest {
     }
 
     @EventDeserializerMapping(TestEvent.class)
-    public static class TestEventSerializer implements EventDeserializer<TestEvent> {
+    public static class TestEventDeserializer implements EventDeserializer<TestEvent> {
 
         @Override
         public TestEvent deserialize(SerializedEvent event) {

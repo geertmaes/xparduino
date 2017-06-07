@@ -1,8 +1,8 @@
-package com.cegeka.xpdays.arduino.communication.serialport;
+package com.cegeka.xpdays.arduino.channel.serialport;
 
 import com.cegeka.xpdays.arduino.command.Command;
 import com.cegeka.xpdays.arduino.command.CommandSerializer;
-import com.cegeka.xpdays.arduino.communication.CommandChannel;
+import com.cegeka.xpdays.arduino.channel.CommandChannel;
 import jssc.SerialPort;
 import jssc.SerialPortException;
 import org.slf4j.Logger;

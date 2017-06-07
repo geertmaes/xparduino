@@ -48,7 +48,7 @@ public class EventDispatcherState {
         return eventClass;
     }
 
-    public EventDeserializer getEventSerializer(Class<? extends Event> eventClass) {
+    public EventDeserializer getEventDeserializer(Class<? extends Event> eventClass) {
         return eventDeserializerMap
                 .getOrDefault(eventClass, new DefaultEventDeserializer<>(eventClass));
     }

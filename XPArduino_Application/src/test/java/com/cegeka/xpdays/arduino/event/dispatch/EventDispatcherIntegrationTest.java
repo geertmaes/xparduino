@@ -19,6 +19,8 @@ import static org.assertj.core.api.Assertions.assertThatCode;
 
 public class EventDispatcherIntegrationTest {
 
+    private static final String SCAN_PACKAGE = EventDispatcherIntegrationTest.class.getName();
+
     private static final String BODY = "test";
     private static final EventCode EVENT_CODE = EventCode.BASE_LED_EVENT;
     private static final EventCode ANOTHER_EVENT_CODE = EventCode.INFRARED_EMITTER_EVENT;
@@ -28,7 +30,7 @@ public class EventDispatcherIntegrationTest {
 
     @Before
     public void before() {
-        eventDispatcher = EventDispatcher.fromPackage("com.cegeka.xpdays.arduino.common.event.dispatch");
+        eventDispatcher = EventDispatcher.fromPackage(SCAN_PACKAGE);
     }
 
     @Test

@@ -1,6 +1,6 @@
 package com.cegeka.xpdays.arduino.command;
 
-import com.cegeka.xpdays.arduino.communication.CommandChannel;
+import com.cegeka.xpdays.arduino.channel.CommandChannel;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;

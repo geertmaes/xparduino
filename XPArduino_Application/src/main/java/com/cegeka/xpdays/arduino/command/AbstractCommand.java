@@ -1,6 +1,6 @@
 package com.cegeka.xpdays.arduino.command;
 
-import com.cegeka.xpdays.arduino.communication.CommandChannel;
+import com.cegeka.xpdays.arduino.channel.CommandChannel;
 import com.cegeka.xpdays.arduino.component.Component;
 import com.cegeka.xpdays.arduino.component.ComponentType;
 

@@ -1,4 +1,4 @@
-package com.cegeka.xpdays.arduino.communication.serialport;
+package com.cegeka.xpdays.arduino.channel.serialport;
 
 import com.cegeka.xpdays.arduino.event.dispatch.EventDispatcher;
 import com.cegeka.xpdays.arduino.event.dispatch.EventDispatchingException;

@@ -2,40 +2,33 @@ package com.cegeka.xpdays.arduino.state.change;
 
 import com.cegeka.xpdays.arduino.state.ComponentState;
 
-import java.util.Timer;
-import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class TimeoutStateChangeListener<T extends ComponentState<T>>
-        implements StateChangeListener<T> {
+        extends StateChangeDecorator<T> {
 
-    public static <T extends ComponentState<T>> StateChangeListener<T> onTimeout(StateChangeListener<T> delegate, int timeout) {
+    public static <T extends ComponentState<T>> StateChangeListener<T> withTimeout(StateChangeListener<T> delegate, int timeout) {
         return new TimeoutStateChangeListener<>(delegate, timeout);
     }
 
-    private final StateChangeListener<T> delegate;
     private final int timeout;
-
-    private Timer timer = null;
-    private T previousState = null;
+    private volatile boolean inProgress = false;
+    private final ScheduledExecutorService executorService;
 
     private TimeoutStateChangeListener(StateChangeListener<T> delegate, int timeout) {
-        this.delegate = delegate;
+        super(delegate);
         this.timeout = timeout;
+        this.executorService = Executors.newScheduledThreadPool(1);
     }
 
     @Override
     public void onChange(T state) {
-        this.previousState = state;
-        if (timer == null) {
-            delegate.onChange(previousState);
-            timer = new Timer();
-            timer.schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    delegate.onChange(previousState);
-                    timer = null;
-                }
-            }, timeout);
+        if (!inProgress) {
+            inProgress = true;
+            delegate().onChange(state);
+            executorService.schedule(() -> inProgress = false, timeout, TimeUnit.MILLISECONDS);
         }
     }
 }

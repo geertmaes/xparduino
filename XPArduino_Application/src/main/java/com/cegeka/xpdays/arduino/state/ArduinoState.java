@@ -16,12 +16,12 @@ public class ArduinoState {
 
     private final Map<Integer, ComponentType> components;
     private final Map<Integer, ComponentState> componentStates;
-    private final ArduinoStateEventDispatcher stateEventDispatcher;
+    private final ComponentStateEventDispatcher stateEventDispatcher;
 
     public ArduinoState(Map<Integer, ComponentType> components) {
         this.components = components;
         this.componentStates = createComponentStates(components);
-        this.stateEventDispatcher = new ArduinoStateEventDispatcher(this);
+        this.stateEventDispatcher = new ComponentStateEventDispatcher(this);
     }
 
     private Map<Integer, ComponentState> createComponentStates(Map<Integer, ComponentType> components) {
@@ -62,7 +62,7 @@ public class ArduinoState {
         return componentStates.values();
     }
 
-    public ArduinoStateEventDispatcher getStateEventDispatcher() {
+    public ComponentStateEventDispatcher getStateEventDispatcher() {
         return stateEventDispatcher;
     }
 }

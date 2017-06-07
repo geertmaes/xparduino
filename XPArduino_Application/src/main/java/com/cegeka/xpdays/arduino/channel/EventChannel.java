@@ -1,4 +1,4 @@
-package com.cegeka.xpdays.arduino.communication;
+package com.cegeka.xpdays.arduino.channel;
 
 import com.cegeka.xpdays.arduino.event.EventListener;
 
