@@ -2,8 +2,12 @@ import com.cegeka.xpdays.arduino.Arduino;
 import com.cegeka.xpdays.arduino.ArduinoConfiguration;
 import com.cegeka.xpdays.arduino.ArduinoFactory;
 import com.cegeka.xpdays.arduino.model.Direction;
+import com.cegeka.xpdays.arduino.state.change.OnlyOnceStateChangeListener;
+import com.cegeka.xpdays.arduino.state.change.StateChangeListener;
+import com.cegeka.xpdays.arduino.state.change.TimeoutStateChangeListener;
 import com.cegeka.xpdays.arduino.state.impl.BaseLedState;
 import com.cegeka.xpdays.arduino.state.impl.ObstacleSensorState;
+import com.cegeka.xpdays.arduino.state.impl.RfidReaderState;
 import com.cegeka.xpdays.arduino.state.impl.TrackSwitchState;
 import jssc.SerialPort;
 import jssc.SerialPortList;
@@ -14,6 +18,8 @@ import java.util.stream.Collectors;
 
 import static com.cegeka.xpdays.arduino.component.ComponentType.*;
 import static com.cegeka.xpdays.arduino.state.change.DifferentStateChangeListener.onDifferent;
+import static com.cegeka.xpdays.arduino.state.change.OnlyOnceStateChangeListener.onlyOnce;
+import static com.cegeka.xpdays.arduino.state.change.TimeoutStateChangeListener.onTimeout;
 
 
 public class Application {
@@ -42,17 +48,24 @@ public class Application {
         Arduino arduino = ArduinoFactory.create(configuration);
 
         ObstacleSensorState obstacleSensor = arduino.getState(2, ObstacleSensorState.class);
-        TrackSwitchState trackSwitchState = arduino.getState(15, TrackSwitchState.class);
+        ObstacleSensorState obstacleSensor2 = arduino.getState(3, ObstacleSensorState.class);
+
+        final boolean[] left = {false};
+
+        StateChangeListener<ObstacleSensorState> timeoutChangeListener
+                = onTimeout(state -> {
+            if (state.isBlocked()) {
+                left[0] = !left[0];
+                arduino.trackSwitch(15)
+                        .withDirection(left[0] ? Direction.LEFT : Direction.RIGHT)
+                        .execute();
+            } ;
+        }, 2000);
 
         obstacleSensor.onStateChange(
-                onDifferent(state -> {
-                    arduino.baseLed(4)
-                            .withEmitting(state.isBlocked())
-                            .execute();
-                    arduino.trackSwitch(16)
-                            .withDirection(state.isBlocked() ? Direction.LEFT : Direction.RIGHT)
-                            .execute();
-                    }));
+                onDifferent(timeoutChangeListener));
+        obstacleSensor2.onStateChange(
+                onDifferent(timeoutChangeListener));
     }
 
     private static List<SerialPort> scanAvailablePorts() {

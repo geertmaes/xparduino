@@ -35,7 +35,6 @@ public class SerialPortEventChannelListener implements SerialPortEventListener {
 
     private void handle(SerialPortEvent event) throws SerialPortException, EventDispatchingException {
         String payload = readString(event);
-        LOGGER.info("Incoming payload {}", payload);
         buffer.add(payload);
 
         while (buffer.hasNext()) {

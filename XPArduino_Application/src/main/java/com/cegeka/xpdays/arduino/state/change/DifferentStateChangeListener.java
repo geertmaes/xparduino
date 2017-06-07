@@ -5,12 +5,12 @@ import com.cegeka.xpdays.arduino.state.ComponentState;
 public class DifferentStateChangeListener<T extends ComponentState<T>>
         implements StateChangeListener<T> {
 
-    public static <T extends ComponentState<T>> DifferentStateChangeListener<T> onDifferent(StateChangeListener<T> delegate) {
+    public static <T extends ComponentState<T>> StateChangeListener<T> onDifferent(StateChangeListener<T> delegate) {
         return new DifferentStateChangeListener<>(delegate);
     }
 
+    private final StateChangeListener<T> delegate;
     private T previousState = null;
-    private StateChangeListener<T> delegate;
 
     private DifferentStateChangeListener(StateChangeListener<T> delegate) {
         this.delegate = delegate;
