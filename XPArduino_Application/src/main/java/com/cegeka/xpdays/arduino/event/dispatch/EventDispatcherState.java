@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
-import static java.lang.String.format;
 import static java.util.stream.Collectors.toMap;
 
 public class EventDispatcherState {
@@ -27,7 +27,6 @@ public class EventDispatcherState {
     }
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventDispatcherState.class);
-    private static final String NO_EVENT_SPECIFIED_EXCEPTION = "No event specified for event code (%s)";
 
     private final Map<EventCode, Class<? extends Event>> eventMap;
     private final Map<Class<? extends Event>, EventDeserializer> eventDeserializerMap;
@@ -38,17 +37,11 @@ public class EventDispatcherState {
         this.eventDeserializerMap = toEventDeserializerMap(eventDeserializerClasses);
     }
 
-    public Class<? extends Event> getEvent(EventCode eventCode) {
-        Class<? extends Event> eventClass = eventMap.get(eventCode);
-
-        if (eventClass == null) {
-            throw new EventDispatcherStateException(format(NO_EVENT_SPECIFIED_EXCEPTION, eventCode));
-        }
-
-        return eventClass;
+    Optional<Class<? extends Event>> getEventClassByEventCode(EventCode eventCode) {
+        return Optional.ofNullable(eventMap.get(eventCode));
     }
 
-    public EventDeserializer getEventDeserializer(Class<? extends Event> eventClass) {
+    EventDeserializer getEventDeserializerByEventClass(Class<? extends Event> eventClass) {
         return eventDeserializerMap
                 .getOrDefault(eventClass, new DefaultEventDeserializer<>(eventClass));
     }

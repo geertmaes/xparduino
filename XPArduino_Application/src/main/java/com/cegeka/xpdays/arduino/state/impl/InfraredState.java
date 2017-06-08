@@ -1,6 +1,7 @@
 package com.cegeka.xpdays.arduino.state.impl;
 
 import com.cegeka.xpdays.arduino.component.ComponentType;
+import com.cegeka.xpdays.arduino.event.Handle;
 import com.cegeka.xpdays.arduino.event.impl.infrared.InfraredEvent;
 import com.cegeka.xpdays.arduino.state.ComponentState;
 
@@ -12,9 +13,9 @@ public class InfraredState extends ComponentState<InfraredState> {
         super(pin);
     }
 
+    @Handle
     public void on(InfraredEvent event) {
         emitting = event.isEmitting();
-        triggerStateChange();
     }
 
     public boolean isEmitting() {

@@ -7,11 +7,11 @@ public abstract class StateChangeDecorator<T extends ComponentState>
 
     private final StateChangeListener<T> delegate;
 
-    protected StateChangeDecorator(StateChangeListener<T> delegate) {
+    StateChangeDecorator(StateChangeListener<T> delegate) {
         this.delegate = delegate;
     }
 
-    protected StateChangeListener<T> delegate() {
+    StateChangeListener<T> delegate() {
         return delegate;
     }
 

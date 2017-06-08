@@ -1,6 +1,7 @@
 package com.cegeka.xpdays.arduino.state.impl;
 
 import com.cegeka.xpdays.arduino.component.ComponentType;
+import com.cegeka.xpdays.arduino.event.Handle;
 import com.cegeka.xpdays.arduino.event.impl.rfidreader.RfidReaderEvent;
 import com.cegeka.xpdays.arduino.state.ComponentState;
 
@@ -12,9 +13,9 @@ public class RfidReaderState extends ComponentState<RfidReaderState> {
         super(pin);
     }
 
+    @Handle
     public void on(RfidReaderEvent event) {
         tagId = event.getTagId();
-        triggerStateChange();
     }
 
     public String getTagId() {

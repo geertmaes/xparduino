@@ -1,6 +1,7 @@
 package com.cegeka.xpdays.arduino.state.impl;
 
 import com.cegeka.xpdays.arduino.component.ComponentType;
+import com.cegeka.xpdays.arduino.event.Handle;
 import com.cegeka.xpdays.arduino.event.impl.photosensor.PhotoSensorEvent;
 import com.cegeka.xpdays.arduino.state.ComponentState;
 
@@ -12,9 +13,9 @@ public class PhotoSensorState extends ComponentState<PhotoSensorState> {
         super(pin);
     }
 
+    @Handle
     public void on(PhotoSensorEvent event) {
         signal = event.getSignal();
-        triggerStateChange();
     }
 
     public int isSignal() {

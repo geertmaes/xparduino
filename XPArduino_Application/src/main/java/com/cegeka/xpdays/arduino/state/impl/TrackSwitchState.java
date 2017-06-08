@@ -1,6 +1,7 @@
 package com.cegeka.xpdays.arduino.state.impl;
 
 import com.cegeka.xpdays.arduino.component.ComponentType;
+import com.cegeka.xpdays.arduino.event.Handle;
 import com.cegeka.xpdays.arduino.event.impl.trackswitch.TrackSwitchEvent;
 import com.cegeka.xpdays.arduino.model.Direction;
 import com.cegeka.xpdays.arduino.state.ComponentState;
@@ -13,9 +14,9 @@ public class TrackSwitchState extends ComponentState<TrackSwitchState> {
         super(pin);
     }
 
+    @Handle
     public void on(TrackSwitchEvent event) {
         direction = event.getDirection();
-        triggerStateChange();
     }
 
     public Direction getDirection() {

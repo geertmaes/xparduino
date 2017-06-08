@@ -1,8 +1,8 @@
 package com.cegeka.xpdays.arduino.event.dispatch;
 
 import com.cegeka.xpdays.arduino.event.Event;
+import com.cegeka.xpdays.arduino.event.EventCode;
 import com.cegeka.xpdays.arduino.event.EventListener;
-import com.cegeka.xpdays.arduino.event.deserialiser.EventDeserializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,6 +11,7 @@ import java.util.List;
 
 import static com.cegeka.xpdays.arduino.utils.ReflectionUtils.getMethodsWithParameterType;
 import static com.cegeka.xpdays.arduino.utils.ReflectionUtils.invokeMethod;
+import static java.lang.String.format;
 
 @SuppressWarnings("unchecked")
 public class EventDispatcher {
@@ -21,6 +22,7 @@ public class EventDispatcher {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EventDispatcher.class);
     private static final String DISPATCHING_EXCEPTION = "Failed to dispatch event with payload ({})";
+    private static final String NO_EVENT_SPECIFIED_EXCEPTION = "No event specified for event code (%s)";
 
     private final EventDispatcherState state;
     private final List<EventListener> eventListeners;
@@ -38,7 +40,7 @@ public class EventDispatcher {
 
     public void dispatch(String payload) throws EventDispatchingException {
         try {
-            LOGGER.info("Dispatching payload ({})", payload);
+            LOGGER.info("Dispatching event with payload ({})", payload);
             SerializedEvent serializedEvent
                     = serializedEventFactory.create(payload);
 
@@ -49,10 +51,13 @@ public class EventDispatcher {
         }
     }
 
-    private void dispatch(SerializedEvent serializedEvent) {
-        Class<? extends Event> eventClass = state.getEvent(serializedEvent.eventCode());
-        EventDeserializer deserializer = state.getEventDeserializer(eventClass);
-        Event event = deserializer.deserialize(serializedEvent);
+    private void dispatch(SerializedEvent serializedEvent) throws EventDispatchingException {
+        EventCode eventCode = serializedEvent.eventCode();
+
+        Event event = state.getEventClassByEventCode(eventCode)
+                .map(state::getEventDeserializerByEventClass)
+                .map(deserializer -> deserializer.deserialize(serializedEvent))
+                .orElseThrow(() -> new EventDispatchingException(format(NO_EVENT_SPECIFIED_EXCEPTION, eventCode)));
 
         dispatchToListeners(event);
     }

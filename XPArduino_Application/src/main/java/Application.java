@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.cegeka.xpdays.arduino.component.ComponentType.*;
-import static com.cegeka.xpdays.arduino.state.change.DifferentStateChangeListener.withDifferent;
-import static com.cegeka.xpdays.arduino.state.change.TimeoutStateChangeListener.withTimeout;
+import static com.cegeka.xpdays.arduino.state.change.DifferentStateChangeDecorator.withDifferent;
+import static com.cegeka.xpdays.arduino.state.change.TimeoutStateChangeDecorator.withTimeout;
 
 
 public class Application {

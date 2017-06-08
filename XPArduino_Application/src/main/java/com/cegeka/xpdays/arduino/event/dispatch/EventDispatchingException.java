@@ -2,7 +2,11 @@ package com.cegeka.xpdays.arduino.event.dispatch;
 
 public class EventDispatchingException extends Exception {
 
-    public EventDispatchingException(Throwable cause) {
+    EventDispatchingException(String message) {
+        super(message);
+    }
+
+    EventDispatchingException(Throwable cause) {
         super(cause);
     }
 }

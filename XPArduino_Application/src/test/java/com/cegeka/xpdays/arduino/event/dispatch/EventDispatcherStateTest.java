@@ -6,6 +6,8 @@ import com.cegeka.xpdays.arduino.event.deserialiser.EventDeserializer;
 import com.cegeka.xpdays.arduino.event.deserialiser.EventDeserializerMapping;
 import org.junit.Test;
 
+import java.util.Optional;
+
 import static com.cegeka.xpdays.arduino.event.EventCode.BASE_LED_EVENT;
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -14,22 +16,22 @@ public class EventDispatcherStateTest {
     private static final String SCAN_PACKAGE = EventDispatcherStateTest.class.getName();
 
     @Test
-    public void getEvent() throws Exception {
+    public void getEventClassByEventCode() throws Exception {
         EventDispatcherState state =
                 EventDispatcherState.fromPackage(SCAN_PACKAGE);
 
-        Class<? extends Event> event = state.getEvent(BASE_LED_EVENT);
+        Optional<Class<? extends Event>> event = state.getEventClassByEventCode(BASE_LED_EVENT);
 
         assertThat(event)
-                .isEqualTo(TestEvent.class);
+                .contains(TestEvent.class);
     }
 
     @Test
-    public void getEventDeSerializer() throws Exception {
+    public void getEventDeserializerByEventClass() throws Exception {
         EventDispatcherState state =
                 EventDispatcherState.fromPackage(SCAN_PACKAGE);
 
-        EventDeserializer serializer = state.getEventDeserializer(TestEvent.class);
+        EventDeserializer serializer = state.getEventDeserializerByEventClass(TestEvent.class);
 
         assertThat(serializer)
                 .isInstanceOf(TestEventDeserializer.class);

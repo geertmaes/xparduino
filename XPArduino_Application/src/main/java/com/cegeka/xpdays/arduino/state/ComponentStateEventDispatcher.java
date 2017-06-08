@@ -3,33 +3,34 @@ package com.cegeka.xpdays.arduino.state;
 import com.cegeka.xpdays.arduino.event.Event;
 import com.cegeka.xpdays.arduino.event.EventListener;
 import com.cegeka.xpdays.arduino.event.Handle;
-import com.cegeka.xpdays.arduino.utils.ReflectionUtils;
 
 import java.util.Collection;
 
+import static com.cegeka.xpdays.arduino.utils.ReflectionUtils.getMethodsWithParameterType;
+import static com.cegeka.xpdays.arduino.utils.ReflectionUtils.invokeMethod;
+
 public class ComponentStateEventDispatcher implements EventListener {
 
-    private final ArduinoState arduinoState;
+    private final Collection<ComponentState> componentStates;
 
-    ComponentStateEventDispatcher(ArduinoState arduinoState) {
-        this.arduinoState = arduinoState;
+    ComponentStateEventDispatcher(Collection<ComponentState> componentStates) {
+        this.componentStates = componentStates;
     }
 
     @Handle
     public void on(Event event) {
-        Collection<ComponentState> componentStates = arduinoState.getComponentStates();
-
         componentStates.stream()
                 .filter(state -> stateHasPin(event, state))
-                .forEach(state -> dispatch(state, event));
+                .forEach(state -> dispatchEventToState(state, event));
     }
 
     private boolean stateHasPin(Event event, ComponentState state) {
         return state.getPin() == event.getPin();
     }
 
-    private void dispatch(ComponentState state, Event event) {
-        ReflectionUtils.getMethodsWithParameterType(state, event.getClass())
-                .forEach(method -> ReflectionUtils.invokeMethod(state, method, event));
+    private void dispatchEventToState(ComponentState state, Event event) {
+        getMethodsWithParameterType(state, event.getClass())
+                .forEach(method -> invokeMethod(state, method, event));
+        state.triggerStateChange();
     }
 }

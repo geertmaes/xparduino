@@ -6,18 +6,18 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class TimeoutStateChangeListener<T extends ComponentState<T>>
+public class TimeoutStateChangeDecorator<T extends ComponentState<T>>
         extends StateChangeDecorator<T> {
 
     public static <T extends ComponentState<T>> StateChangeListener<T> withTimeout(StateChangeListener<T> delegate, int timeout) {
-        return new TimeoutStateChangeListener<>(delegate, timeout);
+        return new TimeoutStateChangeDecorator<>(delegate, timeout);
     }
 
     private final int timeout;
     private volatile boolean inProgress = false;
     private final ScheduledExecutorService executorService;
 
-    private TimeoutStateChangeListener(StateChangeListener<T> delegate, int timeout) {
+    private TimeoutStateChangeDecorator(StateChangeListener<T> delegate, int timeout) {
         super(delegate);
         this.timeout = timeout;
         this.executorService = Executors.newScheduledThreadPool(1);
