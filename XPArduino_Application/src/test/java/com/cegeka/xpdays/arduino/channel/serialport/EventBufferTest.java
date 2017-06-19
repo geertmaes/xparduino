@@ -7,72 +7,83 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class EventBufferTest {
 
     @Test
-    public void addPayload() throws Exception {
+    public void append() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("<event>");
+        buffer.append("<event>");
 
         assertThat(buffer.hasNext()).isTrue();
         assertThat(buffer.next()).isEqualTo("<event>");
     }
 
     @Test
-    public void addPayload_Scattered() throws Exception {
+    public void append_Scattered() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("<eve");
-        buffer.add("nt>");
+        buffer.append("<eve");
+        buffer.append("nt>");
 
         assertThat(buffer.hasNext()).isTrue();
         assertThat(buffer.next()).isEqualTo("<event>");
     }
 
     @Test
-    public void addPayload_EventIncomplete() throws Exception {
+    public void append_IncompleteEvent() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("<");
+        buffer.append("<");
 
         assertThat(buffer.hasNext()).isFalse();
     }
 
     @Test
-    public void addPayload_Scattered_EventIncomplete() throws Exception {
+    public void append_Scattered_IncompleteEvent() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("<");
-        buffer.add(".");
+        buffer.append("<");
+        buffer.append(".");
 
         assertThat(buffer.hasNext()).isFalse();
     }
 
     @Test
-    public void addPayload_UselessPrefix() throws Exception {
+    public void append_UselessPrefix() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("prefix<event>");
+        buffer.append("prefix<event>");
 
         assertThat(buffer.hasNext()).isTrue();
         assertThat(buffer.next()).isEqualTo("<event>");
     }
 
     @Test
-    public void addPayload_Scattered_UselessPrefix() throws Exception {
+    public void append_IncompleteEventPrefix() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("prefix<eve");
-        buffer.add("nt>");
+        buffer.append("event><event1>");
+
+        assertThat(buffer.hasNext()).isTrue();
+        assertThat(buffer.next()).isEqualTo("<event1>");
+    }
+
+    @Test
+    public void append_Scattered_UselessPrefix() throws Exception {
+        EventBuffer buffer = new EventBuffer();
+
+        buffer.append("prefix<eve");
+        buffer.append("nt>");
 
         assertThat(buffer.hasNext()).isTrue();
         assertThat(buffer.next()).isEqualTo("<event>");
     }
 
     @Test
-    public void addPayload_Scattered_StartingNewEvent() throws Exception {
+    public void append_Multiple_Scattered_Events() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("prefix<eve");
-        buffer.add("nt1><event2>");
+        buffer.append("prefix<eve");
+        buffer.append("nt1><event");
+        buffer.append("2>");
 
         assertThat(buffer.hasNext()).isTrue();
         assertThat(buffer.next()).isEqualTo("<event1>");
@@ -80,34 +91,24 @@ public class EventBufferTest {
     }
 
     @Test
-    public void addPayload_EventIncompletePrefix() throws Exception {
+    public void append_Scattered_IncompleteEventPrefix() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("event><event1>");
+        buffer.append("event>");
+        buffer.append("<event1>");
 
         assertThat(buffer.hasNext()).isTrue();
         assertThat(buffer.next()).isEqualTo("<event1>");
     }
 
     @Test
-    public void addPayload_Scattered_EventIncompletePrefix() throws Exception {
+    public void append_Multiple_Scattered_IncompleteEventPrefix() throws Exception {
         EventBuffer buffer = new EventBuffer();
 
-        buffer.add("event>");
-        buffer.add("<event1>");
-
-        assertThat(buffer.hasNext()).isTrue();
-        assertThat(buffer.next()).isEqualTo("<event1>");
-    }
-
-    @Test
-    public void addPayload_Scattered_Multiple_EventIncompletePrefix() throws Exception {
-        EventBuffer buffer = new EventBuffer();
-
-        buffer.add("event>");
-        buffer.add("<event1>");
-        buffer.add("event>");
-        buffer.add("<event2>");
+        buffer.append("event>");
+        buffer.append("<event1>");
+        buffer.append("event>");
+        buffer.append("<event2>");
 
         assertThat(buffer.hasNext()).isTrue();
         assertThat(buffer.next()).isEqualTo("<event1>");

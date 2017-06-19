@@ -11,7 +11,7 @@ class EventBuffer {
     private final Queue<String> events = new LinkedList<>();
     private final StringBuilder buffer = new StringBuilder();
 
-    void add(String payload) {
+    void append(String payload) {
         int payloadPrefixIndex = payload.indexOf(EVENT_PREFIX);
         int payloadSuffixIndex = payload.indexOf(EVENT_SUFFIX);
 
