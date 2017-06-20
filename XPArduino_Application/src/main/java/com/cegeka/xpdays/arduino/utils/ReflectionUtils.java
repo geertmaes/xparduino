@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Set;
 
 import static org.reflections.ReflectionUtils.getMethods;
@@ -15,7 +16,7 @@ public class ReflectionUtils {
 
     @SuppressWarnings("unchecked")
     public static Set<Method> getMethodsWithParameterType(Object obj, Class parameterType) {
-        return getMethods(obj.getClass(), method -> methodHasParameter(method, parameterType));
+        return getMethods(obj.getClass(), method -> methodHasParameter(method, parameterType) && Modifier.isPublic(method.getModifiers()));
     }
 
     private static boolean methodHasParameter(Method method, Class<?> parameterType) {
