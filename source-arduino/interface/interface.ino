@@ -66,9 +66,15 @@ void loop() {
 
 void checkModules() {
   checkObstacleSensor();
-  checkRfidReader(rfidOne, rfidOneTx);
-  checkRfidReader(rfidTwo, rfidTwoTx);
-
+  //checkRfidReader(rfidOne, rfidOneTx);
+  //checkRfidReader(rfidTwo, rfidTwoTx);
+    while (rfidTwo.available() >= 14) {
+        String body = "";
+        for(int i = 0; i < 14; i++){
+            body += rfidTwo.read();
+        }
+        Serial.println(createEvent(5,rfidTwoTx,5,body));
+    }
 }
 
 void receiveCommand() {
@@ -118,8 +124,10 @@ String createEvent(int componentType, int pin, int eventCode, String body) {
 void handleCommand(String command) {
   int seperator = command.indexOf(",");
   String component = command.substring(1, seperator);
+  int componentSeperator = component.indexOf(":");
   String action = command.substring(seperator + 1, command.length() - 1);
-  int pin = component.substring(seperator + 1, component.length() - 1).toInt();
+  int pin = component.substring(componentSeperator + 1, component.length()).toInt();
+
   if (component.startsWith("0")) {
     handleBaseLEDCommand(pin, action);
   }
@@ -160,22 +168,13 @@ void sendInfraRedSignal(LEGOPowerFunctions &legoLed, int pin, String action) {
 }
 
 void handleSwitchCommand(int pin, String action) {
-  switch (pin) {
-    case 15:
-        moveSwitch(switch1, pin, action);
-        break;
-      case 16:
-        moveSwitch(switch2, pin, action);
-        break;
-      case 17:
-        moveSwitch(switch3, pin, action);
-        break;
-      case 18:
-        moveSwitch(switch4, pin, action);
-        break;
-    default:
-      break;
-  }
+    if (action.equals("LEFT")) {
+      switch1.write(180);
+      Serial.print(createEvent(4,pin,4,"LEFT"));
+    } else if (action.equals("RIGHT")) {
+      switch1.write(0);
+      Serial.print(createEvent(4,pin,4,"RIGHT"));
+    }
 }
 
 void moveSwitch(Servo &theSwitch, int pin, String action) {
@@ -194,11 +193,20 @@ void checkPhotoSensor() {
     Serial.print(createEvent(1,photoSensor,1,String(photoSensorValue)));
 }
 
+int previousSensorOneValue = -1;
+int previousSensorTwoValue = -1;
+
 void checkObstacleSensor() {
     int obstacleSensorValue = digitalRead(obstacleSensorOne);
-    Serial.print(createEvent(3,obstacleSensorOne,3,String(obstacleSensorValue)));
+    if (obstacleSensorValue != previousSensorOneValue) {
+      previousSensorOneValue = obstacleSensorValue;
+      Serial.print(createEvent(3,obstacleSensorOne,3,String(obstacleSensorValue)));
+    }
     obstacleSensorValue = digitalRead(obstacleSensorTwo);
-    Serial.print(createEvent(3,obstacleSensorTwo,3,String(obstacleSensorValue)));
+    if (obstacleSensorValue != previousSensorTwoValue) {
+      previousSensorTwoValue = obstacleSensorValue;
+      Serial.print(createEvent(3,obstacleSensorTwo,3,String(obstacleSensorValue)));
+    }
     // obstacleSensorValue = digitalRead(obstacleSensorThree);
     // Serial.print(createEvent(3,obstacleSensorThree,3,String(obstacleSensorValue)));
     // obstacleSensorValue = digitalRead(obstacleSensorFour);
