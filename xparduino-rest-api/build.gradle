@@ -1,0 +1,15 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.3.RELEASE'
+}
+
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    compile project(':xparduino-library')
+    compile "org.springframework.boot:spring-boot-starter-web"
+
+    testCompile 'junit:junit'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.assertj:assertj-core'
+    testCompile 'org.mockito:mockito-core'
+}

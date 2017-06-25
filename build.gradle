@@ -4,9 +4,8 @@ plugins {
 
 project.ext {
     javaProjects = subprojects.findAll {
-        it.name == 'XPArduino_Application' ||
-        it.name == 'XPArduino_Components' ||
-        it.name == 'XPArduino_REST'
+        it.name == 'xparduino-library' ||
+        it.name == 'xparduino-rest-api'
     }
 }
 
