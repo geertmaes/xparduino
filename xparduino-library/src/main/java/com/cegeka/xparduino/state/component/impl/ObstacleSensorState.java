@@ -2,7 +2,6 @@ package com.cegeka.xparduino.state.component.impl;
 
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.event.impl.obstaclesensor.ObstacleSensorEvent;
-import com.cegeka.xparduino.event.Handle;
 import com.cegeka.xparduino.state.component.ComponentState;
 
 public class ObstacleSensorState extends ComponentState<ObstacleSensorState> {
@@ -13,7 +12,6 @@ public class ObstacleSensorState extends ComponentState<ObstacleSensorState> {
         super(pin);
     }
 
-    @Handle
     public void on(ObstacleSensorEvent event) {
         blocked = event.isBlocked();
     }

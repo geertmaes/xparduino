@@ -1,7 +1,7 @@
 package com.cegeka.xparduino.queue.serialport;
 
+import com.cegeka.xparduino.command.serialization.CommandSerializer;
 import com.cegeka.xparduino.event.EventBuffer;
-import com.cegeka.xparduino.event.dispatch.EventDispatchingException;
 import com.cegeka.xparduino.queue.ArduinoQueue;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
@@ -12,46 +12,41 @@ import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
-public class SerialPortQueue
-        implements ArduinoQueue, SerialPortEventListener {
+public class SerialPortQueue implements ArduinoQueue, SerialPortEventListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SerialPortQueue.class);
 
-    private final SerialPort port;
+    private final String portName;
     private final EventBuffer eventBuffer;
+    private final CommandSerializer commandSerializer;
 
-    SerialPortQueue(SerialPort port) {
-        this.port = port;
+    private SerialPort serialPort;
+
+    SerialPortQueue(String portName) {
+        this.portName = portName;
         this.eventBuffer = new EventBuffer();
-        listenOnSerialPortChanges();
+        this.commandSerializer = new CommandSerializer();
     }
 
-    private void listenOnSerialPortChanges() {
+    @Override
+    public void initialize() {
         try {
-            this.port.addEventListener(this, SerialPort.MASK_RXCHAR);
+            if (serialPort == null) {
+                serialPort = SerialPortFactory.getInstance().getOrCreate(portName);
+                serialPort.addEventListener(this, SerialPort.MASK_RXCHAR);
+            }
         } catch (Exception e) {
             LOGGER.warn("Failed to add serial port listener", e);
         }
     }
 
     @Override
-    public void serialEvent(SerialPortEvent serialPortEvent) {
-        try {
-            handleSerialPortEvent(serialPortEvent);
-        } catch (SerialPortException e) {
-            LOGGER.warn("Failed reading string from serial port", e);
-        } catch (EventDispatchingException e) {
-            LOGGER.warn("Failed dispatching event", e);
-        }
-    }
-
-    @Override
     public void send(String message) {
         try {
-            port.writeString(message);
-            LOGGER.info("Sending {} dispatch port {}", message, port.getPortName());
+            serialPort.writeString(message);
+            LOGGER.info("Sending {} dispatch port {}", message, portName);
         } catch (SerialPortException e) {
-            LOGGER.warn("Failed to send {} dispatch port {}", message, port, e);
+            LOGGER.warn("Failed to send {} dispatch port {}", message, portName, e);
         }
     }
 
@@ -66,20 +61,27 @@ public class SerialPortQueue
     }
 
     @Override
-    public void close() throws IOException {
+    public void serialEvent(SerialPortEvent serialPortEvent) {
         try {
-            port.closePort();
+            handleSerialPortEvent(serialPortEvent);
         } catch (SerialPortException e) {
-            LOGGER.warn("Failed to close port {}", port, e);
+            LOGGER.warn("Failed reading string from port {}", portName, e);
         }
     }
 
-    private void handleSerialPortEvent(SerialPortEvent serialPortEvent) throws SerialPortException, EventDispatchingException {
-        String payload = readString(serialPortEvent);
+    private void handleSerialPortEvent(SerialPortEvent event) throws SerialPortException {
+        String payload = serialPort.readString(event.getEventValue());
         eventBuffer.append(payload);
     }
 
-    private String readString(SerialPortEvent event) throws SerialPortException {
-        return this.port.readString(event.getEventValue());
+    @Override
+    public void close() throws IOException {
+        try {
+            serialPort.closePort();
+            serialPort = null;
+        } catch (SerialPortException e) {
+            LOGGER.warn("Failed to close port {}", portName, e);
+        }
     }
+
 }

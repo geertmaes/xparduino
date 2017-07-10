@@ -1,11 +1,15 @@
 package com.cegeka.xparduino.event.impl.trackswitch;
 
-import com.cegeka.xparduino.event.Event;
-import com.cegeka.xparduino.event.EventCode;
-import com.cegeka.xparduino.event.EventMapping;
 import com.cegeka.xparduino.domain.Direction;
+import com.cegeka.xparduino.event.Event;
+import com.cegeka.xparduino.event.EventMapping;
 
-@EventMapping(EventCode.TRACK_SWITCH_EVENT)
+import static com.cegeka.xparduino.event.EventCode.TRACK_SWITCH_EVENT;
+
+@EventMapping(
+        code = TRACK_SWITCH_EVENT,
+        serializer = TrackSwitchEventSerializer.class,
+        deserializer = TrackSwitchEventDeserializer.class)
 public class TrackSwitchEvent implements Event {
 
     private final int pin;

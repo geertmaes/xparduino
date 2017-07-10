@@ -5,7 +5,10 @@ import com.cegeka.xparduino.event.EventMapping;
 
 import static com.cegeka.xparduino.event.EventCode.PHOTO_SENSOR_EVENT;
 
-@EventMapping(PHOTO_SENSOR_EVENT)
+@EventMapping(
+        code = PHOTO_SENSOR_EVENT,
+        serializer = PhotoSensorEventSerializer.class,
+        deserializer = PhotoSensorEventDeserializer.class)
 public class PhotoSensorEvent implements Event {
 
     private final int pin;

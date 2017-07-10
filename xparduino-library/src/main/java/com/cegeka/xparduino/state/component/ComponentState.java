@@ -16,7 +16,7 @@ public abstract class ComponentState<T extends ComponentState> {
         stateChangeListeners = new LinkedList<>();
     }
 
-    protected void triggerStateChange() {
+    void triggerStateChange() {
         stateChangeListeners.forEach(listener -> listener.onChange(copy()));
     }
 
@@ -29,6 +29,10 @@ public abstract class ComponentState<T extends ComponentState> {
     }
 
     protected abstract T copy();
+
+    public abstract boolean equals(Object o);
+
+    public abstract int hashCode();
 
     public abstract ComponentType getComponentType();
 }

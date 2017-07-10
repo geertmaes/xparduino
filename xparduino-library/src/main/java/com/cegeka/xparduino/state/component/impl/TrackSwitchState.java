@@ -1,9 +1,8 @@
 package com.cegeka.xparduino.state.component.impl;
 
 import com.cegeka.xparduino.component.ComponentType;
-import com.cegeka.xparduino.event.Handle;
-import com.cegeka.xparduino.event.impl.trackswitch.TrackSwitchEvent;
 import com.cegeka.xparduino.domain.Direction;
+import com.cegeka.xparduino.event.impl.trackswitch.TrackSwitchEvent;
 import com.cegeka.xparduino.state.component.ComponentState;
 
 public class TrackSwitchState extends ComponentState<TrackSwitchState> {
@@ -14,7 +13,6 @@ public class TrackSwitchState extends ComponentState<TrackSwitchState> {
         super(pin);
     }
 
-    @Handle
     public void on(TrackSwitchEvent event) {
         direction = event.getDirection();
     }

@@ -1,8 +1,10 @@
 package com.cegeka.xparduino.channel;
 
-import java.io.Closeable;
-
-public interface Channel<T> extends Closeable {
+public interface Channel<T> {
 
     void send(T message);
+
+    void register(ChannelListener<T> listener);
+
+    String getIdentifier();
 }

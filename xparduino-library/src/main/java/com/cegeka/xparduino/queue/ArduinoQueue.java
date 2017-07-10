@@ -4,6 +4,8 @@ import java.io.Closeable;
 
 public interface ArduinoQueue extends Closeable {
 
+    void initialize();
+
     void send(String message);
 
     String next();

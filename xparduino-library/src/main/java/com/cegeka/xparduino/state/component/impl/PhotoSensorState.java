@@ -2,7 +2,6 @@ package com.cegeka.xparduino.state.component.impl;
 
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.event.impl.photosensor.PhotoSensorEvent;
-import com.cegeka.xparduino.event.Handle;
 import com.cegeka.xparduino.state.component.ComponentState;
 
 public class PhotoSensorState extends ComponentState<PhotoSensorState> {
@@ -13,7 +12,6 @@ public class PhotoSensorState extends ComponentState<PhotoSensorState> {
         super(pin);
     }
 
-    @Handle
     public void on(PhotoSensorEvent event) {
         signal = event.getSignal();
     }

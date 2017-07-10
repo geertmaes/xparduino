@@ -1,6 +1,6 @@
 package com.cegeka.xparduino.command;
 
-import com.cegeka.xparduino.channel.CommandChannel;
+import com.cegeka.xparduino.channel.Channel;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -24,7 +24,7 @@ public abstract class RepeatingCommand<T extends RepeatingCommand> extends Abstr
     private int counter = 0;
 
     protected RepeatingCommand(int pin,
-                               CommandChannel commandChannel,
+                               Channel<Command> commandChannel,
                                ScheduledExecutorService executorService) {
         super(pin, commandChannel);
         this.executorService = executorService;

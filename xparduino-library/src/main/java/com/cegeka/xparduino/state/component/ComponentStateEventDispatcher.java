@@ -1,20 +1,23 @@
 package com.cegeka.xparduino.state.component;
 
+import com.cegeka.xparduino.channel.ChannelListener;
 import com.cegeka.xparduino.event.Event;
+import com.cegeka.xparduino.utils.DynamicMethodInvoker;
 
 import java.util.Collection;
 
-import static com.cegeka.xparduino.utils.ReflectionUtils.invokeEventAssignableMethods;
+public class ComponentStateEventDispatcher implements ChannelListener<Event> {
 
-public class ComponentStateEventDispatcher {
-
+    private final DynamicMethodInvoker methodInvoker;
     private final Collection<ComponentState> componentStates;
 
     public ComponentStateEventDispatcher(Collection<ComponentState> componentStates) {
         this.componentStates = componentStates;
+        this.methodInvoker = new DynamicMethodInvoker("on");
     }
 
-    public void dispatch(Event event) {
+    @Override
+    public void on(Event event) {
         componentStates.stream()
                 .filter(state -> stateHasPin(event, state))
                 .forEach(state -> dispatchEventToState(state, event));
@@ -25,7 +28,7 @@ public class ComponentStateEventDispatcher {
     }
 
     private void dispatchEventToState(ComponentState state, Event event) {
-        invokeEventAssignableMethods(state, event);
+        methodInvoker.invoke(state, event);
         state.triggerStateChange();
     }
 }

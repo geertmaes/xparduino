@@ -1,5 +1,7 @@
 package com.cegeka.xparduino.event;
 
+import com.cegeka.xparduino.event.serialized.SerializedEventFactory;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -8,8 +10,10 @@ public class EventBuffer {
     private static final String EVENT_PREFIX = "<";
     private static final String EVENT_SUFFIX = ">";
 
-    private final Queue<String> events = new LinkedList<>();
     private final StringBuilder buffer = new StringBuilder();
+    private final Queue<String> events = new LinkedList<>();
+
+    private final SerializedEventFactory serializedEventFactory = new SerializedEventFactory();
 
     public void append(String payload) {
         int payloadPrefixIndex = payload.indexOf(EVENT_PREFIX);

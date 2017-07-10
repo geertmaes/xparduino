@@ -1,10 +1,14 @@
 package com.cegeka.xparduino.event.impl.obstaclesensor;
 
 import com.cegeka.xparduino.event.Event;
-import com.cegeka.xparduino.event.EventCode;
 import com.cegeka.xparduino.event.EventMapping;
 
-@EventMapping(EventCode.OBSTACLE_SENSOR_EVENT)
+import static com.cegeka.xparduino.event.EventCode.OBSTACLE_SENSOR_EVENT;
+
+@EventMapping(
+        code = OBSTACLE_SENSOR_EVENT,
+        serializer = ObstacleSensorEventSerializer.class,
+        deserializer = ObstacleSensorEventDeserializer.class)
 public class ObstacleSensorEvent implements Event {
 
     private final int pin;

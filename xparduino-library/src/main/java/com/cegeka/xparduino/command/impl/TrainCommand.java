@@ -1,9 +1,10 @@
 package com.cegeka.xparduino.command.impl;
 
+import com.cegeka.xparduino.channel.Channel;
+import com.cegeka.xparduino.command.Command;
+import com.cegeka.xparduino.command.RepeatingCommand;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.domain.Color;
-import com.cegeka.xparduino.channel.CommandChannel;
-import com.cegeka.xparduino.command.RepeatingCommand;
 
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -16,7 +17,7 @@ public class TrainCommand extends RepeatingCommand<TrainCommand> {
     private Color color;
 
     public TrainCommand(int pin,
-                        CommandChannel commandChannel,
+                        Channel<Command> commandChannel,
                         ScheduledExecutorService scheduledExecutorService) {
         super(pin, commandChannel, scheduledExecutorService);
     }

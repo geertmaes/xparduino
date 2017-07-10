@@ -1,10 +1,14 @@
 package com.cegeka.xparduino.event.impl.rfidreader;
 
 import com.cegeka.xparduino.event.Event;
-import com.cegeka.xparduino.event.EventCode;
 import com.cegeka.xparduino.event.EventMapping;
 
-@EventMapping(EventCode.RFID_READER_EVENT)
+import static com.cegeka.xparduino.event.EventCode.RFID_READER_EVENT;
+
+@EventMapping(
+        code = RFID_READER_EVENT,
+        serializer = RfidReaderEventSerializer.class,
+        deserializer = RfidReaderEventDeserializer.class)
 public class RfidReaderEvent implements Event {
 
     private final int pin;

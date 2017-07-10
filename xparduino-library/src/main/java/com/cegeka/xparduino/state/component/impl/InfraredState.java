@@ -2,7 +2,6 @@ package com.cegeka.xparduino.state.component.impl;
 
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.event.impl.infrared.InfraredEvent;
-import com.cegeka.xparduino.event.Handle;
 import com.cegeka.xparduino.state.component.ComponentState;
 
 public class InfraredState extends ComponentState<InfraredState> {
@@ -13,7 +12,6 @@ public class InfraredState extends ComponentState<InfraredState> {
         super(pin);
     }
 
-    @Handle
     public void on(InfraredEvent event) {
         emitting = event.isEmitting();
     }

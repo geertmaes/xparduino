@@ -1,9 +1,10 @@
 package com.cegeka.xparduino.state.component.impl;
 
 import com.cegeka.xparduino.component.ComponentType;
-import com.cegeka.xparduino.event.Handle;
-import com.cegeka.xparduino.state.component.ComponentState;
 import com.cegeka.xparduino.event.impl.baseled.BaseLedEvent;
+import com.cegeka.xparduino.state.component.ComponentState;
+
+import static com.cegeka.xparduino.component.ComponentType.BASE_LED;
 
 public class BaseLedState extends ComponentState<BaseLedState> {
 
@@ -13,7 +14,6 @@ public class BaseLedState extends ComponentState<BaseLedState> {
         super(pin);
     }
 
-    @Handle
     public void on(BaseLedEvent event) {
         emitting = event.isEmitting();
     }
@@ -24,7 +24,7 @@ public class BaseLedState extends ComponentState<BaseLedState> {
 
     @Override
     public ComponentType getComponentType() {
-        return ComponentType.BASE_LED;
+        return BASE_LED;
     }
 
     @Override

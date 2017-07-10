@@ -1,10 +1,14 @@
 package com.cegeka.xparduino.event.impl.baseled;
 
 import com.cegeka.xparduino.event.Event;
-import com.cegeka.xparduino.event.EventCode;
 import com.cegeka.xparduino.event.EventMapping;
 
-@EventMapping(EventCode.BASE_LED_EVENT)
+import static com.cegeka.xparduino.event.EventCode.BASE_LED_EVENT;
+
+@EventMapping(
+        code = BASE_LED_EVENT,
+        serializer = BaseLedEventSerializer.class,
+        deserializer = BaseLedEventDeserializer.class)
 public class BaseLedEvent implements Event {
 
     private final int pin;
@@ -23,4 +27,5 @@ public class BaseLedEvent implements Event {
     public boolean isEmitting() {
         return emitting;
     }
+
 }

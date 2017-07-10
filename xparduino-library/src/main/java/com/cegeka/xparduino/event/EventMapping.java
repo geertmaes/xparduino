@@ -9,5 +9,9 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface EventMapping {
 
-    EventCode value();
+    EventCode code();
+
+    Class<? extends EventSerializer<? extends Event>> serializer();
+
+    Class<? extends EventDeserializer<? extends Event>> deserializer();
 }
