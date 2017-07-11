@@ -1,13 +1,13 @@
 package com.cegeka.xparduino.event.impl.trackswitch;
 
 import com.cegeka.xparduino.component.Component;
-import com.cegeka.xparduino.event.EventSerializer;
+import com.cegeka.xparduino.event.EventDataSerializer;
 import com.cegeka.xparduino.event.serialized.SerializedEvent;
 
 import static com.cegeka.xparduino.component.ComponentType.TRACK_SWITCH;
 import static com.cegeka.xparduino.event.EventCode.TRACK_SWITCH_EVENT;
 
-public class TrackSwitchEventSerializer implements EventSerializer<TrackSwitchEvent> {
+public class TrackSwitchEventSerializer implements EventDataSerializer<TrackSwitchEvent> {
 
     @Override
     public SerializedEvent serialize(TrackSwitchEvent event) {

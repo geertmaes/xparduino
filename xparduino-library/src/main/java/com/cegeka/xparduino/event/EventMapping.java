@@ -11,7 +11,7 @@ public @interface EventMapping {
 
     EventCode code();
 
-    Class<? extends EventSerializer<? extends Event>> serializer();
+    Class<? extends EventDataSerializer<? extends Event>> serializer();
 
-    Class<? extends EventDeserializer<? extends Event>> deserializer();
+    Class<? extends EventDataDeserializer<? extends Event>> deserializer();
 }

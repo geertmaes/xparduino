@@ -1,25 +1,25 @@
 package com.cegeka.xparduino.event.mapper;
 
 import com.cegeka.xparduino.event.Event;
-import com.cegeka.xparduino.event.serialized.deserializer.SerializedEventDeserializer;
-import com.cegeka.xparduino.event.serialized.deserializer.SerializedEventDeserializerFactory;
-import com.cegeka.xparduino.event.serialized.serializer.SerializedEventSerializer;
-import com.cegeka.xparduino.event.serialized.serializer.SerializedEventSerializerFactory;
+import com.cegeka.xparduino.event.mapper.deserializer.EventDeserializer;
+import com.cegeka.xparduino.event.mapper.deserializer.EventDeserializerFactory;
+import com.cegeka.xparduino.event.mapper.serializer.EventSerializer;
+import com.cegeka.xparduino.event.mapper.serializer.EventSerializerFactory;
 
 import java.util.Set;
 
 public class EventMapperFactory {
 
-    private final SerializedEventSerializerFactory serializedEventSerializerFactory
-            = new SerializedEventSerializerFactory();
-    private final SerializedEventDeserializerFactory serializedEventDeserializerFactory
-            = new SerializedEventDeserializerFactory();
+    private final EventSerializerFactory eventSerializerFactory
+            = new EventSerializerFactory();
+    private final EventDeserializerFactory eventDeserializerFactory
+            = new EventDeserializerFactory();
 
     public EventMapper create(Set<Class<? extends Event>> events) {
-        SerializedEventSerializer serializer
-                = serializedEventSerializerFactory.create(events);
-        SerializedEventDeserializer deserializer
-                = serializedEventDeserializerFactory.create(events);
+        EventSerializer serializer
+                = eventSerializerFactory.create(events);
+        EventDeserializer deserializer
+                = eventDeserializerFactory.create(events);
 
         return new EventMapper(serializer, deserializer);
     }

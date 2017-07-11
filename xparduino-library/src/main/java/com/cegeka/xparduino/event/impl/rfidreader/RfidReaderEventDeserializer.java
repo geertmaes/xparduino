@@ -1,9 +1,9 @@
 package com.cegeka.xparduino.event.impl.rfidreader;
 
-import com.cegeka.xparduino.event.EventDeserializer;
+import com.cegeka.xparduino.event.EventDataDeserializer;
 import com.cegeka.xparduino.event.serialized.SerializedEvent;
 
-public class RfidReaderEventDeserializer implements EventDeserializer<RfidReaderEvent> {
+public class RfidReaderEventDeserializer implements EventDataDeserializer<RfidReaderEvent> {
 
     @Override
     public RfidReaderEvent deserialize(SerializedEvent event) {

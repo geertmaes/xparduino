@@ -1,13 +1,13 @@
 package com.cegeka.xparduino.event.impl.obstaclesensor;
 
 import com.cegeka.xparduino.component.Component;
-import com.cegeka.xparduino.event.EventSerializer;
+import com.cegeka.xparduino.event.EventDataSerializer;
 import com.cegeka.xparduino.event.serialized.SerializedEvent;
 
 import static com.cegeka.xparduino.component.ComponentType.OBSTACLE_SENSOR;
 import static com.cegeka.xparduino.event.EventCode.OBSTACLE_SENSOR_EVENT;
 
-public class ObstacleSensorEventSerializer implements EventSerializer<ObstacleSensorEvent> {
+public class ObstacleSensorEventSerializer implements EventDataSerializer<ObstacleSensorEvent> {
 
     @Override
     public SerializedEvent serialize(ObstacleSensorEvent event) {

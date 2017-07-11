@@ -31,7 +31,7 @@ public class SerializedEvent {
 
     public String toString() {
         return String.format("<%d:%d,%d,%s>",
-                component.getType().getValue(), component.getPin(), eventCode.getValue(), eventBody);
+                component.getType().getValue(), component.getPin(), eventCode.value(), eventBody);
     }
 
     @Override

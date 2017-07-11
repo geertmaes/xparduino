@@ -17,13 +17,13 @@ public enum EventCode {
         this.value = value;
     }
 
-    public int getValue() {
+    public int value() {
         return value;
     }
 
     public static EventCode valueOf(int value) {
         return Arrays.stream(values())
-                .filter(type -> type.getValue() == value)
+                .filter(type -> type.value() == value)
                 .findAny()
                 .orElse(null);
     }

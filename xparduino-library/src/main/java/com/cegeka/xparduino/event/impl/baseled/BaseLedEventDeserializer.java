@@ -1,9 +1,9 @@
 package com.cegeka.xparduino.event.impl.baseled;
 
-import com.cegeka.xparduino.event.EventDeserializer;
+import com.cegeka.xparduino.event.EventDataDeserializer;
 import com.cegeka.xparduino.event.serialized.SerializedEvent;
 
-public class BaseLedEventDeserializer implements EventDeserializer<BaseLedEvent> {
+public class BaseLedEventDeserializer implements EventDataDeserializer<BaseLedEvent> {
 
     @Override
     public BaseLedEvent deserialize(SerializedEvent event) {

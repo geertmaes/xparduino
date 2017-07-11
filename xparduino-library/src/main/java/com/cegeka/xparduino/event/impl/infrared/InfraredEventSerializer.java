@@ -1,13 +1,13 @@
 package com.cegeka.xparduino.event.impl.infrared;
 
 import com.cegeka.xparduino.component.Component;
-import com.cegeka.xparduino.event.EventSerializer;
+import com.cegeka.xparduino.event.EventDataSerializer;
 import com.cegeka.xparduino.event.serialized.SerializedEvent;
 
 import static com.cegeka.xparduino.component.ComponentType.INFRARED_EMITTER;
 import static com.cegeka.xparduino.event.EventCode.INFRARED_EMITTER_EVENT;
 
-public class InfraredEventSerializer implements EventSerializer<InfraredEvent> {
+public class InfraredEventSerializer implements EventDataSerializer<InfraredEvent> {
 
     @Override
     public SerializedEvent serialize(InfraredEvent event) {
