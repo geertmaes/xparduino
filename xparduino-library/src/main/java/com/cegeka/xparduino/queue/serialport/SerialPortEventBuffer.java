@@ -1,19 +1,15 @@
-package com.cegeka.xparduino.event;
-
-import com.cegeka.xparduino.event.serialized.SerializedEventFactory;
+package com.cegeka.xparduino.queue.serialport;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
-public class EventBuffer {
+public class SerialPortEventBuffer {
 
     private static final String EVENT_PREFIX = "<";
     private static final String EVENT_SUFFIX = ">";
 
     private final StringBuilder buffer = new StringBuilder();
     private final Queue<String> events = new LinkedList<>();
-
-    private final SerializedEventFactory serializedEventFactory = new SerializedEventFactory();
 
     public void append(String payload) {
         int payloadPrefixIndex = payload.indexOf(EVENT_PREFIX);

@@ -1,14 +1,14 @@
-package com.cegeka.xparduino.event;
+package com.cegeka.xparduino.queue.serialport;
 
 import org.junit.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class EventBufferTest {
+public class SerialPortEventBufferTest {
 
     @Test
     public void append() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("<event>");
 
@@ -18,7 +18,7 @@ public class EventBufferTest {
 
     @Test
     public void append_Scattered() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("<eve");
         buffer.append("nt>");
@@ -29,7 +29,7 @@ public class EventBufferTest {
 
     @Test
     public void append_IncompleteEvent() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("<");
 
@@ -38,7 +38,7 @@ public class EventBufferTest {
 
     @Test
     public void append_Scattered_IncompleteEvent() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("<");
         buffer.append(".");
@@ -48,7 +48,7 @@ public class EventBufferTest {
 
     @Test
     public void append_UselessPrefix() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("prefix<event>");
 
@@ -58,7 +58,7 @@ public class EventBufferTest {
 
     @Test
     public void append_IncompleteEventPrefix() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("event><event1>");
 
@@ -68,7 +68,7 @@ public class EventBufferTest {
 
     @Test
     public void append_Scattered_UselessPrefix() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("prefix<eve");
         buffer.append("nt>");
@@ -79,7 +79,7 @@ public class EventBufferTest {
 
     @Test
     public void append_Multiple_Scattered_Events() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("prefix<eve");
         buffer.append("nt1><event");
@@ -92,7 +92,7 @@ public class EventBufferTest {
 
     @Test
     public void append_Scattered_IncompleteEventPrefix() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("event>");
         buffer.append("<event1>");
@@ -103,7 +103,7 @@ public class EventBufferTest {
 
     @Test
     public void append_Multiple_Scattered_IncompleteEventPrefix() throws Exception {
-        EventBuffer buffer = new EventBuffer();
+        SerialPortEventBuffer buffer = new SerialPortEventBuffer();
 
         buffer.append("event>");
         buffer.append("<event1>");

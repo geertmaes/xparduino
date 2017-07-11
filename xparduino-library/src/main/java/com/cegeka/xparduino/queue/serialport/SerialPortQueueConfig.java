@@ -15,4 +15,5 @@ public class SerialPortQueueConfig implements ArduinoQueueConfig {
     public ArduinoQueue getQueue() {
         return messageQueue;
     }
+
 }

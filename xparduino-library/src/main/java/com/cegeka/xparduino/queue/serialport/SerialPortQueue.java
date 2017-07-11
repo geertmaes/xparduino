@@ -1,7 +1,5 @@
 package com.cegeka.xparduino.queue.serialport;
 
-import com.cegeka.xparduino.command.serialization.CommandSerializer;
-import com.cegeka.xparduino.event.EventBuffer;
 import com.cegeka.xparduino.queue.ArduinoQueue;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
@@ -17,15 +15,13 @@ public class SerialPortQueue implements ArduinoQueue, SerialPortEventListener {
     private static final Logger LOGGER = LoggerFactory.getLogger(SerialPortQueue.class);
 
     private final String portName;
-    private final EventBuffer eventBuffer;
-    private final CommandSerializer commandSerializer;
+    private final SerialPortEventBuffer eventBuffer;
 
     private SerialPort serialPort;
 
     SerialPortQueue(String portName) {
         this.portName = portName;
-        this.eventBuffer = new EventBuffer();
-        this.commandSerializer = new CommandSerializer();
+        this.eventBuffer = new SerialPortEventBuffer();
     }
 
     @Override
@@ -37,6 +33,7 @@ public class SerialPortQueue implements ArduinoQueue, SerialPortEventListener {
             }
         } catch (Exception e) {
             LOGGER.warn("Failed to add serial port listener", e);
+            throw new SerialPortInitializationFailedException(e);
         }
     }
 

@@ -6,4 +6,8 @@ public class SerialPortInitializationFailedException extends RuntimeException {
         super(message);
     }
 
+    public SerialPortInitializationFailedException(Throwable cause) {
+        super(cause);
+    }
+
 }
