@@ -54,32 +54,44 @@ public class ArduinoBootstrap {
     private Arduino create(ArduinoConfiguration config) {
         Stopwatch stopwatch = Stopwatch.createStarted();
         LOGGER.info("---------------------------------------");
-        LOGGER.info("Starting Arduino bootstrap configuration");
+        LOGGER.info("Bootstrapping Arduino");
         executeConfigurators(config);
         executeComposers();
-        LOGGER.info("Arduino bootstrap configuration took {}", stopwatch.stop());
+        LOGGER.info("Bootstrapping Arduino took {}", stopwatch.stop());
         LOGGER.info("---------------------------------------\n");
         return new Arduino(getArduinoState(), commandChannel);
     }
 
     private void executeConfigurators(ArduinoConfiguration config) {
-        LOGGER.info("Executing configurators (total: {})", configurators.size());
         configurators.forEach(configurator -> executeConfigurator(config, configurator));
     }
 
     private void executeConfigurator(ArduinoConfiguration config, Configurator<? super ArduinoConfiguration> configurator) {
-        LOGGER.info("Executing configurator ({})", configurator.getClass().getSimpleName());
-        configurator.configure(config, bootstrapState);
+        try {
+            LOGGER.info("Executing configurator ({})", className(configurator));
+            configurator.configure(config, bootstrapState);
+        } catch (Exception e) {
+            LOGGER.info("Error configuring ({})", className(configurator), e);
+            throw new ArduinoBootstrapConfigurationException(e);
+        }
     }
 
     private void executeComposers() {
-        LOGGER.info("Executing composers (total: {})", composers.size());
         composers.forEach(this::executeComposer);
     }
 
     private void executeComposer(Composer composer) {
-        LOGGER.info("Executing composer ({})", composer.getClass().getSimpleName());
-        composer.compose(this);
+        try {
+            LOGGER.info("Executing composer ({})", className(composer));
+            composer.compose(this);
+        } catch (Exception e) {
+            LOGGER.info("Error composing ({})", className(composer), e);
+            throw new ArduinoBootstrapCompositionException(e);
+        }
+    }
+
+    private String className(Object obj) {
+        return obj.getClass().getSimpleName();
     }
 
     private void addConfigurator(Configurator<? super ArduinoConfiguration> configurator) {
