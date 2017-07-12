@@ -1,11 +1,9 @@
 package com.cegeka.xparduino.queue.stub;
 
-import com.cegeka.xparduino.action.ComponentAction;
-import com.cegeka.xparduino.action.ComponentActionDeserializer;
-import com.cegeka.xparduino.action.ComponentActionHandler;
-import com.cegeka.xparduino.action.ComponentActionHandlerFactory;
+import com.cegeka.xparduino.componentaction.flow.ComponentActionFlow;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.mapper.EventMapper;
+import com.cegeka.xparduino.event.serialized.SerializedEvent;
 import com.cegeka.xparduino.queue.ArduinoQueue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,17 +17,10 @@ public class StubQueue implements ArduinoQueue {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(StubQueue.class);
 
+    private final ComponentActionFlow componentActionFlow = new ComponentActionFlow();
     private final BlockingQueue<String> nextEvents = new ArrayBlockingQueue<>(1024, true);
 
-    private final ComponentActionDeserializer componentActionDeserializer;
-    private final ComponentActionHandlerFactory componentActionHandlerFactory;
-
     private EventMapper eventMapper;
-
-    StubQueue() {
-        this.componentActionDeserializer = new ComponentActionDeserializer();
-        this.componentActionHandlerFactory = new ComponentActionHandlerFactory();
-    }
 
     public void setEventMapper(EventMapper eventMapper) {
         this.eventMapper = eventMapper;
@@ -47,21 +38,12 @@ public class StubQueue implements ArduinoQueue {
     }
 
     private void handle(String message) {
-        ComponentAction componentAction
-                = componentActionDeserializer.deserialize(message);
-        handleComponentAction(componentAction);
-    }
-
-    private void handleComponentAction(ComponentAction componentAction) {
-        ComponentActionHandler componentActionHandler
-                = componentActionHandlerFactory.create(componentAction.getComponent());
-        handleEvents(componentActionHandler.handle(componentAction));
+        handleEvents(componentActionFlow.handle(message));
     }
 
     private void handleEvents(Stream<Event> events) {
-        events
-                .map(eventMapper::mapToSerializedEvent)
-                .map(Object::toString)
+        events.map(eventMapper::mapToSerializedEvent)
+                .map(SerializedEvent::toString)
                 .forEach(this::addEventToQueue);
     }
 

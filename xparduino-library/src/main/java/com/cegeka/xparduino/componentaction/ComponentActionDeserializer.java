@@ -1,4 +1,4 @@
-package com.cegeka.xparduino.action;
+package com.cegeka.xparduino.componentaction;
 
 import com.cegeka.xparduino.component.Component;
 import com.cegeka.xparduino.component.serialization.ComponentDeserializer;
