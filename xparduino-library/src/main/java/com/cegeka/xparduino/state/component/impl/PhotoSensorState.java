@@ -36,6 +36,7 @@ public class PhotoSensorState extends ComponentState<PhotoSensorState> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         PhotoSensorState that = (PhotoSensorState) o;
 
@@ -44,6 +45,8 @@ public class PhotoSensorState extends ComponentState<PhotoSensorState> {
 
     @Override
     public int hashCode() {
-        return signal;
+        int result = super.hashCode();
+        result = 31 * result + signal;
+        return result;
     }
 }

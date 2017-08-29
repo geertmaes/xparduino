@@ -18,6 +18,8 @@ import static com.cegeka.xparduino.component.ComponentType.*;
 
 public class Arduino implements Closeable {
 
+    private static final int POOL_SIZE = 100;
+
     private final ArduinoState state;
     private final Channel<Command> commandChannel;
     private final ScheduledExecutorService executorService;
@@ -25,7 +27,7 @@ public class Arduino implements Closeable {
     public Arduino(ArduinoState state, Channel<Command> commandChannel) {
         this.state = state;
         this.commandChannel = commandChannel;
-        this.executorService = Executors.newScheduledThreadPool(100);
+        this.executorService = Executors.newScheduledThreadPool(POOL_SIZE);
     }
 
     public BaseLedCommand baseLed(int pin) {

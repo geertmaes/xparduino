@@ -37,6 +37,7 @@ public class TrackSwitchState extends ComponentState<TrackSwitchState> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         TrackSwitchState that = (TrackSwitchState) o;
 
@@ -45,6 +46,8 @@ public class TrackSwitchState extends ComponentState<TrackSwitchState> {
 
     @Override
     public int hashCode() {
-        return direction != null ? direction.hashCode() : 0;
+        int result = super.hashCode();
+        result = 31 * result + (direction != null ? direction.hashCode() : 0);
+        return result;
     }
 }

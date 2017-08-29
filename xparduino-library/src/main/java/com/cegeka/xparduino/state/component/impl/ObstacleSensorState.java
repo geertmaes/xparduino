@@ -36,6 +36,7 @@ public class ObstacleSensorState extends ComponentState<ObstacleSensorState> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         ObstacleSensorState that = (ObstacleSensorState) o;
 
@@ -44,6 +45,8 @@ public class ObstacleSensorState extends ComponentState<ObstacleSensorState> {
 
     @Override
     public int hashCode() {
-        return (blocked ? 1 : 0);
+        int result = super.hashCode();
+        result = 31 * result + (blocked ? 1 : 0);
+        return result;
     }
 }

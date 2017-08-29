@@ -36,6 +36,7 @@ public class InfraredState extends ComponentState<InfraredState> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         InfraredState that = (InfraredState) o;
 
@@ -44,6 +45,8 @@ public class InfraredState extends ComponentState<InfraredState> {
 
     @Override
     public int hashCode() {
-        return (emitting ? 1 : 0);
+        int result = super.hashCode();
+        result = 31 * result + (emitting ? 1 : 0);
+        return result;
     }
 }

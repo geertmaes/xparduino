@@ -12,6 +12,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 public class ArduinoQueueReceiverHandler {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ArduinoQueueReceiverHandler.class);
+    private static final int POOL_SIZE = 4;
     private static final int LISTEN_PERIOD = 100;
     private static final int LISTEN_DELAY = 1000;
 
@@ -22,7 +23,7 @@ public class ArduinoQueueReceiverHandler {
     public ArduinoQueueReceiverHandler(ArduinoQueue queue, List<ArduinoQueueReceiver> queueReceivers) {
         this.queue = queue;
         this.queueReceivers = queueReceivers;
-        this.executorService = Executors.newScheduledThreadPool(4);
+        this.executorService = Executors.newScheduledThreadPool(POOL_SIZE);
     }
 
     public void listenOnQueueChanges() {

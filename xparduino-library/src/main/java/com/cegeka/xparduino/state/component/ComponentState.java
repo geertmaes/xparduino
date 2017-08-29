@@ -30,9 +30,21 @@ public abstract class ComponentState<T extends ComponentState> {
 
     protected abstract T copy();
 
-    public abstract boolean equals(Object o);
-
-    public abstract int hashCode();
-
     public abstract ComponentType getComponentType();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ComponentState<?> that = (ComponentState<?>) o;
+
+        return pin == that.pin;
+    }
+
+    @Override
+    public int hashCode() {
+        return pin;
+    }
+
 }

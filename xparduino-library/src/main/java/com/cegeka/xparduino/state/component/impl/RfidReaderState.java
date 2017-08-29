@@ -36,6 +36,7 @@ public class RfidReaderState extends ComponentState<RfidReaderState> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         RfidReaderState that = (RfidReaderState) o;
 
@@ -44,6 +45,8 @@ public class RfidReaderState extends ComponentState<RfidReaderState> {
 
     @Override
     public int hashCode() {
-        return tagId != null ? tagId.hashCode() : 0;
+        int result = super.hashCode();
+        result = 31 * result + (tagId != null ? tagId.hashCode() : 0);
+        return result;
     }
 }
