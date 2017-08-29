@@ -11,11 +11,13 @@ import java.util.Set;
 
 import static java.lang.String.format;
 import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toSet;
 
 public class ArduinoState {
 
-    private static final String NO_COMPONENT_CONFIGURED = "No component configured on pin (%d)";
-    private static final String COMPONENT_PIN_MISMATCH = "Component (%s) is configured on pin (%d), could not be (%s)";
+    static final String NO_COMPONENT_CONFIGURED = "No component configured on pin (%d)";
+    static final String COMPONENT_PIN_MISMATCH = "Component (%s) is configured on pin (%d), could not be (%s)";
+    static final String STATE_PIN_MISMATCH = "State (%s) is configured on pin (%d), could not be (%s)";
 
     private final ComponentStateFactory stateFactory = new ComponentStateFactory();
 
@@ -31,11 +33,22 @@ public class ArduinoState {
         return componentStates.values();
     }
 
+    public Collection<ComponentState> getComponentStates(ComponentType type) {
+        return components.entrySet()
+                .stream()
+                .filter(entry -> entry.getValue() == type)
+                .map(entry -> componentStates.get(entry.getKey()))
+                .collect(toSet());
+    }
+
     public <T extends ComponentState> T getState(int pin, Class<T> stateClass) {
         validatePin(pin);
 
         ComponentState state = componentStates.get(pin);
-        validateComponentOnPin(pin, state.getComponentType());
+
+        if (! state.getClass().isAssignableFrom(stateClass)) {
+            throw new ArduinoStateException(format(STATE_PIN_MISMATCH, state.getClass(), pin, stateClass));
+        }
 
         return stateClass.cast(state);
     }
@@ -47,6 +60,8 @@ public class ArduinoState {
     }
 
     public void validateComponentOnPin(int pin, ComponentType actual) {
+        validatePin(pin);
+
         ComponentType expected = components.get(pin);
 
         if (actual != expected) {
@@ -63,5 +78,4 @@ public class ArduinoState {
         return components.stream()
                 .collect(toMap(Component::getPin, stateFactory::create));
     }
-
 }

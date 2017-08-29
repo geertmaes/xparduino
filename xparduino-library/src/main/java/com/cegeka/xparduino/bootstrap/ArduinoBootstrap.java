@@ -4,6 +4,7 @@ import com.cegeka.xparduino.Arduino;
 import com.cegeka.xparduino.bootstrap.composer.ArduinoQueueComposer;
 import com.cegeka.xparduino.bootstrap.composer.ComponentComposer;
 import com.cegeka.xparduino.bootstrap.composer.Composer;
+import com.cegeka.xparduino.bootstrap.composer.TrackSwitchDefaultPositionComposer;
 import com.cegeka.xparduino.bootstrap.configurator.Configurator;
 import com.cegeka.xparduino.bootstrap.configurator.component.ComponentConfigurator;
 import com.cegeka.xparduino.bootstrap.configurator.eventmapper.EventMapperConfigurator;
@@ -35,6 +36,7 @@ public class ArduinoBootstrap {
 
         bootstrap.addComposer(new ComponentComposer());
         bootstrap.addComposer(new ArduinoQueueComposer());
+        bootstrap.addComposer(new TrackSwitchDefaultPositionComposer());
 
         bootstrap.addConfigurator(new ComponentConfigurator());
         bootstrap.addConfigurator(new EventMapperConfigurator());
