@@ -3,7 +3,7 @@ package com.cegeka.xparduino.bootstrap.composer;
 import com.cegeka.xparduino.bootstrap.ArduinoBootstrap;
 import com.cegeka.xparduino.state.component.ComponentStateEventDispatcher;
 
-public class ComponentComposer implements Composer {
+public class EventDispatcherComposer implements Composer {
 
     @Override
     public void compose(ArduinoBootstrap bootstrap) {

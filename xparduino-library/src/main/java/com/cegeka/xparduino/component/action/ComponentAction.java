@@ -1,26 +1,26 @@
-package com.cegeka.xparduino.componentaction;
+package com.cegeka.xparduino.component.action;
 
 import com.cegeka.xparduino.component.Component;
 
 public class ComponentAction {
 
-    private final Action action;
+    private final String action;
     private final Component component;
 
-    public ComponentAction(Action action, Component component) {
+    ComponentAction(String action, Component component) {
         this.action = action;
         this.component = component;
     }
 
-    public Action getAction() {
+    public String action() {
         return action;
     }
 
-    public Component getComponent() {
+    public Component component() {
         return component;
     }
 
-    public int getPin() {
+    public int pin() {
         return component.getPin();
     }
 

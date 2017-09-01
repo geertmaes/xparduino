@@ -1,4 +1,4 @@
-package com.cegeka.xparduino.componentaction;
+package com.cegeka.xparduino.component.action;
 
 public class ComponentActionFormatException extends RuntimeException {
 

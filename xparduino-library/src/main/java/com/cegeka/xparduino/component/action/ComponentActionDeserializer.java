@@ -1,4 +1,4 @@
-package com.cegeka.xparduino.componentaction;
+package com.cegeka.xparduino.component.action;
 
 import com.cegeka.xparduino.component.Component;
 import com.cegeka.xparduino.component.serialization.ComponentDeserializer;
@@ -22,7 +22,7 @@ public class ComponentActionDeserializer {
 
         String[] componentActionParts = removeIdentifiers(message).split(COMPONENT_ACTION_SEPARATOR);
 
-        Action action = new Action(componentActionParts[1]);
+        String action = componentActionParts[1];
         Component component = componentDeserializer.deserialize(componentActionParts[0]);
 
         return new ComponentAction(action, component);

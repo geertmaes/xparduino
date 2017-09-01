@@ -1,8 +1,5 @@
 package com.cegeka.xparduino.queue;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -11,10 +8,9 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class ArduinoQueueReceiverHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ArduinoQueueReceiverHandler.class);
     private static final int POOL_SIZE = 4;
-    private static final int LISTEN_PERIOD = 100;
-    private static final int LISTEN_DELAY = 1000;
+    private static final int LISTEN_PERIOD = 10;
+    private static final int LISTEN_DELAY = 0;
 
     private final ArduinoQueue queue;
     private final List<ArduinoQueueReceiver> queueReceivers;
@@ -33,7 +29,6 @@ public class ArduinoQueueReceiverHandler {
     private void handleQueueEvent() {
         if (queue.hasNext()) {
             String message = queue.next();
-            LOGGER.info("Received message ({}) from queue", message);
             queueReceivers.forEach(receiver -> receiver.onMessage(message));
         }
     }

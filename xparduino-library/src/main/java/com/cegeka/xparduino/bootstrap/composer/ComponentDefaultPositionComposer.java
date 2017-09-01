@@ -9,9 +9,9 @@ import com.cegeka.xparduino.state.component.ComponentState;
 
 import static com.cegeka.xparduino.component.ComponentType.TRACK_SWITCH;
 
-public class TrackSwitchDefaultPositionComposer implements Composer {
+public class ComponentDefaultPositionComposer implements Composer {
 
-    private static final Direction DEFAULT_DIRECTION = Direction.LEFT;
+    private static final Direction DEFAULT_TRACk_DIRECTION = Direction.LEFT;
 
     @Override
     public void compose(ArduinoBootstrap bootstrap) {
@@ -19,12 +19,12 @@ public class TrackSwitchDefaultPositionComposer implements Composer {
 
         bootstrap.getArduinoState()
                 .getComponentStates(TRACK_SWITCH)
-                .forEach(state -> moveToLeft(state, commandChannel));
+                .forEach(state -> moveToDefault(state, commandChannel));
     }
 
-    private void moveToLeft(ComponentState state, Channel<Command> commandChannel) {
+    private void moveToDefault(ComponentState state, Channel<Command> commandChannel) {
         new TrackSwitchCommand(state.getPin(), commandChannel)
-                .withDirection(DEFAULT_DIRECTION)
+                .withDirection(DEFAULT_TRACk_DIRECTION)
                 .execute();
     }
 

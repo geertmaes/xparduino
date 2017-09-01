@@ -1,14 +1,11 @@
 package com.cegeka.xparduino.channel;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.util.LinkedList;
 import java.util.List;
 
-public class ChannelImpl<T> implements Channel<T> {
+import static java.lang.String.format;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ChannelImpl.class);
+public class ChannelImpl<T> implements Channel<T> {
 
     private final String identifier;
     private final List<ChannelListener<T>> listeners = new LinkedList<>();
@@ -22,7 +19,7 @@ public class ChannelImpl<T> implements Channel<T> {
         try {
             listeners.forEach(listener -> listener.on(message));
         } catch (Exception e) {
-            LOGGER.warn("Failed to send ({}) over channel ({})", message, identifier, e);
+            throw new RuntimeException(format("Failed to send %s on %s", message, identifier), e);
         }
     }
 

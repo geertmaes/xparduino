@@ -21,12 +21,18 @@ public class ArduinoState {
 
     private final ComponentStateFactory stateFactory = new ComponentStateFactory();
 
+    private final Set<Component> componentList;
     private final Map<Integer, ComponentType> components;
     private final Map<Integer, ComponentState> componentStates;
 
     public ArduinoState(Set<Component> components) {
+        this.componentList = components;
         this.components = toComponentMapping(components);
         this.componentStates = toComponentStateMapping(components);
+    }
+
+    public Set<Component> getComponents() {
+        return componentList;
     }
 
     public Collection<ComponentState> getComponentStates() {

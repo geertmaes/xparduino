@@ -16,7 +16,6 @@ public class ArduinoQueueCommandSender implements ChannelListener<Command> {
 
     @Override
     public void on(Command command) {
-        String message = commandSerializer.serialize(command);
-        queueSender.send(message);
+        queueSender.send(commandSerializer.serialize(command));
     }
 }

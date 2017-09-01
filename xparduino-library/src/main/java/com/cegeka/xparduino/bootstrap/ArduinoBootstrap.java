@@ -2,15 +2,16 @@ package com.cegeka.xparduino.bootstrap;
 
 import com.cegeka.xparduino.Arduino;
 import com.cegeka.xparduino.bootstrap.composer.ArduinoQueueComposer;
-import com.cegeka.xparduino.bootstrap.composer.ComponentComposer;
+import com.cegeka.xparduino.bootstrap.composer.EventDispatcherComposer;
 import com.cegeka.xparduino.bootstrap.composer.Composer;
-import com.cegeka.xparduino.bootstrap.composer.TrackSwitchDefaultPositionComposer;
+import com.cegeka.xparduino.bootstrap.composer.ComponentDefaultPositionComposer;
 import com.cegeka.xparduino.bootstrap.configurator.Configurator;
 import com.cegeka.xparduino.bootstrap.configurator.component.ComponentConfigurator;
 import com.cegeka.xparduino.bootstrap.configurator.eventmapper.EventMapperConfigurator;
 import com.cegeka.xparduino.bootstrap.configurator.queue.ArduinoQueueConfigurator;
 import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.channel.ChannelImpl;
+import com.cegeka.xparduino.channel.LoggingChannel;
 import com.cegeka.xparduino.command.Command;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.mapper.EventMapper;
@@ -21,7 +22,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.List;
+import java.util.stream.Stream;
 
+import static com.cegeka.xparduino.utils.ClassUtils.className;
 import static com.google.common.collect.Lists.newArrayList;
 
 public class ArduinoBootstrap {
@@ -31,25 +34,29 @@ public class ArduinoBootstrap {
     private static final String EVENT_CHANNEL = "Event Channel";
     private static final String COMMAND_CHANNEL = "Command Channel";
 
-    public static Arduino fromConfiguration(ArduinoConfiguration configuration) {
+    public static Arduino fromConfiguration(ArduinoConfiguration configuration, PostBuildListener... postBuildListeners) {
         ArduinoBootstrap bootstrap = new ArduinoBootstrap();
 
-        bootstrap.addComposer(new ComponentComposer());
+        bootstrap.addComposer(new EventDispatcherComposer());
         bootstrap.addComposer(new ArduinoQueueComposer());
-        bootstrap.addComposer(new TrackSwitchDefaultPositionComposer());
+        bootstrap.addComposer(new ComponentDefaultPositionComposer());
 
         bootstrap.addConfigurator(new ComponentConfigurator());
         bootstrap.addConfigurator(new EventMapperConfigurator());
         bootstrap.addConfigurator(new ArduinoQueueConfigurator());
 
+        Stream.of(postBuildListeners)
+                .forEach(bootstrap::addPostBuildListener);
+
         return bootstrap.create(configuration);
     }
 
-    private final Channel<Event> eventChannel = new ChannelImpl<>(EVENT_CHANNEL);
-    private final Channel<Command> commandChannel = new ChannelImpl<>(COMMAND_CHANNEL);
+    private final Channel<Event> eventChannel = new LoggingChannel<>(new ChannelImpl<>(EVENT_CHANNEL));
+    private final Channel<Command> commandChannel = new LoggingChannel<>(new ChannelImpl<>(COMMAND_CHANNEL));
 
     private final List<Composer> composers = newArrayList();
     private final List<Configurator<? super ArduinoConfiguration>> configurators = newArrayList();
+    private final List<PostBuildListener> postBuildListeners = newArrayList();
 
     private final BootstrapState bootstrapState = new BootstrapState();
 
@@ -59,6 +66,7 @@ public class ArduinoBootstrap {
         LOGGER.info("Bootstrapping Arduino");
         executeConfigurators(config);
         executeComposers();
+        executePostBuildListeners();
         LOGGER.info("Bootstrapping Arduino took {}", stopwatch.stop());
         LOGGER.info("---------------------------------------\n");
         return new Arduino(getArduinoState(), commandChannel);
@@ -92,8 +100,18 @@ public class ArduinoBootstrap {
         }
     }
 
-    private String className(Object obj) {
-        return obj.getClass().getSimpleName();
+    private void executePostBuildListeners() {
+        postBuildListeners.forEach(this::executePostBuildListener);
+    }
+
+    private void executePostBuildListener(PostBuildListener listener) {
+        try {
+            LOGGER.info("Executing post-build listener ({})", className(listener));
+            listener.onPostBuild(this);
+        } catch (Exception e) {
+            LOGGER.info("Error composing ({})", className(listener), e);
+            throw new ArduinoBootstrapCompositionException(e);
+        }
     }
 
     private void addConfigurator(Configurator<? super ArduinoConfiguration> configurator) {
@@ -102,6 +120,10 @@ public class ArduinoBootstrap {
 
     private void addComposer(Composer composer) {
         composers.add(composer);
+    }
+
+    private void addPostBuildListener(PostBuildListener listener) {
+        postBuildListeners.add(listener);
     }
 
     public Channel<Event> getEventChannel() {
@@ -154,6 +176,12 @@ public class ArduinoBootstrap {
             return arduinoQueue;
         }
 
+    }
+
+    @FunctionalInterface
+    public interface PostBuildListener {
+
+        void onPostBuild(ArduinoBootstrap bootstrap);
     }
 
 }
