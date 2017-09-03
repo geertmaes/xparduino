@@ -2,8 +2,10 @@ package com.cegeka.xparduino.event;
 
 import com.cegeka.xparduino.domain.Direction;
 import com.cegeka.xparduino.event.impl.baseled.BaseLedEvent;
+import com.cegeka.xparduino.event.impl.infrared.InfraredEvent;
 import com.cegeka.xparduino.event.impl.obstaclesensor.ObstacleSensorEvent;
 import com.cegeka.xparduino.event.impl.photosensor.PhotoSensorEvent;
+import com.cegeka.xparduino.event.impl.rfidreader.RfidReaderEvent;
 import com.cegeka.xparduino.event.impl.trackswitch.TrackSwitchEvent;
 
 import static com.cegeka.xparduino.component.ComponentTestConstants.PIN_1;
@@ -20,6 +22,14 @@ public class EventTestConstants {
 
     public static ObstacleSensorEvent obstacleSensorEvent(boolean blocked) {
         return new ObstacleSensorEvent(PIN_1, blocked);
+    }
+
+    public static InfraredEvent infraredEvent(boolean emitting) {
+        return new InfraredEvent(PIN_1, emitting);
+    }
+
+    public static RfidReaderEvent rfidReaderEvent(String tagId) {
+        return new RfidReaderEvent(PIN_1, tagId);
     }
 
     public static TrackSwitchEvent trackSwitchEvent(Direction direction) {

@@ -15,8 +15,16 @@ public class ComponentTestConstants {
         return new Component(pin, PHOTO_SENSOR);
     }
 
+    public static Component infrared(int pin) {
+        return new Component(pin, INFRARED_EMITTER);
+    }
+
     public static Component obstacleSensor(int pin) {
         return new Component(pin, OBSTACLE_SENSOR);
+    }
+
+    public static Component rfidReader(int pin) {
+        return new Component(pin, RFID_READER);
     }
 
     public static Component trackSwitch(int pin) {
