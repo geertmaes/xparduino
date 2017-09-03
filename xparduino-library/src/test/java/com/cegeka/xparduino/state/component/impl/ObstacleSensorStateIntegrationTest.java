@@ -13,8 +13,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 public class ObstacleSensorStateIntegrationTest {
 
-    private static final int SIGNAL_STRENGTH = 10;
-
     @Rule
     public ArduinoTestRule arduinoRule = new ArduinoTestRule(obstacleSensor(PIN_1));
 
