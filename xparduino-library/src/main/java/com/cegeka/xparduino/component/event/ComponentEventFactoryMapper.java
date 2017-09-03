@@ -8,8 +8,10 @@ public class ComponentEventFactoryMapper {
         switch (type) {
             case BASE_LED:
                 return new BaseLedEventFactory();
+            case TRACK_SWITCH:
+                return new TrackSwitchEventFactory();
             default:
-                return new NoopEventFactory();
+                throw new RuntimeException(String.format("No event factory implementation for %s", type));
         }
     }
 

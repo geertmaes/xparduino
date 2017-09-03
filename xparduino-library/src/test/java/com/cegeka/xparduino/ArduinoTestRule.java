@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Arrays;
 
+import static com.cegeka.xparduino.utils.ClassUtils.className;
 import static java.lang.String.format;
 import static java.lang.Thread.sleep;
 import static junit.framework.TestCase.fail;
@@ -40,7 +41,7 @@ public class ArduinoTestRule extends ExternalResource {
     }
 
     private void waitForIncomingEvents(int events) {
-        this.eventProber.waitForIncomingEvents(events);
+        this.eventProber.waitForProcessedEvents(events);
     }
 
     public Arduino arduino() {
@@ -49,7 +50,7 @@ public class ArduinoTestRule extends ExternalResource {
 
     @Override
     protected void before() throws Throwable {
-        this.arduino = ArduinoBootstrap.fromConfiguration(configuration, eventProber, eventSender);
+        this.arduino = ArduinoBootstrap.fromConfiguration(configuration, eventSender, eventProber);
     }
 
     @Override
@@ -92,33 +93,34 @@ public class ArduinoTestRule extends ExternalResource {
 
     private static class EventProber implements ArduinoBootstrap.PostBuildListener {
 
-        private static final int WAIT_TIME = 10;
+        private static final int WAIT_TIME = 100;
         private static final int MAX_RETRIES = 10;
 
         private volatile int receivedEvents = 0;
 
         @Override
-        @SuppressWarnings("unchecked")
         public void onPostBuild(ArduinoBootstrap bootstrap) {
+            bootstrap.getEventChannel()
+                    .register(this::receivedEvent);
             bootstrap.getCommandChannel()
-                    .register(message -> waitForIncomingEvents(1));
-
-            bootstrap.getArduinoState()
-                    .getComponentStates()
-                    .forEach(state -> state.onStateChange(change -> receivedEvents++));
+                    .register(command -> waitForProcessedEvents(1));
         }
 
-        void waitForIncomingEvents(int events) {
+        private void receivedEvent(Event event) {
+            receivedEvents++;
+            LOGGER.info("Processed {}", className(event));
+        }
+
+        void waitForProcessedEvents(int events) {
             int retries = 0;
 
-            LOGGER.info("Waiting for ({}) incoming events ({})", events);
-
-            while(receivedEvents != events && retries < MAX_RETRIES) {
+            while (receivedEvents != events && retries < MAX_RETRIES) {
                 try {
+                    LOGGER.info("Waiting for {} processed events", events - receivedEvents);
                     retries++;
                     sleep(WAIT_TIME);
                 } catch (InterruptedException e) {
-                    LOGGER.error("Error waiting for incoming events", e);
+                    LOGGER.error("Error waiting for processed events", e);
                     throw new RuntimeException(e);
                 }
             }
@@ -129,7 +131,6 @@ public class ArduinoTestRule extends ExternalResource {
 
             receivedEvents = 0;
         }
-
     }
 
 }

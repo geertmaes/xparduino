@@ -2,28 +2,26 @@ package com.cegeka.xparduino.bootstrap;
 
 import com.cegeka.xparduino.Arduino;
 import com.cegeka.xparduino.bootstrap.composer.ArduinoQueueComposer;
-import com.cegeka.xparduino.bootstrap.composer.EventDispatcherComposer;
-import com.cegeka.xparduino.bootstrap.composer.Composer;
 import com.cegeka.xparduino.bootstrap.composer.ComponentDefaultPositionComposer;
+import com.cegeka.xparduino.bootstrap.composer.Composer;
+import com.cegeka.xparduino.bootstrap.composer.EventDispatcherComposer;
 import com.cegeka.xparduino.bootstrap.configurator.Configurator;
 import com.cegeka.xparduino.bootstrap.configurator.component.ComponentConfigurator;
 import com.cegeka.xparduino.bootstrap.configurator.eventmapper.EventMapperConfigurator;
 import com.cegeka.xparduino.bootstrap.configurator.queue.ArduinoQueueConfigurator;
-import com.cegeka.xparduino.channel.Channel;
-import com.cegeka.xparduino.channel.ChannelImpl;
-import com.cegeka.xparduino.channel.LoggingChannel;
+import com.cegeka.xparduino.channel.*;
 import com.cegeka.xparduino.command.Command;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.mapper.EventMapper;
 import com.cegeka.xparduino.queue.ArduinoQueue;
 import com.cegeka.xparduino.state.ArduinoState;
-import com.google.common.base.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Stream;
 
+import static com.cegeka.xparduino.channel.LockingChannel.locked;
 import static com.cegeka.xparduino.utils.ClassUtils.className;
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -45,14 +43,14 @@ public class ArduinoBootstrap {
         bootstrap.addConfigurator(new EventMapperConfigurator());
         bootstrap.addConfigurator(new ArduinoQueueConfigurator());
 
-        Stream.of(postBuildListeners)
+        Arrays.stream(postBuildListeners)
                 .forEach(bootstrap::addPostBuildListener);
 
         return bootstrap.create(configuration);
     }
 
-    private final Channel<Event> eventChannel = new LoggingChannel<>(new ChannelImpl<>(EVENT_CHANNEL));
-    private final Channel<Command> commandChannel = new LoggingChannel<>(new ChannelImpl<>(COMMAND_CHANNEL));
+    private final LockingChannel<Event> eventChannel = locked(new LoggingChannel<>(new NamedChannel<>(new ChannelImpl<>(), EVENT_CHANNEL)));
+    private final LockingChannel<Command> commandChannel = locked(new LoggingChannel<>(new NamedChannel<>(new ChannelImpl<>(), COMMAND_CHANNEL)));
 
     private final List<Composer> composers = newArrayList();
     private final List<Configurator<? super ArduinoConfiguration>> configurators = newArrayList();
@@ -61,14 +59,12 @@ public class ArduinoBootstrap {
     private final BootstrapState bootstrapState = new BootstrapState();
 
     private Arduino create(ArduinoConfiguration config) {
-        Stopwatch stopwatch = Stopwatch.createStarted();
         LOGGER.info("---------------------------------------");
-        LOGGER.info("Bootstrapping Arduino");
         executeConfigurators(config);
         executeComposers();
         executePostBuildListeners();
-        LOGGER.info("Bootstrapping Arduino took {}", stopwatch.stop());
         LOGGER.info("---------------------------------------\n");
+        releaseChannels();
         return new Arduino(getArduinoState(), commandChannel);
     }
 
@@ -112,6 +108,11 @@ public class ArduinoBootstrap {
             LOGGER.info("Error composing ({})", className(listener), e);
             throw new ArduinoBootstrapCompositionException(e);
         }
+    }
+
+    private void releaseChannels() {
+        eventChannel.release();
+        commandChannel.release();
     }
 
     private void addConfigurator(Configurator<? super ArduinoConfiguration> configurator) {

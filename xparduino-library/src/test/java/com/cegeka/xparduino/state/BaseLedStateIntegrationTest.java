@@ -15,9 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BaseLedStateIntegrationTest {
 
     @Rule
-    public ArduinoTestRule arduinoRule = new ArduinoTestRule(
-            baseLed(PIN_1)
-    );
+    public ArduinoTestRule arduinoRule = new ArduinoTestRule(baseLed(PIN_1));
 
     private Arduino arduino;
 
@@ -36,6 +34,7 @@ public class BaseLedStateIntegrationTest {
     @Test
     public void baseLedState_Emitting_True() throws Exception {
         BaseLedState state = arduino.getState(PIN_1, BaseLedState.class);
+        state.on(baseLedEvent(false));
 
         arduino.baseLed(PIN_1)
                 .withEmitting(true)
@@ -47,7 +46,7 @@ public class BaseLedStateIntegrationTest {
     @Test
     public void baseLedState_Emitting_False() throws Exception {
         BaseLedState state = arduino.getState(PIN_1, BaseLedState.class);
-        arduinoRule.emitEvents(baseLedEvent(true));
+        state.on(baseLedEvent(true));
 
         arduino.baseLed(PIN_1)
                 .withEmitting(false)
