@@ -16,7 +16,7 @@ public class PhotoSensorState extends ComponentState<PhotoSensorState> {
         signal = event.getSignal();
     }
 
-    public int isSignal() {
+    public int getSignal() {
         return signal;
     }
 

@@ -1,7 +1,6 @@
 package com.cegeka.xparduino.component;
 
-import static com.cegeka.xparduino.component.ComponentType.BASE_LED;
-import static com.cegeka.xparduino.component.ComponentType.TRACK_SWITCH;
+import static com.cegeka.xparduino.component.ComponentType.*;
 
 public class ComponentTestConstants {
 
@@ -10,6 +9,14 @@ public class ComponentTestConstants {
 
     public static Component baseLed(int pin) {
         return new Component(pin, BASE_LED);
+    }
+
+    public static Component photoSensor(int pin) {
+        return new Component(pin, PHOTO_SENSOR);
+    }
+
+    public static Component obstacleSensor(int pin) {
+        return new Component(pin, OBSTACLE_SENSOR);
     }
 
     public static Component trackSwitch(int pin) {

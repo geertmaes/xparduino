@@ -1,8 +1,7 @@
-package com.cegeka.xparduino.state;
+package com.cegeka.xparduino.state.component.impl;
 
 import com.cegeka.xparduino.Arduino;
 import com.cegeka.xparduino.ArduinoTestRule;
-import com.cegeka.xparduino.state.component.impl.BaseLedState;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -36,9 +35,7 @@ public class BaseLedStateIntegrationTest {
         BaseLedState state = arduino.getState(PIN_1, BaseLedState.class);
         state.on(baseLedEvent(false));
 
-        arduino.baseLed(PIN_1)
-                .withEmitting(true)
-                .execute();
+        arduinoRule.emitEvents(baseLedEvent(true));
 
         assertThat(state.isEmitting()).isTrue();
     }
@@ -48,9 +45,7 @@ public class BaseLedStateIntegrationTest {
         BaseLedState state = arduino.getState(PIN_1, BaseLedState.class);
         state.on(baseLedEvent(true));
 
-        arduino.baseLed(PIN_1)
-                .withEmitting(false)
-                .execute();
+        arduinoRule.emitEvents(baseLedEvent(false));
 
         assertThat(state.isEmitting()).isFalse();
     }
