@@ -35,4 +35,5 @@ public class Component {
         result = 31 * result + type.hashCode();
         return result;
     }
+
 }

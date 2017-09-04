@@ -1,7 +1,7 @@
 package com.cegeka.xparduino.event.serialized;
 
 import com.cegeka.xparduino.component.Component;
-import com.cegeka.xparduino.component.serialization.ComponentDeserializer;
+import com.cegeka.xparduino.component.mapper.ComponentMapper;
 import com.cegeka.xparduino.event.EventCode;
 
 import java.util.regex.Pattern;
@@ -14,7 +14,7 @@ public class SerializedEventFactory {
     private static final Pattern EVENT_FORMAT = Pattern.compile("^<\\d*:\\d*,.*,.*>$");
     private static final String INVALID_FORMAT = "Event (%s) has invalid format";
 
-    private final ComponentDeserializer componentDeserializer = new ComponentDeserializer();
+    private final ComponentMapper componentMapper = new ComponentMapper();
 
     public SerializedEvent create(String event) {
         validateEventFormat(event);
@@ -39,7 +39,7 @@ public class SerializedEventFactory {
     }
 
     private Component extractComponent(String[] eventParts) {
-        return componentDeserializer.deserialize(eventParts[0]);
+        return componentMapper.deserialize(eventParts[0]);
     }
 
     private EventCode extractCode(String[] eventParts) {

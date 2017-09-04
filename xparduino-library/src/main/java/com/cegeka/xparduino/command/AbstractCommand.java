@@ -1,17 +1,14 @@
 package com.cegeka.xparduino.command;
 
-import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.component.Component;
 import com.cegeka.xparduino.component.ComponentType;
 
 public abstract class AbstractCommand implements Command {
 
-    private final Channel<Command> commandChannel;
     private final int pin;
 
-    protected AbstractCommand(int pin, Channel<Command> commandChannel) {
+    protected AbstractCommand(int pin) {
         this.pin = pin;
-        this.commandChannel = commandChannel;
     }
 
     @Override
@@ -24,8 +21,4 @@ public abstract class AbstractCommand implements Command {
         return new Component(pin, getComponentType());
     }
 
-    @Override
-    public void execute() {
-        this.commandChannel.send(this);
-    }
 }

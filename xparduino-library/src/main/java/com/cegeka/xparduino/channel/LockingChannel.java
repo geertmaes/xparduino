@@ -21,6 +21,10 @@ public class LockingChannel<T> implements Channel<T> {
         this.messageQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY, true);
     }
 
+    public void lock() {
+        this.locked = true;
+    }
+
     public void release() {
         this.locked = false;
         while (messageQueue.size() > 0) {

@@ -2,10 +2,14 @@ package com.cegeka.xparduino.channel;
 
 public class NamedChannel<T> implements Channel<T> {
 
+    public static <T> NamedChannel<T> named(Channel<T> delegate, String identifier) {
+        return new NamedChannel<>(delegate, identifier);
+    }
+
     private final String identifier;
     private final Channel<T> delegate;
 
-    public NamedChannel(Channel<T> delegate, String identifier) {
+    private NamedChannel(Channel<T> delegate, String identifier) {
         this.delegate = delegate;
         this.identifier = identifier;
     }

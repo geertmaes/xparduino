@@ -1,10 +1,10 @@
 package com.cegeka.xparduino.event.mapper;
 
 import com.cegeka.xparduino.event.Event;
-import com.cegeka.xparduino.event.serialized.SerializedEvent;
-import com.cegeka.xparduino.event.serialized.SerializedEventFactory;
 import com.cegeka.xparduino.event.mapper.deserializer.EventDeserializer;
 import com.cegeka.xparduino.event.mapper.serializer.EventSerializer;
+import com.cegeka.xparduino.event.serialized.SerializedEvent;
+import com.cegeka.xparduino.event.serialized.SerializedEventFactory;
 
 public class EventMapper {
 
@@ -12,23 +12,27 @@ public class EventMapper {
     private final EventDeserializer eventDeserializer;
     private final SerializedEventFactory serializedEventFactory;
 
-    public EventMapper(EventSerializer eventSerializer,
-                       EventDeserializer eventDeserializer) {
+    EventMapper(EventSerializer eventSerializer,
+                EventDeserializer eventDeserializer) {
         this.eventSerializer = eventSerializer;
         this.eventDeserializer = eventDeserializer;
         this.serializedEventFactory = new SerializedEventFactory();
     }
 
-    public Event mapToEvent(SerializedEvent event) {
+    public Event toEvent(String event) {
+        return eventDeserializer.deserialize(toSerializedEvent(event));
+    }
+
+    public Event toEvent(SerializedEvent event) {
         return eventDeserializer.deserialize(event);
     }
 
-    public SerializedEvent mapToSerializedEvent(Event event) {
-        return eventSerializer.serialize(event);
+    public SerializedEvent toSerializedEvent(String event) {
+        return serializedEventFactory.create(event);
     }
 
-    public SerializedEvent mapToSerializedEvent(String event) {
-        return serializedEventFactory.create(event);
+    public SerializedEvent toSerializedEvent(Event event) {
+        return eventSerializer.serialize(event);
     }
 
 }

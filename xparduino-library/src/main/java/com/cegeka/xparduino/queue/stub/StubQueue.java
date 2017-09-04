@@ -35,7 +35,7 @@ public class StubQueue implements ArduinoQueue {
     @Override
     public void send(String message) {
         messageHandler.handle(message)
-                .map(eventMapper::mapToSerializedEvent)
+                .map(eventMapper::toSerializedEvent)
                 .map(SerializedEvent::toString)
                 .forEach(this::addEventToQueue);
     }

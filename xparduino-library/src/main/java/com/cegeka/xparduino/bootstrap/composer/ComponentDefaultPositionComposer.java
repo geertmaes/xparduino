@@ -23,9 +23,7 @@ public class ComponentDefaultPositionComposer implements Composer {
     }
 
     private void moveToDefault(ComponentState state, Channel<Command> commandChannel) {
-        new TrackSwitchCommand(state.getPin(), commandChannel)
-                .withDirection(DEFAULT_TRACk_DIRECTION)
-                .execute();
+        commandChannel.send(new TrackSwitchCommand(state.getPin(), DEFAULT_TRACk_DIRECTION));
     }
 
 }

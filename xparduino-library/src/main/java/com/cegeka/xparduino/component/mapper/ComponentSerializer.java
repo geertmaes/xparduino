@@ -1,15 +1,16 @@
-package com.cegeka.xparduino.component.serialization;
+package com.cegeka.xparduino.component.mapper;
 
 import com.cegeka.xparduino.component.Component;
 
 import static java.util.Objects.requireNonNull;
 
-public class ComponentSerializer {
+class ComponentSerializer {
 
     private static final String COMPONENT_FORMAT = "%s:%s";
 
-    public String serialize(Component component) {
+    String serialize(Component component) {
         requireNonNull(component);
         return String.format(COMPONENT_FORMAT, component.getType().getValue(), component.getPin());
     }
+
 }

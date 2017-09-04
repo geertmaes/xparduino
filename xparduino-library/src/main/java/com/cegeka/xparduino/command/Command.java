@@ -8,5 +8,4 @@ public interface Command {
 
     Component getComponent();
 
-    void execute();
 }

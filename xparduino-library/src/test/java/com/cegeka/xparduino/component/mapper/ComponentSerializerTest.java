@@ -1,4 +1,4 @@
-package com.cegeka.xparduino.component.serialization;
+package com.cegeka.xparduino.component.mapper;
 
 import com.cegeka.xparduino.component.Component;
 import org.junit.Test;

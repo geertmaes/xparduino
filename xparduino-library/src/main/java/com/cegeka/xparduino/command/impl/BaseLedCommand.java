@@ -1,21 +1,15 @@
 package com.cegeka.xparduino.command.impl;
 
-import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.command.AbstractCommand;
-import com.cegeka.xparduino.command.Command;
 import com.cegeka.xparduino.component.ComponentType;
 
 public class BaseLedCommand extends AbstractCommand {
 
-    private boolean emitting;
+    private final boolean emitting;
 
-    public BaseLedCommand(int pin, Channel<Command> commandChannel) {
-        super(pin, commandChannel);
-    }
-
-    public BaseLedCommand withEmitting(boolean emitting) {
+    public BaseLedCommand(int pin, boolean emitting) {
+        super(pin);
         this.emitting = emitting;
-        return this;
     }
 
     @Override
@@ -27,4 +21,5 @@ public class BaseLedCommand extends AbstractCommand {
     protected ComponentType getComponentType() {
         return ComponentType.BASE_LED;
     }
+
 }

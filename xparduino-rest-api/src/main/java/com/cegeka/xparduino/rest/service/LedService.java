@@ -1,6 +1,7 @@
 package com.cegeka.xparduino.rest.service;
 
 import com.cegeka.xparduino.command.RepeatingCommand;
+import com.cegeka.xparduino.command.impl.BaseLedCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,39 +11,50 @@ import java.util.concurrent.TimeUnit;
 public class LedService {
 
     private ArduinoService arduinoService;
-    private RepeatingCommand blinkCommand;
+    private RepeatingCommand<BaseLedCommand> baseLedOnCommand;
+    private RepeatingCommand<BaseLedCommand> baseLedOffCommand;
 
     @Autowired
-    private LedService(ArduinoService arduinoService){
+    private LedService(ArduinoService arduinoService) {
         this.arduinoService = arduinoService;
     }
 
-    public void enableLed(){
+    public void enableLed() {
         changeLedState(true);
     }
 
-    public void disableLed(){
+    public void disableLed() {
         changeLedState(false);
     }
 
-    public void startBlinkingLed(int delay, int period, TimeUnit timeUnit){
+    public void startBlinkingLed(int delay, int period, TimeUnit timeUnit) {
         stopBlinkingLed();
-        blinkCommand = arduinoService.getArduino()
-                .baseLedBlink(8)
+        baseLedOnCommand = arduinoService.getArduino()
+                .baseLed(8)
+                .repeat()
                 .withDelay(delay)
                 .withPeriod(period)
                 .withTimeUnit(timeUnit);
-        blinkCommand.execute();
+        baseLedOffCommand = arduinoService.getArduino()
+                .baseLed(8)
+                .repeat()
+                .withDelay(delay + period / 2)
+                .withPeriod(period)
+                .withTimeUnit(timeUnit);
+        baseLedOnCommand.execute();
+        baseLedOffCommand.execute();
     }
 
     public void stopBlinkingLed() {
-        if(blinkCommand != null){
-            blinkCommand.stop();
-            blinkCommand = null;
+        if (baseLedOnCommand != null) {
+            baseLedOnCommand.stop();
+            baseLedOffCommand.stop();
+            baseLedOnCommand = null;
+            baseLedOffCommand = null;
         }
     }
 
-    private void changeLedState(boolean emitting){
+    private void changeLedState(boolean emitting) {
         stopBlinkingLed();
         arduinoService.getArduino()
                 .baseLed(8)

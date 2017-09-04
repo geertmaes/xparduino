@@ -17,8 +17,8 @@ public class ArduinoQueueEventReceiver implements ArduinoQueueReceiver {
 
     @Override
     public void onMessage(String message) {
-        SerializedEvent serializedEvent = eventMapper.mapToSerializedEvent(message);
-        Event event = eventMapper.mapToEvent(serializedEvent);
+        SerializedEvent serializedEvent = eventMapper.toSerializedEvent(message);
+        Event event = eventMapper.toEvent(serializedEvent);
         eventChannel.send(event);
     }
 }

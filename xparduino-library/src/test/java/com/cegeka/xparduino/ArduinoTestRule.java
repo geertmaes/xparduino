@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static com.cegeka.xparduino.utils.ClassUtils.className;
 import static java.lang.String.format;
 import static java.lang.Thread.sleep;
 import static junit.framework.TestCase.fail;
@@ -108,7 +107,6 @@ public class ArduinoTestRule extends ExternalResource {
 
         private void receivedEvent(Event event) {
             receivedEvents++;
-            LOGGER.info("Processed {}", className(event));
         }
 
         void waitForProcessedEvents(int events) {

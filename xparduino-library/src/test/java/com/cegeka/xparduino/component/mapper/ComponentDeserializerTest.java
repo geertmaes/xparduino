@@ -1,8 +1,6 @@
-package com.cegeka.xparduino.component.serialization;
+package com.cegeka.xparduino.component.mapper;
 
 import com.cegeka.xparduino.component.Component;
-import com.cegeka.xparduino.component.serialization.ComponentDeserializer;
-import com.cegeka.xparduino.component.serialization.ComponentFormatException;
 import org.junit.Test;
 
 import static com.cegeka.xparduino.component.ComponentType.BASE_LED;

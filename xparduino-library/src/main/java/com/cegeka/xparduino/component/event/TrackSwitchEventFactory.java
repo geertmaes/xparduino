@@ -1,5 +1,6 @@
 package com.cegeka.xparduino.component.event;
 
+import com.cegeka.xparduino.command.serialized.SerializedCommand;
 import com.cegeka.xparduino.domain.Direction;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.impl.trackswitch.TrackSwitchEvent;
@@ -12,11 +13,12 @@ public class TrackSwitchEventFactory implements ComponentEventFactory {
     private static final String RIGHT_ACTION = "right";
 
     @Override
-    public Stream<Event> create(int pin, String action) {
+    public Stream<Event> create(SerializedCommand command) {
+        String action = command.action();
         if (isLeftAction(action))
-            return Stream.of(new TrackSwitchEvent(pin, Direction.LEFT));
+            return Stream.of(new TrackSwitchEvent(command.pin(), Direction.LEFT));
         if (isRightAction(action))
-            return Stream.of(new TrackSwitchEvent(pin, Direction.RIGHT));
+            return Stream.of(new TrackSwitchEvent(command.pin(), Direction.RIGHT));
         return Stream.empty();
     }
 

@@ -1,40 +1,22 @@
 package com.cegeka.xparduino.command.impl;
 
-import com.cegeka.xparduino.channel.Channel;
-import com.cegeka.xparduino.command.Command;
-import com.cegeka.xparduino.command.RepeatingCommand;
+import com.cegeka.xparduino.command.AbstractCommand;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.domain.Color;
 
-import java.util.concurrent.ScheduledExecutorService;
-
 import static java.lang.String.format;
 
-public class TrainCommand extends RepeatingCommand<TrainCommand> {
+public class TrainCommand extends AbstractCommand {
 
-    private int speed;
-    private int channel;
-    private Color color;
+    private final int speed;
+    private final int channel;
+    private final Color color;
 
-    public TrainCommand(int pin,
-                        Channel<Command> commandChannel,
-                        ScheduledExecutorService scheduledExecutorService) {
-        super(pin, commandChannel, scheduledExecutorService);
-    }
-
-    public TrainCommand withSpeed(int speed) {
+    public TrainCommand(int pin, int speed, int channel, Color color) {
+        super(pin);
         this.speed = speed;
-        return this;
-    }
-
-    public TrainCommand withChannel(int channel) {
         this.channel = channel;
-        return this;
-    }
-
-    public TrainCommand withColor(Color color) {
         this.color = color;
-        return this;
     }
 
     @Override
@@ -46,4 +28,5 @@ public class TrainCommand extends RepeatingCommand<TrainCommand> {
     protected ComponentType getComponentType() {
         return ComponentType.INFRARED_EMITTER;
     }
+
 }

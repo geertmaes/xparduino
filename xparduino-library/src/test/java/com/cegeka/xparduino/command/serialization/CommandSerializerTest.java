@@ -45,8 +45,5 @@ public class CommandSerializerTest {
             return new Component(5, BASE_LED);
         }
 
-        @Override
-        public void execute() {}
-
     }
 }

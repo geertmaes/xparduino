@@ -3,22 +3,30 @@ package com.cegeka.xparduino.channel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.function.Function;
+
 import static com.cegeka.xparduino.utils.ClassUtils.className;
 
 public class LoggingChannel<T> implements Channel<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ChannelImpl.class);
 
-    private final NamedChannel<T> delegate;
+    public static <T> LoggingChannel<T> logged(NamedChannel<T> delegate, Function<T, String> messageConverter) {
+        return new LoggingChannel<>(delegate, messageConverter);
+    }
 
-    public LoggingChannel(NamedChannel<T> delegate) {
+    private final NamedChannel<T> delegate;
+    private final Function<T, String> messageConverter;
+
+    private LoggingChannel(NamedChannel<T> delegate, Function<T, String> messageConverter) {
         this.delegate = delegate;
+        this.messageConverter = messageConverter;
     }
 
     @Override
     public void send(T message) {
         try {
-            LOGGER.info("Sending {} on {}", className(message), delegate.getIdentifier());
+            LOGGER.info("Sending {} on {}", messageConverter.apply(message), delegate.getIdentifier());
             delegate.send(message);
         } catch (RuntimeException e) {
             LOGGER.warn("Failed to send {} on {}", className(message), delegate.getIdentifier(), e);

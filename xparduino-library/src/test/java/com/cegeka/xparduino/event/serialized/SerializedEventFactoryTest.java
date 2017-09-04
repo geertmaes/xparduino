@@ -37,4 +37,5 @@ public class SerializedEventFactoryTest {
                 .isInstanceOf(SerializedEventFormatException.class)
                 .hasMessage("Event (invalid format) has invalid format");
     }
+
 }

@@ -2,10 +2,9 @@ package com.cegeka.xparduino;
 
 import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.command.Command;
-import com.cegeka.xparduino.command.impl.BaseLedCommand;
-import com.cegeka.xparduino.command.impl.BlinkCommand;
-import com.cegeka.xparduino.command.impl.TrackSwitchCommand;
-import com.cegeka.xparduino.command.impl.TrainCommand;
+import com.cegeka.xparduino.command.impl.BaseLedCommandBuilder;
+import com.cegeka.xparduino.command.impl.TrackSwitchCommandBuilder;
+import com.cegeka.xparduino.command.impl.TrainCommandBuilder;
 import com.cegeka.xparduino.state.ArduinoState;
 import com.cegeka.xparduino.state.component.ComponentState;
 
@@ -30,28 +29,22 @@ public class Arduino implements Closeable {
         this.executorService = Executors.newScheduledThreadPool(POOL_SIZE);
     }
 
-    public BaseLedCommand baseLed(int pin) {
+    public BaseLedCommandBuilder baseLed(int pin) {
         state.validatePin(pin);
         state.validateComponentOnPin(pin, BASE_LED);
-        return new BaseLedCommand(pin, commandChannel);
+        return new BaseLedCommandBuilder(pin, commandChannel, executorService);
     }
 
-    public BlinkCommand baseLedBlink(int pin) {
-        state.validatePin(pin);
-        state.validateComponentOnPin(pin, BASE_LED);
-        return new BlinkCommand(pin, commandChannel, executorService);
-    }
-
-    public TrainCommand train(int pin) {
-        state.validatePin(pin);
-        state.validateComponentOnPin(pin, INFRARED_EMITTER);
-        return new TrainCommand(pin, commandChannel, executorService);
-    }
-
-    public TrackSwitchCommand trackSwitch(int pin) {
+    public TrackSwitchCommandBuilder trackSwitch(int pin) {
         state.validatePin(pin);
         state.validateComponentOnPin(pin, TRACK_SWITCH);
-        return new TrackSwitchCommand(pin, commandChannel);
+        return new TrackSwitchCommandBuilder(pin, commandChannel, executorService);
+    }
+
+    public TrainCommandBuilder train(int pin) {
+        state.validatePin(pin);
+        state.validateComponentOnPin(pin, INFRARED_EMITTER);
+        return new TrainCommandBuilder(pin, commandChannel, executorService);
     }
 
     public <T extends ComponentState> T getState(int pin, Class<T> stateClass) {

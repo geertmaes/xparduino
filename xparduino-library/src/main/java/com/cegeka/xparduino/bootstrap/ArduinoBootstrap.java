@@ -9,8 +9,11 @@ import com.cegeka.xparduino.bootstrap.configurator.Configurator;
 import com.cegeka.xparduino.bootstrap.configurator.component.ComponentConfigurator;
 import com.cegeka.xparduino.bootstrap.configurator.eventmapper.EventMapperConfigurator;
 import com.cegeka.xparduino.bootstrap.configurator.queue.ArduinoQueueConfigurator;
-import com.cegeka.xparduino.channel.*;
+import com.cegeka.xparduino.channel.Channel;
+import com.cegeka.xparduino.channel.ChannelImpl;
+import com.cegeka.xparduino.channel.LockingChannel;
 import com.cegeka.xparduino.command.Command;
+import com.cegeka.xparduino.command.serialization.CommandSerializer;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.mapper.EventMapper;
 import com.cegeka.xparduino.queue.ArduinoQueue;
@@ -22,6 +25,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.cegeka.xparduino.channel.LockingChannel.locked;
+import static com.cegeka.xparduino.channel.LoggingChannel.logged;
+import static com.cegeka.xparduino.channel.NamedChannel.named;
 import static com.cegeka.xparduino.utils.ClassUtils.className;
 import static com.google.common.collect.Lists.newArrayList;
 
@@ -49,8 +54,8 @@ public class ArduinoBootstrap {
         return bootstrap.create(configuration);
     }
 
-    private final LockingChannel<Event> eventChannel = locked(new LoggingChannel<>(new NamedChannel<>(new ChannelImpl<>(), EVENT_CHANNEL)));
-    private final LockingChannel<Command> commandChannel = locked(new LoggingChannel<>(new NamedChannel<>(new ChannelImpl<>(), COMMAND_CHANNEL)));
+    private final LockingChannel<Event> eventChannel = createEventChannel();
+    private final LockingChannel<Command> commandChannel = createCommandChannel();
 
     private final List<Composer> composers = newArrayList();
     private final List<Configurator<? super ArduinoConfiguration>> configurators = newArrayList();
@@ -60,11 +65,12 @@ public class ArduinoBootstrap {
 
     private Arduino create(ArduinoConfiguration config) {
         LOGGER.info("---------------------------------------");
+        lockChannels();
         executeConfigurators(config);
         executeComposers();
         executePostBuildListeners();
-        LOGGER.info("---------------------------------------\n");
         releaseChannels();
+        LOGGER.info("---------------------------------------\n");
         return new Arduino(getArduinoState(), commandChannel);
     }
 
@@ -108,6 +114,19 @@ public class ArduinoBootstrap {
             LOGGER.info("Error composing ({})", className(listener), e);
             throw new ArduinoBootstrapCompositionException(e);
         }
+    }
+
+    private LockingChannel<Event> createEventChannel() {
+        return locked(logged(named(new ChannelImpl<>(), EVENT_CHANNEL), event -> getEventMapper().toSerializedEvent(event).toString()));
+    }
+
+    private LockingChannel<Command> createCommandChannel() {
+        return locked(logged(named(new ChannelImpl<>(), COMMAND_CHANNEL), command -> new CommandSerializer().serialize(command)));
+    }
+
+    private void lockChannels() {
+        eventChannel.lock();
+        commandChannel.lock();
     }
 
     private void releaseChannels() {

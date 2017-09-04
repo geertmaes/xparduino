@@ -1,4 +1,4 @@
-package com.cegeka.xparduino.component.serialization;
+package com.cegeka.xparduino.component.mapper;
 
 public class ComponentFormatException extends RuntimeException {
 

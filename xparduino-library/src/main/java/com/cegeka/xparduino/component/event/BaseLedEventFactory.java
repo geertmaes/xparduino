@@ -1,5 +1,6 @@
 package com.cegeka.xparduino.component.event;
 
+import com.cegeka.xparduino.command.serialized.SerializedCommand;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.impl.baseled.BaseLedEvent;
 
@@ -11,11 +12,12 @@ public class BaseLedEventFactory implements ComponentEventFactory {
     private static final String OFF_ACTION = "off";
 
     @Override
-    public Stream<Event> create(int pin, String action) {
+    public Stream<Event> create(SerializedCommand command) {
+        String action = command.action();
         if (isOnAction(action))
-            return Stream.of(new BaseLedEvent(pin, true));
+            return Stream.of(new BaseLedEvent(command.pin(), true));
         if (isOffAction(action))
-            return Stream.of(new BaseLedEvent(pin, false));
+            return Stream.of(new BaseLedEvent(command.pin(), false));
         return Stream.empty();
     }
 
