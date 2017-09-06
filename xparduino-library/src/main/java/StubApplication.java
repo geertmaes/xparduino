@@ -37,7 +37,7 @@ public class StubApplication {
 
         arduino.baseLed(4)
                 .on()
-                .execute();
+                .executing().execute();
 
 //        ledState.onStateChange(state -> arduino.baseLed(4)
 //                .withEmitting(!state.isEmitting())

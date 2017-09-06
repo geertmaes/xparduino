@@ -7,13 +7,13 @@ import com.cegeka.xparduino.bootstrap.composer.Composer;
 import com.cegeka.xparduino.bootstrap.composer.EventDispatcherComposer;
 import com.cegeka.xparduino.bootstrap.configurator.Configurator;
 import com.cegeka.xparduino.bootstrap.configurator.component.ComponentConfigurator;
-import com.cegeka.xparduino.bootstrap.configurator.eventmapper.EventMapperConfigurator;
+import com.cegeka.xparduino.bootstrap.configurator.objectmapper.ObjectMapperConfigurator;
 import com.cegeka.xparduino.bootstrap.configurator.queue.ArduinoQueueConfigurator;
 import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.channel.ChannelImpl;
 import com.cegeka.xparduino.channel.LockingChannel;
 import com.cegeka.xparduino.command.Command;
-import com.cegeka.xparduino.command.serialization.CommandSerializer;
+import com.cegeka.xparduino.command.mapper.CommandMapper;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.mapper.EventMapper;
 import com.cegeka.xparduino.queue.ArduinoQueue;
@@ -45,7 +45,7 @@ public class ArduinoBootstrap {
         bootstrap.addComposer(new ComponentDefaultPositionComposer());
 
         bootstrap.addConfigurator(new ComponentConfigurator());
-        bootstrap.addConfigurator(new EventMapperConfigurator());
+        bootstrap.addConfigurator(new ObjectMapperConfigurator());
         bootstrap.addConfigurator(new ArduinoQueueConfigurator());
 
         Arrays.stream(postBuildListeners)
@@ -69,8 +69,8 @@ public class ArduinoBootstrap {
         executeConfigurators(config);
         executeComposers();
         executePostBuildListeners();
-        releaseChannels();
         LOGGER.info("---------------------------------------\n");
+        releaseChannels();
         return new Arduino(getArduinoState(), commandChannel);
     }
 
@@ -117,11 +117,19 @@ public class ArduinoBootstrap {
     }
 
     private LockingChannel<Event> createEventChannel() {
-        return locked(logged(named(new ChannelImpl<>(), EVENT_CHANNEL), event -> getEventMapper().toSerializedEvent(event).toString()));
+        return locked(logged(named(new ChannelImpl<>(), EVENT_CHANNEL), this::eventToString));
     }
 
     private LockingChannel<Command> createCommandChannel() {
-        return locked(logged(named(new ChannelImpl<>(), COMMAND_CHANNEL), command -> new CommandSerializer().serialize(command)));
+        return locked(logged(named(new ChannelImpl<>(), COMMAND_CHANNEL), this::commandToString));
+    }
+
+    private String eventToString(Event event) {
+        return getEventMapper().toSerializedEvent(event).toString();
+    }
+
+    private String commandToString(Command command) {
+        return getCommandMapper().toSerializedCommand(command).toString();
     }
 
     private void lockChannels() {
@@ -162,6 +170,10 @@ public class ArduinoBootstrap {
         return bootstrapState.getEventMapper();
     }
 
+    public CommandMapper getCommandMapper() {
+        return bootstrapState.getCommandMapper();
+    }
+
     public ArduinoState getArduinoState() {
         return bootstrapState.getArduinoState();
     }
@@ -171,9 +183,14 @@ public class ArduinoBootstrap {
         private EventMapper eventMapper;
         private ArduinoState arduinoState;
         private ArduinoQueue arduinoQueue;
+        private CommandMapper commandMapper;
 
         public void setEventMapper(EventMapper eventMapper) {
             this.eventMapper = eventMapper;
+        }
+
+        public void setCommandMapper(CommandMapper commandMapper) {
+            this.commandMapper = commandMapper;
         }
 
         public void setArduinoState(ArduinoState arduinoState) {
@@ -188,6 +205,10 @@ public class ArduinoBootstrap {
             return eventMapper;
         }
 
+        CommandMapper getCommandMapper() {
+            return commandMapper;
+        }
+
         ArduinoState getArduinoState() {
             return arduinoState;
         }
@@ -195,7 +216,6 @@ public class ArduinoBootstrap {
         ArduinoQueue getArduinoQueue() {
             return arduinoQueue;
         }
-
     }
 
     @FunctionalInterface

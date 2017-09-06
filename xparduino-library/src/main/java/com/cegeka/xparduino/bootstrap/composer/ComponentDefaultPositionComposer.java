@@ -3,7 +3,7 @@ package com.cegeka.xparduino.bootstrap.composer;
 import com.cegeka.xparduino.bootstrap.ArduinoBootstrap;
 import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.command.Command;
-import com.cegeka.xparduino.command.impl.TrackSwitchCommand;
+import com.cegeka.xparduino.command.impl.trackswitch.TrackSwitchCommand;
 import com.cegeka.xparduino.domain.Direction;
 import com.cegeka.xparduino.state.component.ComponentState;
 

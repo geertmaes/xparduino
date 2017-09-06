@@ -1,4 +1,4 @@
-package com.cegeka.xparduino.command.impl;
+package com.cegeka.xparduino.command.impl.baseled;
 
 import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.command.AbstractCommandBuilder;

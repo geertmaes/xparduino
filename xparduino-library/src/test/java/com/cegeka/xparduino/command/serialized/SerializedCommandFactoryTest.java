@@ -1,8 +1,8 @@
 package com.cegeka.xparduino.command.serialized;
 
-import com.cegeka.xparduino.event.serialized.SerializedEventFormatException;
 import org.junit.Test;
 
+import static com.cegeka.xparduino.command.CommandCode.BASE_LED_COMMAND;
 import static com.cegeka.xparduino.component.ComponentTestConstants.PIN_1;
 import static com.cegeka.xparduino.component.ComponentTestConstants.baseLed;
 import static com.cegeka.xparduino.component.ComponentType.BASE_LED;
@@ -18,10 +18,10 @@ public class SerializedCommandFactoryTest {
     public void create() throws Exception {
         SerializedCommandFactory factory = new SerializedCommandFactory();
 
-        SerializedCommand actual = factory.create(format("<%d:%d,%s>",
-                BASE_LED.getValue(), PIN_1, ACTION));
+        SerializedCommand actual = factory.create(format("<%d:%d,%d,%s>",
+                BASE_LED.getValue(), PIN_1, BASE_LED_COMMAND.value(), ACTION));
 
-        assertThat(actual).isEqualTo(new SerializedCommand(ACTION, baseLed(PIN_1)));
+        assertThat(actual).isEqualTo(new SerializedCommand(BASE_LED_COMMAND, ACTION, baseLed(PIN_1)));
     }
 
     @Test

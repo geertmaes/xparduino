@@ -21,6 +21,6 @@ public class SwitchService {
         arduinoService.getArduino()
                 .trackSwitch(4)
                 .withDirection(lastDirection)
-                .execute();
+                .executing().execute();
    }
 }

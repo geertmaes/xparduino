@@ -2,9 +2,9 @@ package com.cegeka.xparduino;
 
 import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.command.Command;
-import com.cegeka.xparduino.command.impl.BaseLedCommandBuilder;
-import com.cegeka.xparduino.command.impl.TrackSwitchCommandBuilder;
-import com.cegeka.xparduino.command.impl.TrainCommandBuilder;
+import com.cegeka.xparduino.command.impl.baseled.BaseLedCommandBuilder;
+import com.cegeka.xparduino.command.impl.trackswitch.TrackSwitchCommandBuilder;
+import com.cegeka.xparduino.command.impl.train.TrainCommandBuilder;
 import com.cegeka.xparduino.state.ArduinoState;
 import com.cegeka.xparduino.state.component.ComponentState;
 

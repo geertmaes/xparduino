@@ -19,7 +19,7 @@ public class ArduinoQueueComposer implements Composer {
         ArduinoQueueSender queueSender
                 = new ArduinoQueueSenderImpl(bootstrap.getQueue());
         ArduinoQueueCommandSender commandSender
-                = new ArduinoQueueCommandSender(queueSender);
+                = new ArduinoQueueCommandSender(queueSender, bootstrap.getCommandMapper());
 
         bootstrap.getCommandChannel().register(commandSender);
     }
@@ -38,6 +38,7 @@ public class ArduinoQueueComposer implements Composer {
 
         if (queue instanceof StubQueue) {
             ((StubQueue) queue).setEventMapper(bootstrap.getEventMapper());
+            ((StubQueue) queue).setCommandMapper(bootstrap.getCommandMapper());
         }
     }
 }

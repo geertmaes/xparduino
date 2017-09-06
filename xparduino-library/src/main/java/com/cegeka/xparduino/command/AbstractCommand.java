@@ -11,6 +11,10 @@ public abstract class AbstractCommand implements Command {
         this.pin = pin;
     }
 
+    public int pin() {
+        return pin;
+    }
+
     @Override
     public abstract String getAction();
 

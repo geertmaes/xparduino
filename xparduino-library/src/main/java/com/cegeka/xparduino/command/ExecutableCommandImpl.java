@@ -19,7 +19,7 @@ public class ExecutableCommandImpl<T extends Command> implements ExecutableComma
 
     @Override
     public void execute() {
-        this.commandChannel.send(this);
+        this.commandChannel.send(delegate);
     }
 
     @Override

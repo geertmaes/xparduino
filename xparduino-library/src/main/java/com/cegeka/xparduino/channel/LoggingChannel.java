@@ -29,7 +29,7 @@ public class LoggingChannel<T> implements Channel<T> {
             LOGGER.info("Sending {} on {}", messageConverter.apply(message), delegate.getIdentifier());
             delegate.send(message);
         } catch (RuntimeException e) {
-            LOGGER.warn("Failed to send {} on {}", className(message), delegate.getIdentifier(), e);
+            LOGGER.warn("Failed to send {} on {}", messageConverter.apply(message), delegate.getIdentifier(), e);
         }
     }
 

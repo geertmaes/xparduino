@@ -1,5 +1,9 @@
 package com.cegeka.xparduino.queue.stub;
 
+import com.cegeka.xparduino.command.Command;
+import com.cegeka.xparduino.command.behaviour.CommandBehaviourMapper;
+import com.cegeka.xparduino.command.mapper.CommandMapper;
+import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.mapper.EventMapper;
 import com.cegeka.xparduino.event.serialized.SerializedEvent;
 import com.cegeka.xparduino.queue.ArduinoQueue;
@@ -16,17 +20,22 @@ public class StubQueue implements ArduinoQueue {
     private static final int QUEUE_CAPACITY = 1024;
 
     private final BlockingQueue<String> eventQueue;
-    private final StubQueueMessageHandler messageHandler;
+    private final CommandBehaviourMapper commandBehaviourMapper;
 
     private EventMapper eventMapper;
+    private CommandMapper commandMapper;
 
     StubQueue() {
-        messageHandler = new StubQueueMessageHandler();
         eventQueue = new ArrayBlockingQueue<>(QUEUE_CAPACITY, true);
+        commandBehaviourMapper = new CommandBehaviourMapper();
     }
 
     public void setEventMapper(EventMapper eventMapper) {
         this.eventMapper = eventMapper;
+    }
+
+    public void setCommandMapper(CommandMapper commandMapper) {
+        this.commandMapper = commandMapper;
     }
 
     @Override
@@ -34,10 +43,10 @@ public class StubQueue implements ArduinoQueue {
 
     @Override
     public void send(String message) {
-        messageHandler.handle(message)
-                .map(eventMapper::toSerializedEvent)
-                .map(SerializedEvent::toString)
-                .forEach(this::addEventToQueue);
+        Command command = commandMapper.toCommand(message);
+        Event event = commandBehaviourMapper.toEvent(command);
+
+        addEventToQueue(eventMapper.toSerializedEvent(event));
     }
 
     @Override
@@ -55,9 +64,9 @@ public class StubQueue implements ArduinoQueue {
         LOGGER.info("Closing stub queue");
     }
 
-    private void addEventToQueue(String event) {
+    private void addEventToQueue(SerializedEvent event) {
         try {
-            eventQueue.put(event);
+            eventQueue.put(event.toString());
         } catch (InterruptedException e) {
             LOGGER.warn("Failed to add event ({}) to queue", event, e);
         }

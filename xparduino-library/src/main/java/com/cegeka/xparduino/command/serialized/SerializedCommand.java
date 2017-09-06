@@ -1,15 +1,22 @@
 package com.cegeka.xparduino.command.serialized;
 
+import com.cegeka.xparduino.command.CommandCode;
 import com.cegeka.xparduino.component.Component;
 
 public class SerializedCommand {
 
+    private final CommandCode commandCode;
     private final String action;
     private final Component component;
 
-    public SerializedCommand(String action, Component component) {
+    public SerializedCommand(CommandCode commandCode, String action, Component component) {
+        this.commandCode = commandCode;
         this.action = action;
         this.component = component;
+    }
+
+    public CommandCode commandCode() {
+        return commandCode;
     }
 
     public String action() {
@@ -26,8 +33,8 @@ public class SerializedCommand {
 
     @Override
     public String toString() {
-        return String.format("<%d:%d,%s>",
-                component.getType().getValue(), component.getPin(), action);
+        return String.format("<%d:%d,%d,%s>",
+                component.getType().getValue(), component.getPin(), commandCode.value(), action);
     }
 
     @Override

@@ -62,7 +62,7 @@ public class Application {
         if (state.isBlocked()) {
             arduino.trackSwitch(trackSwitchState.getPin())
                     .withDirection(trackSwitchState.getDirection().toggle())
-                    .execute();
+                    .executing().execute();
         }
     }
 

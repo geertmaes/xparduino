@@ -5,7 +5,6 @@ import com.cegeka.xparduino.channel.Channel;
 import java.util.concurrent.ScheduledExecutorService;
 
 import static com.cegeka.xparduino.command.ExecutableCommandImpl.executable;
-import static com.cegeka.xparduino.command.RepeatingCommandImpl.repeating;
 
 public abstract class AbstractCommandBuilder<T extends Command> {
 
@@ -24,12 +23,12 @@ public abstract class AbstractCommandBuilder<T extends Command> {
 
     public abstract T build();
 
-    public ExecutableCommand<T> execute() {
+    public ExecutableCommand<T> executing() {
         return executable(build(), commandChannel);
     }
 
-    public RepeatingCommand<T> repeat() {
-        return repeating(build(), commandChannel, executorService);
+    public RepeatingCommand<T> repeating() {
+        return RepeatingCommandImpl.repeating(build(), commandChannel, executorService);
     }
 
 }

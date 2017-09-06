@@ -1,7 +1,7 @@
 package com.cegeka.xparduino.rest.service;
 
 import com.cegeka.xparduino.command.RepeatingCommand;
-import com.cegeka.xparduino.command.impl.BaseLedCommand;
+import com.cegeka.xparduino.command.impl.baseled.BaseLedCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +31,13 @@ public class LedService {
         stopBlinkingLed();
         baseLedOnCommand = arduinoService.getArduino()
                 .baseLed(8)
-                .repeat()
+                .repeating()
                 .withDelay(delay)
                 .withPeriod(period)
                 .withTimeUnit(timeUnit);
         baseLedOffCommand = arduinoService.getArduino()
                 .baseLed(8)
-                .repeat()
+                .repeating()
                 .withDelay(delay + period / 2)
                 .withPeriod(period)
                 .withTimeUnit(timeUnit);
@@ -59,6 +59,6 @@ public class LedService {
         arduinoService.getArduino()
                 .baseLed(8)
                 .withEmitting(emitting)
-                .execute();
+                .executing().execute();
     }
 }
