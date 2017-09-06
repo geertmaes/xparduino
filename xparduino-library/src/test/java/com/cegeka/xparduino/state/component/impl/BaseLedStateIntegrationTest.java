@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.cegeka.xparduino.component.ComponentTestConstants.PIN_1;
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_0;
 import static com.cegeka.xparduino.component.ComponentTestConstants.baseLed;
 import static com.cegeka.xparduino.event.EventTestConstants.baseLedEvent;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class BaseLedStateIntegrationTest {
 
     @Rule
-    public ArduinoTestRule arduinoRule = new ArduinoTestRule(baseLed(PIN_1));
+    public ArduinoTestRule arduinoRule = new ArduinoTestRule(baseLed(DIGITAL_0));
 
     private Arduino arduino;
 
@@ -25,14 +25,14 @@ public class BaseLedStateIntegrationTest {
 
     @Test
     public void baseLedState_Default() throws Exception {
-        BaseLedState state = arduino.getState(PIN_1, BaseLedState.class);
+        BaseLedState state = arduino.getState(DIGITAL_0, BaseLedState.class);
 
         assertThat(state.isEmitting()).isFalse();
     }
 
     @Test
     public void baseLedState_Emitting_True() throws Exception {
-        BaseLedState state = arduino.getState(PIN_1, BaseLedState.class);
+        BaseLedState state = arduino.getState(DIGITAL_0, BaseLedState.class);
         state.on(baseLedEvent(false));
 
         arduinoRule.emitEvents(baseLedEvent(true));
@@ -42,7 +42,7 @@ public class BaseLedStateIntegrationTest {
 
     @Test
     public void baseLedState_Emitting_False() throws Exception {
-        BaseLedState state = arduino.getState(PIN_1, BaseLedState.class);
+        BaseLedState state = arduino.getState(DIGITAL_0, BaseLedState.class);
         state.on(baseLedEvent(true));
 
         arduinoRule.emitEvents(baseLedEvent(false));

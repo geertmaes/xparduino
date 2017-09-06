@@ -4,6 +4,7 @@ import com.cegeka.xparduino.domain.Color;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_2;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @Service
@@ -18,7 +19,7 @@ public class InfraredService {
 
     public void emit(Color color, int channel, int speed) {
         arduinoService.getArduino()
-                .train(2)
+                .train(DIGITAL_2)
                     .withColor(color)
                     .withChannel(channel)
                     .withSpeed(speed)

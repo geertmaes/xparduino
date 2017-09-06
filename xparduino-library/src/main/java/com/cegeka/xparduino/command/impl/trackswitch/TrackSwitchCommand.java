@@ -3,6 +3,7 @@ package com.cegeka.xparduino.command.impl.trackswitch;
 
 import com.cegeka.xparduino.command.AbstractCommand;
 import com.cegeka.xparduino.command.CommandMapping;
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.domain.Direction;
 
@@ -16,7 +17,7 @@ public class TrackSwitchCommand extends AbstractCommand {
 
     private final Direction direction;
 
-    public TrackSwitchCommand(int pin, Direction direction) {
+    public TrackSwitchCommand(ComponentPin pin, Direction direction) {
         super(pin);
         this.direction = direction;
     }

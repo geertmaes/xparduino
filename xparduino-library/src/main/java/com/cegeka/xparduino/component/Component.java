@@ -2,15 +2,15 @@ package com.cegeka.xparduino.component;
 
 public class Component {
 
-    private final int pin;
+    private final ComponentPin pin;
     private final ComponentType type;
 
-    public Component(int pin, ComponentType type) {
+    public Component(ComponentPin pin, ComponentType type) {
         this.pin = pin;
         this.type = type;
     }
 
-    public int getPin() {
+    public ComponentPin getPin() {
         return pin;
     }
 
@@ -31,8 +31,8 @@ public class Component {
 
     @Override
     public int hashCode() {
-        int result = pin;
-        result = 31 * result + type.hashCode();
+        int result = pin != null ? pin.hashCode() : 0;
+        result = 31 * result + (type != null ? type.hashCode() : 0);
         return result;
     }
 

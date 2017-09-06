@@ -1,15 +1,17 @@
 package com.cegeka.xparduino.rest.service;
 
 import com.cegeka.xparduino.Arduino;
-import com.cegeka.xparduino.bootstrap.ArduinoConfiguration;
 import com.cegeka.xparduino.ArduinoFactory;
-import com.cegeka.xparduino.component.ComponentType;
+import com.cegeka.xparduino.bootstrap.ArduinoConfiguration;
 import com.cegeka.xparduino.bootstrap.configurator.component.ComponentConfig;
 import com.cegeka.xparduino.queue.serialport.SerialPortQueueConfig;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PreDestroy;
 import java.io.IOException;
+
+import static com.cegeka.xparduino.component.ComponentPin.*;
+import static com.cegeka.xparduino.component.ComponentType.*;
 
 @Service
 public class ArduinoService {
@@ -21,13 +23,13 @@ public class ArduinoService {
         ArduinoConfiguration arduinoConfig = ArduinoConfiguration.builder()
                 .withArduinoQueue(new SerialPortQueueConfig(portName))
                 .withComponents(new ComponentConfig.Builder()
-                        .withComponent(8, ComponentType.BASE_LED)
-                        .withComponent(2, ComponentType.INFRARED_EMITTER)
-                        .withComponent(3, ComponentType.OBSTACLE_SENSOR)
-                        .withComponent(4, ComponentType.TRACK_SWITCH)
-                        .withComponent(9, ComponentType.BASE_LED)
-                        .withComponent(14, ComponentType.PHOTO_SENSOR)
-                        .withComponent(11, ComponentType.RFID_READER)
+                        .withComponent(DIGITAL_2, INFRARED_EMITTER)
+                        .withComponent(DIGITAL_3, OBSTACLE_SENSOR)
+                        .withComponent(DIGITAL_4, TRACK_SWITCH)
+                        .withComponent(DIGITAL_8, BASE_LED)
+                        .withComponent(DIGITAL_9, BASE_LED)
+                        .withComponent(DIGITAL_11, RFID_READER)
+                        .withComponent(ANALOG_0, PHOTO_SENSOR)
                         .build())
                 .build();
         arduino = new ArduinoFactory().create(arduinoConfig);

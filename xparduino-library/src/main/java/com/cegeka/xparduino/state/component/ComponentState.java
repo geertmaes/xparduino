@@ -1,5 +1,6 @@
 package com.cegeka.xparduino.state.component;
 
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.state.change.StateChangeListener;
 
@@ -8,12 +9,12 @@ import java.util.List;
 
 public abstract class ComponentState<T extends ComponentState> {
 
-    private final int pin;
+    private final ComponentPin pin;
     private final List<StateChangeListener<T>> stateChangeListeners;
 
-    protected ComponentState(int pin) {
+    protected ComponentState(ComponentPin pin) {
         this.pin = pin;
-        stateChangeListeners = new LinkedList<>();
+        this.stateChangeListeners = new LinkedList<>();
     }
 
     void triggerStateChange() {
@@ -24,7 +25,7 @@ public abstract class ComponentState<T extends ComponentState> {
         stateChangeListeners.add(listener);
     }
 
-    public int getPin() {
+    public ComponentPin getPin() {
         return pin;
     }
 
@@ -44,7 +45,7 @@ public abstract class ComponentState<T extends ComponentState> {
 
     @Override
     public int hashCode() {
-        return pin;
+        return pin.hashCode();
     }
 
 }

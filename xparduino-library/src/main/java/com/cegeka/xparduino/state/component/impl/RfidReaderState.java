@@ -1,5 +1,6 @@
 package com.cegeka.xparduino.state.component.impl;
 
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.event.impl.rfidreader.RfidReaderEvent;
 import com.cegeka.xparduino.state.component.ComponentState;
@@ -8,7 +9,7 @@ public class RfidReaderState extends ComponentState<RfidReaderState> {
 
     private String tagId;
 
-    public RfidReaderState(int pin) {
+    public RfidReaderState(ComponentPin pin) {
         super(pin);
     }
 

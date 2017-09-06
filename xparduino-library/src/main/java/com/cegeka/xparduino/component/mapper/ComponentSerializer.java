@@ -10,7 +10,7 @@ class ComponentSerializer {
 
     String serialize(Component component) {
         requireNonNull(component);
-        return String.format(COMPONENT_FORMAT, component.getType().getValue(), component.getPin());
+        return String.format(COMPONENT_FORMAT, component.getType().getValue(), component.getPin().value());
     }
 
 }

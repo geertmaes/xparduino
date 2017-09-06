@@ -2,6 +2,7 @@ package com.cegeka.xparduino.command.impl.train;
 
 import com.cegeka.xparduino.command.AbstractCommand;
 import com.cegeka.xparduino.command.CommandMapping;
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.domain.Color;
 
@@ -18,7 +19,7 @@ public class TrainCommand extends AbstractCommand {
     private final int channel;
     private final Color color;
 
-    public TrainCommand(int pin, int speed, int channel, Color color) {
+    public TrainCommand(ComponentPin pin, int speed, int channel, Color color) {
         super(pin);
         this.speed = speed;
         this.channel = channel;

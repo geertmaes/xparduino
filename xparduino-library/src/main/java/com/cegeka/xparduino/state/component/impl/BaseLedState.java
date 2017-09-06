@@ -1,5 +1,6 @@
 package com.cegeka.xparduino.state.component.impl;
 
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.event.impl.baseled.BaseLedEvent;
 import com.cegeka.xparduino.state.component.ComponentState;
@@ -10,7 +11,7 @@ public class BaseLedState extends ComponentState<BaseLedState> {
 
     private boolean emitting;
 
-    public BaseLedState(int pin) {
+    public BaseLedState(ComponentPin pin) {
         super(pin);
     }
 

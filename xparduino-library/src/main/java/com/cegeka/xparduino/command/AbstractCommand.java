@@ -1,17 +1,18 @@
 package com.cegeka.xparduino.command;
 
 import com.cegeka.xparduino.component.Component;
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 
 public abstract class AbstractCommand implements Command {
 
-    private final int pin;
+    private final ComponentPin pin;
 
-    protected AbstractCommand(int pin) {
+    protected AbstractCommand(ComponentPin pin) {
         this.pin = pin;
     }
 
-    public int pin() {
+    public ComponentPin pin() {
         return pin;
     }
 

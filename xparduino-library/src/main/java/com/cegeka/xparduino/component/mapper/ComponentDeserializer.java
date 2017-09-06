@@ -1,6 +1,7 @@
 package com.cegeka.xparduino.component.mapper;
 
 import com.cegeka.xparduino.component.Component;
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 
 import java.util.regex.Pattern;
@@ -32,8 +33,8 @@ class ComponentDeserializer {
         }
     }
 
-    private int extractPin(String[] componentParts) {
-        return Integer.valueOf(componentParts[1]);
+    private ComponentPin extractPin(String[] componentParts) {
+        return ComponentPin.valueOf(Integer.valueOf(componentParts[1]));
     }
 
     private ComponentType extractComponentType(String[] componentParts) {

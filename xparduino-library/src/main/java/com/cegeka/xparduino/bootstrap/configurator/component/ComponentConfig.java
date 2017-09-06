@@ -1,6 +1,7 @@
 package com.cegeka.xparduino.bootstrap.configurator.component;
 
 import com.cegeka.xparduino.component.Component;
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 
 import java.util.Set;
@@ -23,7 +24,7 @@ public class ComponentConfig {
 
         private Set<Component> components = newHashSet();
 
-        public Builder withComponent(int pin, ComponentType type) {
+        public Builder withComponent(ComponentPin pin, ComponentType type) {
             this.components.add(new Component(pin, type));
             return this;
         }

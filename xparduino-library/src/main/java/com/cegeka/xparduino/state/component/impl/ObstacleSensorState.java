@@ -1,5 +1,6 @@
 package com.cegeka.xparduino.state.component.impl;
 
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.event.impl.obstaclesensor.ObstacleSensorEvent;
 import com.cegeka.xparduino.state.component.ComponentState;
@@ -8,7 +9,7 @@ public class ObstacleSensorState extends ComponentState<ObstacleSensorState> {
 
     private boolean blocked;
 
-    public ObstacleSensorState(int pin) {
+    public ObstacleSensorState(ComponentPin pin) {
         super(pin);
     }
 

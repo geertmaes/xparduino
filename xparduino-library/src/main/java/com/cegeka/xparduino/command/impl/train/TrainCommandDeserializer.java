@@ -2,6 +2,7 @@ package com.cegeka.xparduino.command.impl.train;
 
 import com.cegeka.xparduino.command.CommandDataDeserializer;
 import com.cegeka.xparduino.command.serialized.SerializedCommand;
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.domain.Color;
 
 public class TrainCommandDeserializer implements CommandDataDeserializer<TrainCommand> {
@@ -10,7 +11,7 @@ public class TrainCommandDeserializer implements CommandDataDeserializer<TrainCo
 
     @Override
     public TrainCommand deserialize(SerializedCommand command) {
-        int pin = command.component().getPin();
+        ComponentPin pin = command.component().getPin();
         String[] actionParts = command.action().split(ACTION_PART_SEPARATOR);
 
         Color color = Color.valueOf(actionParts[0]);

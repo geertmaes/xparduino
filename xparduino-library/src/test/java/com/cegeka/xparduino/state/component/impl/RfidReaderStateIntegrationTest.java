@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.cegeka.xparduino.component.ComponentTestConstants.PIN_1;
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_0;
 import static com.cegeka.xparduino.component.ComponentTestConstants.rfidReader;
 import static com.cegeka.xparduino.event.EventTestConstants.rfidReaderEvent;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -16,7 +16,7 @@ public class RfidReaderStateIntegrationTest {
     private static final String TAG_ID = "01234567891234";
 
     @Rule
-    public ArduinoTestRule arduinoRule = new ArduinoTestRule(rfidReader(PIN_1));
+    public ArduinoTestRule arduinoRule = new ArduinoTestRule(rfidReader(DIGITAL_0));
 
     private Arduino arduino;
 
@@ -27,14 +27,14 @@ public class RfidReaderStateIntegrationTest {
 
     @Test
     public void rfidReaderState_Default() throws Exception {
-        RfidReaderState state = arduino.getState(PIN_1, RfidReaderState.class);
+        RfidReaderState state = arduino.getState(DIGITAL_0, RfidReaderState.class);
 
         assertThat(state.getTagId()).isNullOrEmpty();
     }
 
     @Test
     public void rfidReaderState_TagId() throws Exception {
-        RfidReaderState state = arduino.getState(PIN_1, RfidReaderState.class);
+        RfidReaderState state = arduino.getState(DIGITAL_0, RfidReaderState.class);
 
         arduinoRule.emitEvents(rfidReaderEvent(TAG_ID));
 

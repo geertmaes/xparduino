@@ -5,6 +5,7 @@ import com.cegeka.xparduino.command.Command;
 import com.cegeka.xparduino.command.impl.baseled.BaseLedCommandBuilder;
 import com.cegeka.xparduino.command.impl.trackswitch.TrackSwitchCommandBuilder;
 import com.cegeka.xparduino.command.impl.train.TrainCommandBuilder;
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.state.ArduinoState;
 import com.cegeka.xparduino.state.component.ComponentState;
 
@@ -29,25 +30,25 @@ public class Arduino implements Closeable {
         this.executorService = Executors.newScheduledThreadPool(POOL_SIZE);
     }
 
-    public BaseLedCommandBuilder baseLed(int pin) {
+    public BaseLedCommandBuilder baseLed(ComponentPin pin) {
         state.validatePin(pin);
         state.validateComponentOnPin(pin, BASE_LED);
         return new BaseLedCommandBuilder(pin, commandChannel, executorService);
     }
 
-    public TrackSwitchCommandBuilder trackSwitch(int pin) {
+    public TrackSwitchCommandBuilder trackSwitch(ComponentPin pin) {
         state.validatePin(pin);
         state.validateComponentOnPin(pin, TRACK_SWITCH);
         return new TrackSwitchCommandBuilder(pin, commandChannel, executorService);
     }
 
-    public TrainCommandBuilder train(int pin) {
+    public TrainCommandBuilder train(ComponentPin pin) {
         state.validatePin(pin);
         state.validateComponentOnPin(pin, INFRARED_EMITTER);
         return new TrainCommandBuilder(pin, commandChannel, executorService);
     }
 
-    public <T extends ComponentState> T getState(int pin, Class<T> stateClass) {
+    public <T extends ComponentState> T getState(ComponentPin pin, Class<T> stateClass) {
         return state.getState(pin, stateClass);
     }
 

@@ -3,7 +3,7 @@ package com.cegeka.xparduino.command.serialized;
 import org.junit.Test;
 
 import static com.cegeka.xparduino.command.CommandCode.BASE_LED_COMMAND;
-import static com.cegeka.xparduino.component.ComponentTestConstants.PIN_1;
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_0;
 import static com.cegeka.xparduino.component.ComponentTestConstants.baseLed;
 import static com.cegeka.xparduino.component.ComponentType.BASE_LED;
 import static java.lang.String.format;
@@ -19,9 +19,9 @@ public class SerializedCommandFactoryTest {
         SerializedCommandFactory factory = new SerializedCommandFactory();
 
         SerializedCommand actual = factory.create(format("<%d:%d,%d,%s>",
-                BASE_LED.getValue(), PIN_1, BASE_LED_COMMAND.value(), ACTION));
+                BASE_LED.getValue(), DIGITAL_0.value(), BASE_LED_COMMAND.value(), ACTION));
 
-        assertThat(actual).isEqualTo(new SerializedCommand(BASE_LED_COMMAND, ACTION, baseLed(PIN_1)));
+        assertThat(actual).isEqualTo(new SerializedCommand(BASE_LED_COMMAND, ACTION, baseLed(DIGITAL_0)));
     }
 
     @Test

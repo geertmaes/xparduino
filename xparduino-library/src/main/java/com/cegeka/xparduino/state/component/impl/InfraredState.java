@@ -1,5 +1,6 @@
 package com.cegeka.xparduino.state.component.impl;
 
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.event.impl.infrared.InfraredEvent;
 import com.cegeka.xparduino.state.component.ComponentState;
@@ -8,7 +9,7 @@ public class InfraredState extends ComponentState<InfraredState> {
 
     private boolean emitting;
 
-    public InfraredState(int pin) {
+    public InfraredState(ComponentPin pin) {
         super(pin);
     }
 

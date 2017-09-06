@@ -8,32 +8,32 @@ import com.cegeka.xparduino.event.impl.photosensor.PhotoSensorEvent;
 import com.cegeka.xparduino.event.impl.rfidreader.RfidReaderEvent;
 import com.cegeka.xparduino.event.impl.trackswitch.TrackSwitchEvent;
 
-import static com.cegeka.xparduino.component.ComponentTestConstants.PIN_1;
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_0;
 
 public class EventTestConstants {
 
     public static BaseLedEvent baseLedEvent(boolean emitting) {
-        return new BaseLedEvent(PIN_1, emitting);
+        return new BaseLedEvent(DIGITAL_0, emitting);
     }
 
     public static PhotoSensorEvent photoSensorEvent(int signal) {
-        return new PhotoSensorEvent(PIN_1, signal);
+        return new PhotoSensorEvent(DIGITAL_0, signal);
     }
 
     public static ObstacleSensorEvent obstacleSensorEvent(boolean blocked) {
-        return new ObstacleSensorEvent(PIN_1, blocked);
+        return new ObstacleSensorEvent(DIGITAL_0, blocked);
     }
 
     public static InfraredEvent infraredEvent(boolean emitting) {
-        return new InfraredEvent(PIN_1, emitting);
+        return new InfraredEvent(DIGITAL_0, emitting);
     }
 
     public static RfidReaderEvent rfidReaderEvent(String tagId) {
-        return new RfidReaderEvent(PIN_1, tagId);
+        return new RfidReaderEvent(DIGITAL_0, tagId);
     }
 
     public static TrackSwitchEvent trackSwitchEvent(Direction direction) {
-        return new TrackSwitchEvent(PIN_1, direction);
+        return new TrackSwitchEvent(DIGITAL_0, direction);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.cegeka.xparduino.state.component;
 
 import com.cegeka.xparduino.component.Component;
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.state.ArduinoStateException;
 import com.cegeka.xparduino.state.component.impl.*;
@@ -39,9 +40,9 @@ public class ComponentStateFactory {
         throw new ArduinoStateException(format(NO_STATE_CONFIGURED, type));
     }
 
-    private ComponentState createComponentState(int pin, Class<? extends ComponentState> stateClass) {
+    private ComponentState createComponentState(ComponentPin pin, Class<? extends ComponentState> stateClass) {
         try {
-            Constructor<? extends ComponentState> constructorWithPin = stateClass.getConstructor(Integer.TYPE);
+            Constructor<? extends ComponentState> constructorWithPin = stateClass.getConstructor(ComponentPin.class);
             return constructorWithPin.newInstance(pin);
         } catch (Exception e) {
             throw new ArduinoStateException(format(INSTANTIATION_EXCEPTION, stateClass.getSimpleName()));

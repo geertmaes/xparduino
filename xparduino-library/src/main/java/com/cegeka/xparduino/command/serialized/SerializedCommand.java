@@ -2,6 +2,7 @@ package com.cegeka.xparduino.command.serialized;
 
 import com.cegeka.xparduino.command.CommandCode;
 import com.cegeka.xparduino.component.Component;
+import com.cegeka.xparduino.component.ComponentPin;
 
 public class SerializedCommand {
 
@@ -23,7 +24,7 @@ public class SerializedCommand {
         return action;
     }
 
-    public int pin() {
+    public ComponentPin pin() {
         return component.getPin();
     }
 
@@ -34,7 +35,7 @@ public class SerializedCommand {
     @Override
     public String toString() {
         return String.format("<%d:%d,%d,%s>",
-                component.getType().getValue(), component.getPin(), commandCode.value(), action);
+                component.getType().getValue(), component.getPin().value(), commandCode.value(), action);
     }
 
     @Override

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_8;
+
 @Service
 public class LedService {
 
@@ -30,13 +32,13 @@ public class LedService {
     public void startBlinkingLed(int delay, int period, TimeUnit timeUnit) {
         stopBlinkingLed();
         baseLedOnCommand = arduinoService.getArduino()
-                .baseLed(8)
+                .baseLed(DIGITAL_8)
                 .repeating()
                 .withDelay(delay)
                 .withPeriod(period)
                 .withTimeUnit(timeUnit);
         baseLedOffCommand = arduinoService.getArduino()
-                .baseLed(8)
+                .baseLed(DIGITAL_8)
                 .repeating()
                 .withDelay(delay + period / 2)
                 .withPeriod(period)
@@ -57,7 +59,7 @@ public class LedService {
     private void changeLedState(boolean emitting) {
         stopBlinkingLed();
         arduinoService.getArduino()
-                .baseLed(8)
+                .baseLed(DIGITAL_8)
                 .withEmitting(emitting)
                 .executing().execute();
     }

@@ -1,11 +1,13 @@
 package com.cegeka.xparduino.rest.service;
 
-import com.cegeka.xparduino.state.component.impl.RfidReaderState;
 import com.cegeka.xparduino.domain.Train;
+import com.cegeka.xparduino.state.component.impl.RfidReaderState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_11;
 
 @Service
 public class TrainService {
@@ -34,7 +36,7 @@ public class TrainService {
     }
 
     public String getLastTrain(){
-        RfidReaderState state = arduinoService.getArduino().getState(11, RfidReaderState.class);
+        RfidReaderState state = arduinoService.getArduino().getState(DIGITAL_11, RfidReaderState.class);
 
         return state == null ? "" : (state.getTagId() == null ? "" : state.getTagId());
     }

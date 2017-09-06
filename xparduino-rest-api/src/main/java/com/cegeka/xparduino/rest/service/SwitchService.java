@@ -4,6 +4,8 @@ import com.cegeka.xparduino.domain.Direction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_4;
+
 @Service
 public class SwitchService {
 
@@ -19,7 +21,7 @@ public class SwitchService {
    public void switchTracks(){
         lastDirection = lastDirection.toggle();
         arduinoService.getArduino()
-                .trackSwitch(4)
+                .trackSwitch(DIGITAL_4)
                 .withDirection(lastDirection)
                 .executing().execute();
    }

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import static com.cegeka.xparduino.component.ComponentTestConstants.PIN_1;
+import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_0;
 import static com.cegeka.xparduino.component.ComponentTestConstants.obstacleSensor;
 import static com.cegeka.xparduino.event.EventTestConstants.obstacleSensorEvent;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -14,7 +14,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class ObstacleSensorStateIntegrationTest {
 
     @Rule
-    public ArduinoTestRule arduinoRule = new ArduinoTestRule(obstacleSensor(PIN_1));
+    public ArduinoTestRule arduinoRule = new ArduinoTestRule(obstacleSensor(DIGITAL_0));
 
     private Arduino arduino;
 
@@ -25,14 +25,14 @@ public class ObstacleSensorStateIntegrationTest {
 
     @Test
     public void obstacleSensorState_Default() throws Exception {
-        ObstacleSensorState state = arduino.getState(PIN_1, ObstacleSensorState.class);
+        ObstacleSensorState state = arduino.getState(DIGITAL_0, ObstacleSensorState.class);
 
         assertThat(state.isBlocked()).isFalse();
     }
 
     @Test
     public void obstacleSensorState_Blocked_True() throws Exception {
-        ObstacleSensorState state = arduino.getState(PIN_1, ObstacleSensorState.class);
+        ObstacleSensorState state = arduino.getState(DIGITAL_0, ObstacleSensorState.class);
         state.on(obstacleSensorEvent(false));
 
         arduinoRule.emitEvents(obstacleSensorEvent(true));
@@ -42,7 +42,7 @@ public class ObstacleSensorStateIntegrationTest {
 
     @Test
     public void obstacleSensorState_Blocked_False() throws Exception {
-        ObstacleSensorState state = arduino.getState(PIN_1, ObstacleSensorState.class);
+        ObstacleSensorState state = arduino.getState(DIGITAL_0, ObstacleSensorState.class);
         state.on(obstacleSensorEvent(true));
 
         arduinoRule.emitEvents(obstacleSensorEvent(false));

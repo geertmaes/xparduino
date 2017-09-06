@@ -1,5 +1,6 @@
 package com.cegeka.xparduino.event.impl.trackswitch;
 
+import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.domain.Direction;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.EventMapping;
@@ -12,16 +13,16 @@ import static com.cegeka.xparduino.event.EventCode.TRACK_SWITCH_EVENT;
         deserializer = TrackSwitchEventDeserializer.class)
 public class TrackSwitchEvent implements Event {
 
-    private final int pin;
+    private final ComponentPin pin;
     private final Direction direction;
 
-    public TrackSwitchEvent(int pin, Direction direction) {
+    public TrackSwitchEvent(ComponentPin pin, Direction direction) {
         this.pin = pin;
         this.direction = direction;
     }
 
     @Override
-    public int getPin() {
+    public ComponentPin getPin() {
         return pin;
     }
 

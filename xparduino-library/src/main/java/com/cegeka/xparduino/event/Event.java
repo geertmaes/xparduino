@@ -1,6 +1,8 @@
 package com.cegeka.xparduino.event;
 
+import com.cegeka.xparduino.component.ComponentPin;
+
 public interface Event {
 
-    int getPin();
+    ComponentPin getPin();
 }
