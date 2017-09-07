@@ -23,6 +23,6 @@ public class SwitchService {
         arduinoService.getArduino()
                 .trackSwitch(DIGITAL_4)
                 .withDirection(lastDirection)
-                .executing().execute();
+                .execute();
    }
 }

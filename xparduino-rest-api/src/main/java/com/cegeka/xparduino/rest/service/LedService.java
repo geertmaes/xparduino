@@ -33,13 +33,13 @@ public class LedService {
         stopBlinkingLed();
         baseLedOnCommand = arduinoService.getArduino()
                 .baseLed(DIGITAL_8)
-                .repeating()
+                .repeat()
                 .withDelay(delay)
                 .withPeriod(period)
                 .withTimeUnit(timeUnit);
         baseLedOffCommand = arduinoService.getArduino()
                 .baseLed(DIGITAL_8)
-                .repeating()
+                .repeat()
                 .withDelay(delay + period / 2)
                 .withPeriod(period)
                 .withTimeUnit(timeUnit);
@@ -61,6 +61,6 @@ public class LedService {
         arduinoService.getArduino()
                 .baseLed(DIGITAL_8)
                 .withEmitting(emitting)
-                .executing().execute();
+                .execute();
     }
 }

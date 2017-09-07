@@ -27,11 +27,11 @@ public abstract class AbstractCommandBuilder<T extends Command> {
 
     public abstract T build();
 
-    public ExecutableCommand<T> executing() {
-        return executable(build(), commandChannel);
+    public void execute() {
+        executable(build(), commandChannel).execute();
     }
 
-    public RepeatingCommand<T> repeating() {
+    public RepeatingCommand<T> repeat() {
         return RepeatingCommandImpl.repeating(build(), commandChannel, executorService);
     }
 

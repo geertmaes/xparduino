@@ -2,7 +2,7 @@ package com.cegeka.xparduino.command;
 
 import com.cegeka.xparduino.command.serialized.SerializedCommand;
 
-public class DefaultCommandSerializer implements CommandDataSerializer<Command> {
+public class DefaultCommandSerializer<C extends Command> implements CommandDataSerializer<C> {
 
     private final CommandCode code;
 
@@ -11,7 +11,7 @@ public class DefaultCommandSerializer implements CommandDataSerializer<Command> 
     }
 
     @Override
-    public SerializedCommand serialize(Command command) {
+    public SerializedCommand serialize(C command) {
         return new SerializedCommand(code, command.getAction(), command.getComponent());
     }
 }

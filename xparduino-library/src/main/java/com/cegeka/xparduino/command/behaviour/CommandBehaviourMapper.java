@@ -1,6 +1,8 @@
 package com.cegeka.xparduino.command.behaviour;
 
 import com.cegeka.xparduino.command.Command;
+import com.cegeka.xparduino.command.impl.baseled.BaseLedCommandBehaviour;
+import com.cegeka.xparduino.command.impl.trackswitch.TrackSwitchCommandBehaviour;
 import com.cegeka.xparduino.event.Event;
 import com.google.common.collect.ImmutableSet;
 

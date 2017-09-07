@@ -35,4 +35,22 @@ public class BaseLedCommand extends AbstractCommand {
         return BASE_LED;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        BaseLedCommand that = (BaseLedCommand) o;
+
+        return emitting == that.emitting;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + (emitting ? 1 : 0);
+        return result;
+    }
+
 }

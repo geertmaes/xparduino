@@ -6,6 +6,7 @@ import com.cegeka.xparduino.command.AbstractCommand;
 import com.cegeka.xparduino.command.Command;
 import com.cegeka.xparduino.command.mapper.CommandMapper;
 import com.cegeka.xparduino.command.mapper.CommandMapperFactory;
+import com.cegeka.xparduino.event.AbstractEvent;
 import com.cegeka.xparduino.event.Event;
 import com.cegeka.xparduino.event.mapper.EventMapper;
 import com.cegeka.xparduino.event.mapper.EventMapperFactory;
@@ -36,14 +37,17 @@ public class ObjectMapperConfigurator implements Configurator<ObjectMapperConfig
 
     private Set<Class<? extends Event>> extractEvents(ObjectMapperConfig config) {
         String basePackage = config.getEventsPackage();
-        return new Reflections(basePackage).getSubTypesOf(Event.class);
+        return new Reflections(basePackage).getSubTypesOf(Event.class)
+                .stream()
+                .filter(clazz -> ! clazz.equals(AbstractEvent.class))
+                .collect(toSet());
     }
 
     private Set<Class<? extends Command>> extractCommands(ObjectMapperConfig config) {
         String basePackage = config.getCommandsPackage();
         return new Reflections(basePackage).getSubTypesOf(Command.class)
                 .stream()
-                .filter(commandClass -> ! commandClass.equals(AbstractCommand.class))
+                .filter(clazz -> ! clazz.equals(AbstractCommand.class))
                 .collect(toSet());
     }
 

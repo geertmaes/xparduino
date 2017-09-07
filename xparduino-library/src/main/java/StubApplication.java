@@ -38,10 +38,10 @@ public class StubApplication {
 
         arduino.baseLed(DIGITAL_4)
                 .on()
-                .executing().execute();
+                .execute();
 
-//        ledState.onStateChange(state -> arduino.baseLed(4)
-//                .withEmitting(!state.isEmitting())
-//                .execute());
+        ledState.onStateChange((prev, curr) -> arduino.baseLed(DIGITAL_4)
+                .withEmitting(!curr.isEmitting())
+                .execute());
     }
 }

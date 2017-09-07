@@ -23,7 +23,7 @@ public class InfraredService {
                     .withColor(color)
                     .withChannel(channel)
                     .withSpeed(speed)
-                .repeating()
+                .repeat()
                     .withDelay(0)
                     .withTimes(10)
                     .withPeriod(100)

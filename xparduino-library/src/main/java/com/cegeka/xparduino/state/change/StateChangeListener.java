@@ -5,5 +5,5 @@ import com.cegeka.xparduino.state.component.ComponentState;
 @FunctionalInterface
 public interface StateChangeListener<T extends ComponentState> {
 
-    void onChange(T state);
+    void onChange(T previousState, T currentState);
 }

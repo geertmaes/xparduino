@@ -1,7 +1,7 @@
-package com.cegeka.xparduino.command.behaviour;
+package com.cegeka.xparduino.command.impl.trackswitch;
 
 import com.cegeka.xparduino.command.Command;
-import com.cegeka.xparduino.command.impl.trackswitch.TrackSwitchCommand;
+import com.cegeka.xparduino.command.behaviour.CommandBehaviour;
 import com.cegeka.xparduino.event.impl.trackswitch.TrackSwitchEvent;
 
 public class TrackSwitchCommandBehaviour implements CommandBehaviour<TrackSwitchCommand, TrackSwitchEvent> {

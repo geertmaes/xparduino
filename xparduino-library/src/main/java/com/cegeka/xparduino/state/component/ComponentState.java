@@ -12,13 +12,19 @@ public abstract class ComponentState<T extends ComponentState> {
     private final ComponentPin pin;
     private final List<StateChangeListener<T>> stateChangeListeners;
 
+    private T previousState = null;
+
     protected ComponentState(ComponentPin pin) {
         this.pin = pin;
         this.stateChangeListeners = new LinkedList<>();
     }
 
     void triggerStateChange() {
-        stateChangeListeners.forEach(listener -> listener.onChange(copy()));
+        if (previousState == null || !this.equals(previousState)) {
+            T currentState = copy();
+            stateChangeListeners.forEach(listener -> listener.onChange(previousState == null ? currentState : previousState, currentState));
+            previousState = currentState;
+        }
     }
 
     public void onStateChange(StateChangeListener<T> listener) {

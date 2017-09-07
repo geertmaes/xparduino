@@ -3,7 +3,6 @@ import com.cegeka.xparduino.ArduinoFactory;
 import com.cegeka.xparduino.bootstrap.ArduinoConfiguration;
 import com.cegeka.xparduino.bootstrap.configurator.component.ComponentConfig;
 import com.cegeka.xparduino.queue.serialport.SerialPortQueueConfig;
-import com.cegeka.xparduino.state.change.StateChangeListener;
 import com.cegeka.xparduino.state.component.impl.ObstacleSensorState;
 import com.cegeka.xparduino.state.component.impl.TrackSwitchState;
 import jssc.SerialPort;
@@ -15,8 +14,6 @@ import java.util.stream.Collectors;
 
 import static com.cegeka.xparduino.component.ComponentPin.*;
 import static com.cegeka.xparduino.component.ComponentType.*;
-import static com.cegeka.xparduino.state.change.DifferentStateChangeDecorator.withDifferent;
-import static com.cegeka.xparduino.state.change.TimeoutStateChangeDecorator.withTimeout;
 
 
 public class Application {
@@ -49,21 +46,21 @@ public class Application {
         ObstacleSensorState obstacleSensor = arduino.getState(DIGITAL_2, ObstacleSensorState.class);
         ObstacleSensorState obstacleSensor2 = arduino.getState(DIGITAL_3, ObstacleSensorState.class);
         TrackSwitchState trackSwitchState = arduino.getState(ANALOG_1, TrackSwitchState.class);
-
+/*
         StateChangeListener<ObstacleSensorState> switchTrackOnChange
                 = withTimeout(sensorState -> toggleTrackSwitch(arduino, sensorState, trackSwitchState), 2000);
 
         obstacleSensor.onStateChange(
                 withDifferent(switchTrackOnChange));
         obstacleSensor2.onStateChange(
-                withDifferent(switchTrackOnChange));
+                withDifferent(switchTrackOnChange));*/
     }
 
     private void toggleTrackSwitch(Arduino arduino, ObstacleSensorState state, TrackSwitchState trackSwitchState) {
         if (state.isBlocked()) {
             arduino.trackSwitch(trackSwitchState.getPin())
                     .withDirection(trackSwitchState.getDirection().toggle())
-                    .executing().execute();
+                    .execute();
         }
     }
 
