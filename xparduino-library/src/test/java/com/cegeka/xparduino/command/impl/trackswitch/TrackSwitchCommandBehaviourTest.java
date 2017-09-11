@@ -3,7 +3,7 @@ package com.cegeka.xparduino.command.impl.trackswitch;
 import com.cegeka.xparduino.event.impl.trackswitch.TrackSwitchEvent;
 import org.junit.Test;
 
-import static com.cegeka.xparduino.command.CommandTestConstants.trackSwitchCommand;
+import static com.cegeka.xparduino.command.CommandTestConstants.TrackSwitch.trackSwitchCommand;
 import static com.cegeka.xparduino.domain.Direction.LEFT;
 import static com.cegeka.xparduino.domain.Direction.RIGHT;
 import static com.cegeka.xparduino.event.EventTestConstants.trackSwitchEvent;

@@ -9,4 +9,5 @@ public class TrackSwitchCommandSerializer extends DefaultCommandSerializer<Track
     public TrackSwitchCommandSerializer() {
         super(TRACK_SWITCH_COMMAND);
     }
+
 }

@@ -5,6 +5,7 @@ import com.cegeka.xparduino.command.serialized.SerializedCommand;
 import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.domain.Color;
 
+//TODO: write test
 public class TrainCommandDeserializer implements CommandDataDeserializer<TrainCommand> {
 
     private static final String ACTION_PART_SEPARATOR = ":";

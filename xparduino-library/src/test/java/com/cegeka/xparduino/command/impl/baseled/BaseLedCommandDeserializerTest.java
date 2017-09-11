@@ -5,7 +5,9 @@ import com.cegeka.xparduino.command.serialized.SerializedCommand;
 import org.junit.Test;
 
 import static com.cegeka.xparduino.command.CommandCode.BASE_LED_COMMAND;
-import static com.cegeka.xparduino.command.CommandTestConstants.baseLedCommand;
+import static com.cegeka.xparduino.command.CommandTestConstants.BaseLed.baseLedCommand;
+import static com.cegeka.xparduino.command.CommandTestConstants.BaseLed.serializedEmittingBaseLedCommand;
+import static com.cegeka.xparduino.command.CommandTestConstants.BaseLed.serializedNotEmittingBaseLedCommand;
 import static com.cegeka.xparduino.component.ComponentPin.DIGITAL_0;
 import static com.cegeka.xparduino.component.ComponentTestConstants.baseLed;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -13,8 +15,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class BaseLedCommandDeserializerTest {
 
-    private static final String ON_ACTION = "ON";
-    private static final String OFF_ACTION = "OFF";
     private static final String INVALID_ACTION = "invalid";
 
     private final BaseLedCommandDeserializer deserializer = new BaseLedCommandDeserializer();
@@ -22,17 +22,19 @@ public class BaseLedCommandDeserializerTest {
     @Test
     public void deserialize_Emitting_True() throws Exception {
         BaseLedCommand command = deserializer
-                .deserialize(serializeBaseLedCommand(ON_ACTION));
+                .deserialize(serializedEmittingBaseLedCommand());
 
-        assertThat(command).isEqualTo(baseLedCommand(true));
+        assertThat(command)
+                .isEqualTo(baseLedCommand(true));
     }
 
     @Test
     public void deserialize_Emitting_False() throws Exception {
         BaseLedCommand command = deserializer
-                .deserialize(serializeBaseLedCommand(OFF_ACTION));
+                .deserialize(serializedNotEmittingBaseLedCommand());
 
-        assertThat(command).isEqualTo(baseLedCommand(false));
+        assertThat(command)
+                .isEqualTo(baseLedCommand(false));
     }
 
     @Test

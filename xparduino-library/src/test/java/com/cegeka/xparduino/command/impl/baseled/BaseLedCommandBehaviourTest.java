@@ -3,7 +3,7 @@ package com.cegeka.xparduino.command.impl.baseled;
 import com.cegeka.xparduino.event.impl.baseled.BaseLedEvent;
 import org.junit.Test;
 
-import static com.cegeka.xparduino.command.CommandTestConstants.baseLedCommand;
+import static com.cegeka.xparduino.command.CommandTestConstants.BaseLed.baseLedCommand;
 import static com.cegeka.xparduino.event.EventTestConstants.baseLedEvent;
 import static org.assertj.core.api.Assertions.assertThat;
 
