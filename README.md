@@ -9,6 +9,19 @@ TO DO:
  - Hello World (Arduino) (/)
  - Get basic event flow going (x)
  - Arduino STUB (x)
+ 
+ TO DO (bis):
+ * High prio
+ 	- Arduino code uploaden
+ 	- meerdere RFID readers 
+ 
+ * Lower prio
+ 	- Stub verder uitwerken
+ 
+ * Nice to have
+ 	- code uploaden vanuit applicatie
+ 	- meerdere arduino's
+ 	- USB verlengkabel
 
 <h3>Arduino libraries</h3>
 For components like IR led and servo motors we will have to use external libraries which I will link here. You need to add them to your arduino IDE (which ever you are using), to be able to import them into your arduino source file. 

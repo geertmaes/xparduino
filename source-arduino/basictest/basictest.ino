@@ -12,7 +12,7 @@ int dataNumber = 0;
 void setup()
 {
     Serial.begin(9600);
-    Serial.println("<com.cegeka.xpdays.arduino.Arduino is ready>");
+    Serial.println("<Arduino is ready>");
     pinMode(LedPin, OUTPUT);
 }
 
