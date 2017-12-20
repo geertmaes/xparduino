@@ -26,9 +26,13 @@ public class SerialPortFactory {
     private SerialPortFactory() {}
 
     public SerialPort getOrCreate(String portName) {
-        return cache.containsKey(portName)
-                ? cache.get(portName)
-                : cache.put(portName, findAndOpenSerialPort(portName));
+        if (cache.containsKey(portName)) {
+            return cache.get(portName);
+        }
+
+        SerialPort serialPort = findAndOpenSerialPort(portName);
+        cache.put(portName, serialPort);
+        return serialPort;
     }
 
     private SerialPort findAndOpenSerialPort(String portName) {
