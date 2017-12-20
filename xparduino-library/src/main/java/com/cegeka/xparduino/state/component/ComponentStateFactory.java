@@ -28,6 +28,7 @@ public class ComponentStateFactory {
             .put(PHOTO_SENSOR, PhotoSensorState.class)
             .put(RFID_READER, RfidReaderState.class)
             .put(TRACK_SWITCH, TrackSwitchState.class)
+            .put(TEMPERATURE_SENSOR, TemperatureSensorState.class)
             .build();
 
     public ComponentState create(Component component) {
