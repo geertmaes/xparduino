@@ -28,4 +28,8 @@ public class ComponentTestConstants {
         return new Component(pin, TRACK_SWITCH);
     }
 
+    public static Component temperatureSensor(ComponentPin pin) {
+        return new Component(pin, TEMPERATURE_SENSOR);
+    }
+
 }

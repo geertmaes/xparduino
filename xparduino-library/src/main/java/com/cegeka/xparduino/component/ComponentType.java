@@ -9,7 +9,8 @@ public enum ComponentType {
     INFRARED_EMITTER(2),
     OBSTACLE_SENSOR(3),
     TRACK_SWITCH(4),
-    RFID_READER(5);
+    RFID_READER(5),
+    TEMPERATURE_SENSOR(5);
 
     private final int value;
 

@@ -9,7 +9,8 @@ public enum EventCode {
     INFRARED_EMITTER_EVENT(2),
     OBSTACLE_SENSOR_EVENT(3),
     TRACK_SWITCH_EVENT(4),
-    RFID_READER_EVENT(5);
+    RFID_READER_EVENT(5),
+    TEMPERATURE_SENSOR_EVENT(6);
 
     private final int value;
 
