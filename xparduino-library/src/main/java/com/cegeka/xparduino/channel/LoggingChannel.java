@@ -26,7 +26,7 @@ public class LoggingChannel<T> implements Channel<T> {
     @Override
     public void send(T message) {
         try {
-            LOGGER.info("Sending {} on {}", messageConverter.apply(message), delegate.getIdentifier());
+            LOGGER.debug("Sending {} on {}", messageConverter.apply(message), delegate.getIdentifier());
             delegate.send(message);
         } catch (RuntimeException e) {
             LOGGER.warn("Failed to send {} on {}", messageConverter.apply(message), delegate.getIdentifier(), e);
