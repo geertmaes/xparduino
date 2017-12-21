@@ -69,7 +69,7 @@ public class ArduinoBootstrap {
         executeConfigurators(config);
         executeComposers();
         executePostBuildListeners();
-        LOGGER.info("---------------------------------------\n");
+        LOGGER.info("---------------------------------------");
         releaseChannels();
         return new Arduino(getArduinoState(), commandChannel);
     }
