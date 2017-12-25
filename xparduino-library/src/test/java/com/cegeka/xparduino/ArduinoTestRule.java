@@ -63,7 +63,7 @@ public class ArduinoTestRule extends ExternalResource {
 
     private ArduinoConfiguration toArduinoConfig(Component... components) {
         return ArduinoConfiguration.builder()
-                .withArduinoQueue(new StubQueueConfig())
+                .withArduinoQueue(new StubQueueConfig.Builder().build())
                 .withComponents(toComponentConfig(components))
                 .build();
     }

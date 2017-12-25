@@ -5,6 +5,8 @@ import com.cegeka.xparduino.component.ComponentType;
 import com.cegeka.xparduino.event.impl.temperaturesensor.TemperatureSensorEvent;
 import com.cegeka.xparduino.state.component.ComponentState;
 
+import java.util.function.Consumer;
+
 import static com.cegeka.xparduino.component.ComponentType.TEMPERATURE_SENSOR;
 
 public class TemperatureSensorState extends ComponentState<TemperatureSensorState> {
@@ -21,6 +23,10 @@ public class TemperatureSensorState extends ComponentState<TemperatureSensorStat
 
     public double getDegrees() {
         return degrees;
+    }
+
+    public void onTemperatureChange(Consumer<Double> consumer) {
+        onStateChange((prev, curr) -> consumer.accept(curr.degrees));
     }
 
     @Override

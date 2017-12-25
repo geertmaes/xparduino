@@ -46,7 +46,7 @@ public class ArduinoConfiguration
 
         private ComponentConfig componentConfig = new ComponentConfig.Builder().build();
         private ObjectMapperConfig objectMapperConfig = new ObjectMapperConfig(EVENTS_PACKAGE, COMMANDS_PACKAGE);
-        private ArduinoQueueConfig arduinoQueueConfig = new StubQueueConfig();
+        private ArduinoQueueConfig arduinoQueueConfig = new StubQueueConfig.Builder().build();
 
         public Builder withComponents(ComponentConfig config) {
             this.componentConfig = config;

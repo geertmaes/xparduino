@@ -13,6 +13,7 @@ public class ArduinoQueueComposer implements Composer {
         configureSender(bootstrap);
         configureReceiver(bootstrap);
         configureStubQueue(bootstrap);
+        initializeQueue(bootstrap);
     }
 
     private void configureSender(ArduinoBootstrap bootstrap) {
@@ -40,5 +41,9 @@ public class ArduinoQueueComposer implements Composer {
             ((StubQueue) queue).setEventMapper(bootstrap.getEventMapper());
             ((StubQueue) queue).setCommandMapper(bootstrap.getCommandMapper());
         }
+    }
+
+    private void initializeQueue(ArduinoBootstrap bootstrap) {
+        bootstrap.getQueue().initialize();
     }
 }
