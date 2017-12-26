@@ -22,12 +22,10 @@ public class ArduinoState {
 
     private final ComponentStateFactory stateFactory = new ComponentStateFactory();
 
-    private final Set<Component> componentList;
     private final Map<ComponentPin, ComponentType> components;
     private final Map<ComponentPin, ComponentState> componentStates;
 
     public ArduinoState(Set<Component> components) {
-        this.componentList = components;
         this.components = toComponentMapping(components);
         this.componentStates = toComponentStateMapping(components);
     }
