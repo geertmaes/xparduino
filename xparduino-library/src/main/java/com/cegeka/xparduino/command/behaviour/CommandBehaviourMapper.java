@@ -23,7 +23,7 @@ public class CommandBehaviourMapper {
         return BEHAVIOURS.stream()
                 .filter(behaviour -> behaviour.canHandle(command))
                 .findFirst()
-                .map(behaviour -> behaviour.create(command))
+                .map(behaviour -> behaviour.createEvent(command))
                 .orElseThrow(() -> new RuntimeException("No command behaviour found for " + className(command)));
     }
 

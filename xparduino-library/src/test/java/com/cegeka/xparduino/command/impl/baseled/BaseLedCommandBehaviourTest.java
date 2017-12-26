@@ -13,14 +13,14 @@ public class BaseLedCommandBehaviourTest {
 
     @Test
     public void create_Emitting_True() throws Exception {
-        BaseLedEvent event = behaviour.create(baseLedCommand(true));
+        BaseLedEvent event = behaviour.createEvent(baseLedCommand(true));
 
         assertThat(event).isEqualTo(baseLedEvent(true));
     }
 
     @Test
     public void create_Emitting_False() throws Exception {
-        BaseLedEvent event = behaviour.create(baseLedCommand(false));
+        BaseLedEvent event = behaviour.createEvent(baseLedCommand(false));
 
         assertThat(event).isEqualTo(baseLedEvent(false));
     }

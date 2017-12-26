@@ -5,7 +5,7 @@ import com.cegeka.xparduino.event.Event;
 
 public interface CommandBehaviour<C extends Command, E extends Event> {
 
-    E create(C command);
+    E createEvent(C command);
 
     boolean canHandle(Command command);
 }

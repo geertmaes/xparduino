@@ -15,14 +15,14 @@ public class TrackSwitchCommandBehaviourTest {
 
     @Test
     public void create_Direction_Left() throws Exception {
-        TrackSwitchEvent event = behaviour.create(trackSwitchCommand(LEFT));
+        TrackSwitchEvent event = behaviour.createEvent(trackSwitchCommand(LEFT));
 
         assertThat(event).isEqualTo(trackSwitchEvent(LEFT));
     }
 
     @Test
     public void create_Direction_Right() throws Exception {
-        TrackSwitchEvent event = behaviour.create(trackSwitchCommand(RIGHT));
+        TrackSwitchEvent event = behaviour.createEvent(trackSwitchCommand(RIGHT));
 
         assertThat(event).isEqualTo(trackSwitchEvent(RIGHT));
     }

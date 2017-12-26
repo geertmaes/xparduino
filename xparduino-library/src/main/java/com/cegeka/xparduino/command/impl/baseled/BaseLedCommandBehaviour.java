@@ -7,7 +7,7 @@ import com.cegeka.xparduino.event.impl.baseled.BaseLedEvent;
 public class BaseLedCommandBehaviour implements CommandBehaviour<BaseLedCommand, BaseLedEvent> {
 
     @Override
-    public BaseLedEvent create(BaseLedCommand command) {
+    public BaseLedEvent createEvent(BaseLedCommand command) {
         return new BaseLedEvent(command.pin(), command.isEmitting());
     }
 

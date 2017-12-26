@@ -7,7 +7,7 @@ import com.cegeka.xparduino.event.impl.trackswitch.TrackSwitchEvent;
 public class TrackSwitchCommandBehaviour implements CommandBehaviour<TrackSwitchCommand, TrackSwitchEvent> {
 
     @Override
-    public TrackSwitchEvent create(TrackSwitchCommand command) {
+    public TrackSwitchEvent createEvent(TrackSwitchCommand command) {
         return new TrackSwitchEvent(command.pin(), command.getDirection());
     }
 
