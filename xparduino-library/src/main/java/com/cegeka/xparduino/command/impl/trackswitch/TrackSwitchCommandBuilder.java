@@ -6,16 +6,13 @@ import com.cegeka.xparduino.command.Command;
 import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.domain.Direction;
 
-import java.util.concurrent.ScheduledExecutorService;
-
 public class TrackSwitchCommandBuilder extends AbstractCommandBuilder<TrackSwitchCommand> {
 
     private Direction direction;
 
     public TrackSwitchCommandBuilder(ComponentPin pin,
-                                     Channel<Command> commandChannel,
-                                     ScheduledExecutorService executorService) {
-        super(pin, commandChannel, executorService);
+                                     Channel<Command> commandChannel) {
+        super(pin, commandChannel);
     }
 
     public TrackSwitchCommandBuilder left() {

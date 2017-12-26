@@ -11,7 +11,6 @@ import org.junit.rules.ExternalResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 import static java.lang.String.format;
@@ -50,15 +49,6 @@ public class ArduinoTestRule extends ExternalResource {
     @Override
     protected void before() throws Throwable {
         this.arduino = ArduinoBootstrap.fromConfiguration(configuration, eventSender, eventProber);
-    }
-
-    @Override
-    protected void after() {
-        try {
-            this.arduino.close();
-        } catch (IOException e) {
-            LOGGER.error("Failed to close arduino", e);
-        }
     }
 
     private ArduinoConfiguration toArduinoConfig(Component... components) {

@@ -25,12 +25,7 @@ public class SerialPortResource {
     }
 
     @PostMapping("/open")
-    public void openPort(@RequestBody JsonNode port){
+    public void openPort(@RequestBody JsonNode port) {
         arduinoService.openArduinoPort(port.get("port").textValue());
-    }
-
-    @PostMapping("/close")
-    public void closePort(){
-        arduinoService.closeArduinoPort();
     }
 }

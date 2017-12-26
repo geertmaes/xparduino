@@ -1,6 +1,7 @@
 package com.cegeka.xparduino.utils;
 
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.Executors.newScheduledThreadPool;
@@ -14,10 +15,10 @@ public class Scheduling {
         executorService = newScheduledThreadPool(POOL_SIZE, new NamedThreadFactory());
     }
 
-    public static void scheduleAtFixedRate(Runnable runnable,
-                                           long initialDelay,
-                                           long period,
-                                           TimeUnit unit) {
-        executorService.scheduleAtFixedRate(runnable, initialDelay, period, unit);
+    public static ScheduledFuture<?> scheduleAtFixedRate(Runnable runnable,
+                                                         long initialDelay,
+                                                         long period,
+                                                         TimeUnit unit) {
+        return executorService.scheduleAtFixedRate(runnable, initialDelay, period, unit);
     }
 }

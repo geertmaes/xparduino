@@ -9,51 +9,37 @@ import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.state.ArduinoState;
 import com.cegeka.xparduino.state.component.ComponentState;
 
-import java.io.Closeable;
-import java.io.IOException;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-
 import static com.cegeka.xparduino.component.ComponentType.*;
 
-public class Arduino implements Closeable {
-
-    private static final int POOL_SIZE = 100;
+public class Arduino {
 
     private final ArduinoState state;
     private final Channel<Command> commandChannel;
-    private final ScheduledExecutorService executorService;
 
     public Arduino(ArduinoState state, Channel<Command> commandChannel) {
         this.state = state;
         this.commandChannel = commandChannel;
-        this.executorService = Executors.newScheduledThreadPool(POOL_SIZE);
     }
 
     public BaseLedCommandBuilder baseLed(ComponentPin pin) {
         state.validatePin(pin);
         state.validateComponentOnPin(pin, BASE_LED);
-        return new BaseLedCommandBuilder(pin, commandChannel, executorService);
+        return new BaseLedCommandBuilder(pin, commandChannel);
     }
 
     public TrackSwitchCommandBuilder trackSwitch(ComponentPin pin) {
         state.validatePin(pin);
         state.validateComponentOnPin(pin, TRACK_SWITCH);
-        return new TrackSwitchCommandBuilder(pin, commandChannel, executorService);
+        return new TrackSwitchCommandBuilder(pin, commandChannel);
     }
 
     public TrainCommandBuilder train(ComponentPin pin) {
         state.validatePin(pin);
         state.validateComponentOnPin(pin, INFRARED_EMITTER);
-        return new TrainCommandBuilder(pin, commandChannel, executorService);
+        return new TrainCommandBuilder(pin, commandChannel);
     }
 
     public <T extends ComponentState> T getState(ComponentPin pin, Class<T> stateClass) {
         return state.getState(pin, stateClass);
-    }
-
-    @Override
-    public void close() throws IOException {
-        this.executorService.shutdown();
     }
 }

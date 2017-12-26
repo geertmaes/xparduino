@@ -1,8 +1,8 @@
 package com.cegeka.xparduino.command;
 
 import com.cegeka.xparduino.channel.Channel;
+import com.cegeka.xparduino.utils.Scheduling;
 
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -17,12 +17,9 @@ public class RepeatingCommandImpl<T extends Command>
     private static final TimeUnit DEFAULT_TIME_UNIT = TimeUnit.SECONDS;
 
     public static <T extends Command> RepeatingCommand<T> repeating(T delegate,
-                                                                    Channel<Command> commandChannel,
-                                                                    ScheduledExecutorService executorService) {
-        return new RepeatingCommandImpl<>(delegate, commandChannel, executorService);
+                                                                    Channel<Command> commandChannel) {
+        return new RepeatingCommandImpl<>(delegate, commandChannel);
     }
-
-    private final ScheduledExecutorService executorService;
 
     private int delay = DEFAULT_DELAY;
     private int period = DEFAULT_PERIOD;
@@ -33,10 +30,8 @@ public class RepeatingCommandImpl<T extends Command>
     private ScheduledFuture<?> scheduledFuture;
 
     private RepeatingCommandImpl(T delegate,
-                                   Channel<Command> commandChannel,
-                                   ScheduledExecutorService executorService) {
+                                 Channel<Command> commandChannel) {
         super(delegate, commandChannel);
-        this.executorService = executorService;
     }
 
     @Override
@@ -70,7 +65,7 @@ public class RepeatingCommandImpl<T extends Command>
 
     @Override
     public void execute() {
-        scheduledFuture = executorService.scheduleAtFixedRate(this::executeCommand, delay, period, timeUnit);
+        scheduledFuture = Scheduling.scheduleAtFixedRate(this::executeCommand, delay, period, timeUnit);
     }
 
     private void executeCommand() {

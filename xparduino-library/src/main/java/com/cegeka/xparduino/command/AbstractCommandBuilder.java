@@ -3,22 +3,17 @@ package com.cegeka.xparduino.command;
 import com.cegeka.xparduino.channel.Channel;
 import com.cegeka.xparduino.component.ComponentPin;
 
-import java.util.concurrent.ScheduledExecutorService;
-
 import static com.cegeka.xparduino.command.ExecutableCommandImpl.executable;
 
 public abstract class AbstractCommandBuilder<T extends Command> {
 
     private final ComponentPin pin;
     private final Channel<Command> commandChannel;
-    private final ScheduledExecutorService executorService;
 
     protected AbstractCommandBuilder(ComponentPin pin,
-                                     Channel<Command> commandChannel,
-                                     ScheduledExecutorService executorService) {
+                                     Channel<Command> commandChannel) {
         this.pin = pin;
         this.commandChannel = commandChannel;
-        this.executorService = executorService;
     }
 
     protected ComponentPin pin() {
@@ -32,7 +27,7 @@ public abstract class AbstractCommandBuilder<T extends Command> {
     }
 
     public RepeatingCommand<T> repeat() {
-        return RepeatingCommandImpl.repeating(build(), commandChannel, executorService);
+        return RepeatingCommandImpl.repeating(build(), commandChannel);
     }
 
 }

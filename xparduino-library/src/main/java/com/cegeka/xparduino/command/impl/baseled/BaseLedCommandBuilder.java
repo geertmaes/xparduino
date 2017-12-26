@@ -5,16 +5,13 @@ import com.cegeka.xparduino.command.AbstractCommandBuilder;
 import com.cegeka.xparduino.command.Command;
 import com.cegeka.xparduino.component.ComponentPin;
 
-import java.util.concurrent.ScheduledExecutorService;
-
 public class BaseLedCommandBuilder extends AbstractCommandBuilder<BaseLedCommand> {
 
     private boolean emitting = false;
 
     public BaseLedCommandBuilder(ComponentPin pin,
-                                 Channel<Command> commandChannel,
-                                 ScheduledExecutorService executorService) {
-        super(pin, commandChannel, executorService);
+                                 Channel<Command> commandChannel) {
+        super(pin, commandChannel);
     }
 
     public BaseLedCommandBuilder on() {

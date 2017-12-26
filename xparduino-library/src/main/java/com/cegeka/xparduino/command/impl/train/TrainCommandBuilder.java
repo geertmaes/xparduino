@@ -6,8 +6,6 @@ import com.cegeka.xparduino.command.Command;
 import com.cegeka.xparduino.component.ComponentPin;
 import com.cegeka.xparduino.domain.Color;
 
-import java.util.concurrent.ScheduledExecutorService;
-
 public class TrainCommandBuilder extends AbstractCommandBuilder<TrainCommand> {
 
     private int speed;
@@ -15,9 +13,8 @@ public class TrainCommandBuilder extends AbstractCommandBuilder<TrainCommand> {
     private Color color;
 
     public TrainCommandBuilder(ComponentPin pin,
-                               Channel<Command> commandChannel,
-                               ScheduledExecutorService executorService) {
-        super(pin, commandChannel, executorService);
+                               Channel<Command> commandChannel) {
+        super(pin, commandChannel);
     }
 
     public TrainCommandBuilder withSpeed(int speed) {
