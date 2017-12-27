@@ -1,9 +1,9 @@
-package com.cegeka.xparduino.utils;
+package com.cegeka.xparduino.scheduling;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;
 
-class NamedThreadFactory implements ThreadFactory {
+public class NamedThreadFactory implements ThreadFactory {
 
     private final AtomicInteger currentThreadCount = new AtomicInteger(0);
 

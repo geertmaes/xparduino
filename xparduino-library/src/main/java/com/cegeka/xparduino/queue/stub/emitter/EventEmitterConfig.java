@@ -36,9 +36,9 @@ public class EventEmitterConfig {
 
     public static class Builder {
 
-        private int period;
-        private int initialDelay;
-        private TimeUnit timeUnit;
+        private int period = DEFAULT_PERIOD;
+        private int initialDelay = DEFAULT_INITIAL_DELAY;
+        private TimeUnit timeUnit = DEFAULT_TIME_UNIT;
 
         public Builder withPeriod(int period) {
             this.period = period;

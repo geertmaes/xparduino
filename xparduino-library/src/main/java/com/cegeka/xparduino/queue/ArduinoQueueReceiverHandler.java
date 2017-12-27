@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-import static com.cegeka.xparduino.utils.Scheduling.scheduleAtFixedRate;
+import static com.cegeka.xparduino.scheduling.Scheduling.scheduleAtFixedRate;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 public class ArduinoQueueReceiverHandler {

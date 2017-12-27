@@ -111,7 +111,7 @@ public class ArduinoBootstrap {
             LOGGER.info("Executing post-build listener ({})", className(listener));
             listener.onPostBuild(this);
         } catch (Exception e) {
-            LOGGER.info("Error composing ({})", className(listener), e);
+            LOGGER.info("Error executing post-build listener ({})", className(listener), e);
             throw new ArduinoBootstrapCompositionException(e);
         }
     }

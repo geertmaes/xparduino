@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import static com.cegeka.xparduino.utils.Scheduling.scheduleAtFixedRate;
+import static com.cegeka.xparduino.scheduling.Scheduling.scheduleAtFixedRate;
 
 public class StubQueue implements ArduinoQueue {
 

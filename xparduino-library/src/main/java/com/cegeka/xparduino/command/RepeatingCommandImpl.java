@@ -1,9 +1,9 @@
 package com.cegeka.xparduino.command;
 
 import com.cegeka.xparduino.channel.Channel;
-import com.cegeka.xparduino.utils.Scheduling;
+import com.cegeka.xparduino.scheduling.Scheduling;
 
-import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 @SuppressWarnings("unchecked")
@@ -27,7 +27,7 @@ public class RepeatingCommandImpl<T extends Command>
     private TimeUnit timeUnit = DEFAULT_TIME_UNIT;
 
     private int counter = 0;
-    private ScheduledFuture<?> scheduledFuture;
+    private Future<?> scheduledFuture;
 
     private RepeatingCommandImpl(T delegate,
                                  Channel<Command> commandChannel) {
