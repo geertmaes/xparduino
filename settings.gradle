@@ -1,5 +1,1 @@
 rootProject.name = 'xparduino'
-include 'xparduino-library'
-include 'xparduino-ui'
-include 'xparduino-rest-api'
-
